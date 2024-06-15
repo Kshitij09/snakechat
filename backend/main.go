@@ -1,7 +1,6 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("wait for it")
+	server := NewAPIServer("8080")
+	server.Run()
 }
