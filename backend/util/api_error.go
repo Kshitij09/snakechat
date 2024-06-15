@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"fmt"
@@ -14,16 +14,7 @@ func (e *APIError) Error() string {
 	return fmt.Sprintf("API error: %d", e.StatusCode)
 }
 
-func NewAPIError(statusCode int, err error) *APIError {
-	return &APIError{
-		StatusCode: statusCode,
-		Errors: []map[string]any{
-			{"msg": err.Error()},
-		},
-	}
-}
-
-var internalServerError = &APIError{
+var InternalServerError = &APIError{
 	StatusCode: http.StatusInternalServerError,
 	Errors:     []map[string]any{{"msg": "Internal Server Error"}},
 }
