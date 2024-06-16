@@ -47,12 +47,13 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 		fo = &feedOffset{Total: total, CreatedAt: createdAt}
 	}
 	var queryBuffer bytes.Buffer
-	if err := trendingFeedQuery.Execute(&queryBuffer, feedOffsetWrapper{fo}); err != nil {
+	isWithOffset := fo != nil
+	if err := trendingFeedQuery.Execute(&queryBuffer, isWithOffset); err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)
 	}
 	query := queryBuffer.String()
 	log.Println(query)
-	rows, err := ctx.db.Query(query, offset)
+	rows, err := ctx.db.Query(query, fo.Total, fo.CreatedAt, feedSize)
 	defer rows.Close()
 	if err != nil {
 		return nil, fmt.Errorf("error getting trending feed: %w", err)
@@ -67,6 +68,8 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 	}
 	return &model.Feed{Posts: posts}, nil
 }
+
+const feedSize = 10
 
 var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
 WITH post_counters AS (
@@ -84,12 +87,8 @@ WITH post_counters AS (
 	ORDER BY total desc, p.created_at DESC
 )
 SELECT id, caption, media_url, created_at, likes, shares, saves, downloads FROM post_counters
-{{if .Offset -}}WHERE total <= {{.Offset.Total}} AND created_at < {{.Offset.CreatedAt}}{{println}}{{end}}LIMIT 10
+{{if . -}}WHERE total <= ? AND created_at < ?{{println}}{{end}}LIMIT ?
 `))
-
-type feedOffsetWrapper struct {
-	Offset *feedOffset
-}
 
 type feedOffset struct {
 	Total     int64
