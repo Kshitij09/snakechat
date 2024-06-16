@@ -1,9 +1,15 @@
 package data
 
 import (
+	"bytes"
 	"database/sql"
+	"encoding/base64"
 	"fmt"
 	"github.com/Kshitij09/snakechat_server/data/model"
+	"log"
+	"strconv"
+	"strings"
+	"text/template"
 )
 
 type feedSqlContext struct {
@@ -19,7 +25,34 @@ func (ctx *feedSqlContext) GetFirstTrendingFeed() (*model.Feed, error) {
 }
 
 func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, error) {
-	rows, err := ctx.db.Query(trendingFeedQuery, offset)
+	var fo *feedOffset
+	if offset.Valid {
+		offsetStr, err := base64.StdEncoding.DecodeString(offset.String)
+		invalidOffsetErr := fmt.Errorf("invalid offset")
+		if err != nil {
+			return nil, invalidOffsetErr
+		}
+		offsetParts := strings.Split(string(offsetStr), "_")
+		if len(offsetParts) != 2 {
+			return nil, invalidOffsetErr
+		}
+		total, err := strconv.ParseInt(offsetParts[0], 10, 64)
+		if err != nil {
+			return nil, invalidOffsetErr
+		}
+		createdAt, err := strconv.ParseInt(offsetParts[1], 10, 64)
+		if err != nil {
+			return nil, invalidOffsetErr
+		}
+		fo = &feedOffset{Total: total, CreatedAt: createdAt}
+	}
+	var queryBuffer bytes.Buffer
+	if err := trendingFeedQuery.Execute(&queryBuffer, feedOffsetWrapper{fo}); err != nil {
+		return nil, fmt.Errorf("error parsing the feed query, %w", err)
+	}
+	query := queryBuffer.String()
+	log.Println(query)
+	rows, err := ctx.db.Query(query, offset)
 	defer rows.Close()
 	if err != nil {
 		return nil, fmt.Errorf("error getting trending feed: %w", err)
@@ -35,7 +68,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 	return &model.Feed{Posts: posts}, nil
 }
 
-const trendingFeedQuery = `
+var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
 WITH post_counters AS (
 	SELECT p.id, p.caption, p.media_url, p.created_at,
 	count(*) as total,
@@ -51,5 +84,14 @@ WITH post_counters AS (
 	ORDER BY total desc, p.created_at DESC
 )
 SELECT id, caption, media_url, created_at, likes, shares, saves, downloads FROM post_counters
-LIMIT 10
-`
+{{if .Offset -}}WHERE total <= {{.Offset.Total}} AND created_at < {{.Offset.CreatedAt}}{{println}}{{end}}LIMIT 10
+`))
+
+type feedOffsetWrapper struct {
+	Offset *feedOffset
+}
+
+type feedOffset struct {
+	Total     int64
+	CreatedAt int64
+}
