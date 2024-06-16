@@ -8,7 +8,6 @@ import (
 	"github.com/Kshitij09/snakechat_server/data/model"
 	"reflect"
 	"strconv"
-	"strings"
 	"text/template"
 )
 
@@ -25,37 +24,24 @@ func (ctx *feedSqlContext) GetFirstTrendingFeed() (*model.Feed, error) {
 }
 
 func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, error) {
-	var offsetParams feedOffsetParams
+	var decodedOffset string
 	if offset.Valid {
-		offsetStr, err := base64.StdEncoding.DecodeString(offset.String)
-		invalidOffsetErr := fmt.Errorf("invalid offset")
+		offsetBytes, err := base64.StdEncoding.DecodeString(offset.String)
 		if err != nil {
-			return nil, invalidOffsetErr
+			return nil, fmt.Errorf("invalid offset: %w", err)
 		}
-		offsetParts := strings.Split(string(offsetStr), "_")
-		if len(offsetParts) != 2 {
-			return nil, invalidOffsetErr
-		}
-		total, err := strconv.ParseInt(offsetParts[0], 10, 64)
-		if err != nil {
-			return nil, invalidOffsetErr
-		}
-		createdAt, err := strconv.ParseInt(offsetParts[1], 10, 64)
-		if err != nil {
-			return nil, invalidOffsetErr
-		}
-		offsetParams = feedOffsetParams{Total: total, CreatedAt: createdAt}
+		decodedOffset = string(offsetBytes)
 	}
 	var queryBuffer bytes.Buffer
-	isValidOffset := !reflect.ValueOf(offsetParams).IsZero()
-	if err := trendingFeedQuery.Execute(&queryBuffer, isValidOffset); err != nil {
+	hasValidOffset := !reflect.ValueOf(decodedOffset).IsZero()
+	if err := trendingFeedQuery.Execute(&queryBuffer, hasValidOffset); err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)
 	}
 	query := queryBuffer.String()
 	var resultRows *sql.Rows
 	var queryErr error
-	if isValidOffset {
-		resultRows, queryErr = ctx.db.Query(query, offsetParams.Total, offsetParams.CreatedAt, feedSize)
+	if hasValidOffset {
+		resultRows, queryErr = ctx.db.Query(query, decodedOffset, feedSize)
 	} else {
 		resultRows, queryErr = ctx.db.Query(query, feedSize)
 	}
@@ -66,7 +52,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 	posts := make([]model.Post, 0, feedSize)
 	for resultRows.Next() {
 		var post model.Post
-		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Likes, &post.Shares, &post.Saves, &post.Downloads, &post.Total); err != nil {
+		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Rank, &post.Likes, &post.Shares, &post.Saves, &post.Downloads); err != nil {
 			return nil, fmt.Errorf("error parsing trending feed row: %w", err)
 		}
 		posts = append(posts, post)
@@ -74,7 +60,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 	var nextOffset string
 	if len(posts) > 0 {
 		lastPost := posts[len(posts)-1]
-		nextOffset = fmt.Sprintf("%d_%d", lastPost.Total, lastPost.CreatedAt)
+		nextOffset = strconv.FormatInt(lastPost.Rank, 10)
 		nextOffset = base64.StdEncoding.EncodeToString([]byte(nextOffset))
 	}
 	return &model.Feed{Posts: posts, Offset: nextOffset}, nil
@@ -83,9 +69,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 const feedSize = 10
 
 var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
-WITH post_counters AS (
-	SELECT p.id, p.caption, p.media_url, p.created_at,
-	count(*) as total,
+	SELECT p.id, p.caption, p.media_url, p.created_at, p.rank,
 	SUM(CASE WHEN pe.type = 0 THEN 1 ELSE 0 END) AS likes,
 	SUM(CASE WHEN pe.type = 1 THEN 1 ELSE 0 END) AS shares,
 	SUM(CASE WHEN pe.type = 2 THEN 1 ELSE 0 END) AS saves,
@@ -94,14 +78,7 @@ WITH post_counters AS (
 	INNER JOIN tags t ON p.tag_id = t.id 
 	INNER JOIN post_engagements pe ON p.id = pe.post_id
 	WHERE t.title = 'trending' AND p.deleted_at IS null
-	GROUP BY p.id
-	ORDER BY total desc, p.created_at DESC
-)
-SELECT id, caption, media_url, created_at, likes, shares, saves, downloads, total FROM post_counters
-{{if . -}}WHERE total <= ? AND created_at < ?{{println}}{{end}}LIMIT ?
+	{{if . -}}AND p.rank < ?{{println}}{{end}}GROUP BY p.id
+	ORDER BY p.rank DESC
+	LIMIT ?
 `))
-
-type feedOffsetParams struct {
-	Total     int64
-	CreatedAt int64
-}
