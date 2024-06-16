@@ -6,7 +6,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/Kshitij09/snakechat_server/data/model"
-	"log"
+	"reflect"
 	"strconv"
 	"strings"
 	"text/template"
@@ -25,7 +25,7 @@ func (ctx *feedSqlContext) GetFirstTrendingFeed() (*model.Feed, error) {
 }
 
 func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, error) {
-	var fo *feedOffset
+	var offsetParams feedOffsetParams
 	if offset.Valid {
 		offsetStr, err := base64.StdEncoding.DecodeString(offset.String)
 		invalidOffsetErr := fmt.Errorf("invalid offset")
@@ -44,29 +44,40 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 		if err != nil {
 			return nil, invalidOffsetErr
 		}
-		fo = &feedOffset{Total: total, CreatedAt: createdAt}
+		offsetParams = feedOffsetParams{Total: total, CreatedAt: createdAt}
 	}
 	var queryBuffer bytes.Buffer
-	isWithOffset := fo != nil
-	if err := trendingFeedQuery.Execute(&queryBuffer, isWithOffset); err != nil {
+	isValidOffset := !reflect.ValueOf(offsetParams).IsZero()
+	if err := trendingFeedQuery.Execute(&queryBuffer, isValidOffset); err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)
 	}
 	query := queryBuffer.String()
-	log.Println(query)
-	rows, err := ctx.db.Query(query, fo.Total, fo.CreatedAt, feedSize)
-	defer rows.Close()
-	if err != nil {
-		return nil, fmt.Errorf("error getting trending feed: %w", err)
+	var resultRows *sql.Rows
+	var queryErr error
+	if isValidOffset {
+		resultRows, queryErr = ctx.db.Query(query, offsetParams.Total, offsetParams.CreatedAt, feedSize)
+	} else {
+		resultRows, queryErr = ctx.db.Query(query, feedSize)
 	}
-	var posts []model.Post
-	for rows.Next() {
+	defer resultRows.Close()
+	if queryErr != nil {
+		return nil, fmt.Errorf("error getting trending feed: %w", queryErr)
+	}
+	posts := make([]model.Post, 0, feedSize)
+	for resultRows.Next() {
 		var post model.Post
-		if err := rows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Likes, &post.Shares, &post.Saves, &post.Downloads); err != nil {
+		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Likes, &post.Shares, &post.Saves, &post.Downloads, &post.Total); err != nil {
 			return nil, fmt.Errorf("error parsing trending feed row: %w", err)
 		}
 		posts = append(posts, post)
 	}
-	return &model.Feed{Posts: posts}, nil
+	var nextOffset string
+	if len(posts) > 0 {
+		lastPost := posts[len(posts)-1]
+		nextOffset = fmt.Sprintf("%d_%d", lastPost.Total, lastPost.CreatedAt)
+		nextOffset = base64.StdEncoding.EncodeToString([]byte(nextOffset))
+	}
+	return &model.Feed{Posts: posts, Offset: nextOffset}, nil
 }
 
 const feedSize = 10
@@ -86,11 +97,11 @@ WITH post_counters AS (
 	GROUP BY p.id
 	ORDER BY total desc, p.created_at DESC
 )
-SELECT id, caption, media_url, created_at, likes, shares, saves, downloads FROM post_counters
+SELECT id, caption, media_url, created_at, likes, shares, saves, downloads, total FROM post_counters
 {{if . -}}WHERE total <= ? AND created_at < ?{{println}}{{end}}LIMIT ?
 `))
 
-type feedOffset struct {
+type feedOffsetParams struct {
 	Total     int64
 	CreatedAt int64
 }

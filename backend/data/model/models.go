@@ -20,6 +20,7 @@ type Post struct {
 	Shares    int64
 	Saves     int64
 	Downloads int64
+	Total     int64
 }
 
 type PostUserMeta struct {

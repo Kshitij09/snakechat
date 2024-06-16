@@ -13,8 +13,9 @@ type TrendingFeedRequest struct {
 }
 
 type TrendingFeedResponse struct {
-	Posts  []FeedPost `json:"posts"`
-	Offset string     `json:"offset"`
+	PageSize int        `json:"page_size"`
+	Posts    []FeedPost `json:"posts"`
+	Offset   string     `json:"offset,omitempty"`
 }
 
 type FeedPost struct {
@@ -50,7 +51,7 @@ func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) e
 	if feed == nil {
 		return util.SimpleAPIError(http.StatusNotFound, "Feed not found for given parameters")
 	}
-	resp := TrendingFeedResponse{Posts: toApiFeedPosts(feed.Posts), Offset: feed.Offset}
+	resp := TrendingFeedResponse{PageSize: len(feed.Posts), Posts: toApiFeedPosts(feed.Posts), Offset: feed.Offset}
 	return WriteSuccessJson(w, resp)
 }
 
