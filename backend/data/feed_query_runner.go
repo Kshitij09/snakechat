@@ -8,8 +8,8 @@ import (
 	"text/template"
 )
 
-type feedQueryHandler interface {
-	queryFeed(rankFilter *int, feedSize int) (*sql.Rows, error)
+type feedQueryRunner interface {
+	getFeed(rankFilter *int, feedSize int) (*sql.Rows, error)
 	scanFeedRow(resultRows *sql.Rows) (model.Post, error)
 }
 
@@ -17,7 +17,7 @@ type feedQueryContext struct {
 	db *sql.DB
 }
 
-func (ctx feedQueryContext) queryFeed(rankFilter *int, feedSize int) (*sql.Rows, error) {
+func (ctx feedQueryContext) getFeed(rankFilter *int, feedSize int) (*sql.Rows, error) {
 	query, err := buildQuery(rankFilter)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)

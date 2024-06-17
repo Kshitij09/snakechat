@@ -14,8 +14,8 @@ import (
 const feedSize = 10
 
 type feedSqlContext struct {
-	db           *sql.DB
-	queryHandler feedQueryHandler
+	db          *sql.DB
+	queryRunner feedQueryRunner
 }
 
 func (ctx *feedSqlContext) GetTrendingFeed(offset string) (*model.Feed, error) {
@@ -57,7 +57,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 			return nil, fmt.Errorf("error parsing the feed query, %w", err)
 		}
 	}
-	resultRows, queryErr := ctx.queryHandler.queryFeed(rank, feedSize)
+	resultRows, queryErr := ctx.queryRunner.getFeed(rank, feedSize)
 	defer resultRows.Close()
 	if queryErr != nil {
 		return nil, fmt.Errorf("error getting trending feed: %w", queryErr)
@@ -65,7 +65,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 	posts := make([]model.Post, 0, feedSize)
 	for resultRows.Next() {
 		var post model.Post
-		post, err := ctx.queryHandler.scanFeedRow(resultRows)
+		post, err := ctx.queryRunner.scanFeedRow(resultRows)
 		if err != nil {
 			return nil, fmt.Errorf("error parsing trending feed row: %w", err)
 		}

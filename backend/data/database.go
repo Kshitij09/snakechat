@@ -30,6 +30,6 @@ func CreateDatabase() (*Database, error) {
 	}
 	tagsCtx := &tagsSqlContext{db: db}
 	queryContext := feedQueryContext{db: db}
-	feedCtx := &feedSqlContext{db: db, queryHandler: queryContext}
+	feedCtx := &feedSqlContext{db: db, queryRunner: queryContext}
 	return &Database{Tags: tagsCtx, Feed: feedCtx}, nil
 }
