@@ -38,14 +38,28 @@ type FeedUserMeta struct {
 }
 
 func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) error {
-	var feed *model.Feed
-	var dbErr error
+	feed, dbErr := s.fetchFeedFromDatabase(r)
+	if dbErr != nil {
+		if errors.Is(dbErr, data.ErrInvalidFeedOffset) {
+			return invalidOffsetError()
+		}
+		return dbErr
+	}
+	resp := TrendingFeedResponse{PageSize: len(feed.Posts), Posts: toApiFeedPosts(feed.Posts), Offset: feed.Offset}
+	return WriteSuccessJson(w, resp)
+}
+
+func (s *Server) fetchFeedFromDatabase(r *http.Request) (*model.Feed, error) {
+	var (
+		feed  *model.Feed
+		dbErr error
+	)
 	if r.Body == http.NoBody {
 		feed, dbErr = s.db.Feed.GetFirstTrendingFeed()
 	} else {
 		req := TrendingFeedRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			return err
+			return nil, util.SimpleAPIError(http.StatusBadRequest, "Invalid request body")
 		}
 		if req.Offset == "" {
 			feed, dbErr = s.db.Feed.GetFirstTrendingFeed()
@@ -53,22 +67,7 @@ func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) e
 			feed, dbErr = s.db.Feed.GetTrendingFeed(req.Offset)
 		}
 	}
-	if dbErr != nil {
-		if errors.Is(dbErr, data.ErrInvalidFeedOffset) {
-			return &util.APIError{
-				StatusCode: http.StatusBadRequest,
-				Errors: []map[string]any{
-					{"offset": "Invalid Offset"},
-				},
-			}
-		}
-		return dbErr
-	}
-	if feed == nil {
-		return util.SimpleAPIError(http.StatusNotFound, "Feed not found for given parameters")
-	}
-	resp := TrendingFeedResponse{PageSize: len(feed.Posts), Posts: toApiFeedPosts(feed.Posts), Offset: feed.Offset}
-	return WriteSuccessJson(w, resp)
+	return feed, dbErr
 }
 
 func toApiFeedPosts(posts []model.Post) []FeedPost {
@@ -93,4 +92,13 @@ func toApiFeedPosts(posts []model.Post) []FeedPost {
 		feedPosts = append(feedPosts, feedPost)
 	}
 	return feedPosts
+}
+
+func invalidOffsetError() error {
+	return &util.APIError{
+		StatusCode: http.StatusBadRequest,
+		Errors: []map[string]any{
+			{"offset": "Invalid Offset"},
+		},
+	}
 }
