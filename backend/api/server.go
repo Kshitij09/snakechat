@@ -25,11 +25,13 @@ func NewServer(port string) *Server {
 }
 
 const httpGet = "GET"
+const httpPost = "POST"
 
 func (s *Server) Run() {
 	router := mux.NewRouter()
 	router.HandleFunc("/health", Make(s.handleGetHealth)).Methods(httpGet)
 	router.HandleFunc("/v1/trending-tags", Make(s.handleGetTrendingTags)).Methods(httpGet)
+	router.HandleFunc("/v1/trending-feed", Make(s.handleGetTrendingFeed)).Methods(httpPost)
 	log.Println("snakechat server listening on " + s.listenAddr)
 	_ = http.ListenAndServe(s.listenAddr, router)
 }

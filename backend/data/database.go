@@ -10,10 +10,16 @@ import (
 
 type Database struct {
 	Tags TagsDao
+	Feed FeedDao
 }
 
 type TagsDao interface {
 	GetTrendingTags(count int8) ([]model.Tag, error)
+}
+
+type FeedDao interface {
+	GetTrendingFeed(offset string) (*model.Feed, error)
+	GetFirstTrendingFeed() (*model.Feed, error)
 }
 
 func CreateDatabase() (*Database, error) {
@@ -23,5 +29,7 @@ func CreateDatabase() (*Database, error) {
 		return nil, errors.Join(envWarnErr, err)
 	}
 	tagsCtx := &tagsSqlContext{db: db}
-	return &Database{Tags: tagsCtx}, nil
+	queryContext := feedQueryContext{db: db}
+	feedCtx := &feedSqlContext{db: db, queryRunner: queryContext}
+	return &Database{Tags: tagsCtx, Feed: feedCtx}, nil
 }
