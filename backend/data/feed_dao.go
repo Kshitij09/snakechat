@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"fmt"
 	"github.com/Kshitij09/snakechat_server/data/model"
-	"reflect"
 	"strconv"
 	"text/template"
 )
@@ -33,7 +32,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, 
 		decodedOffset = string(offsetBytes)
 	}
 	var queryBuffer bytes.Buffer
-	hasValidOffset := !reflect.ValueOf(decodedOffset).IsZero()
+	hasValidOffset := decodedOffset != ""
 	if err := trendingFeedQuery.Execute(&queryBuffer, hasValidOffset); err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)
 	}

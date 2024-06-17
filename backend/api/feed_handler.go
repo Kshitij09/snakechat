@@ -5,7 +5,6 @@ import (
 	"github.com/Kshitij09/snakechat_server/data/model"
 	"github.com/Kshitij09/snakechat_server/util"
 	"net/http"
-	"reflect"
 )
 
 type TrendingFeedRequest struct {
@@ -39,7 +38,7 @@ func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) e
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			return err
 		}
-		if reflect.ValueOf(req.Offset).IsZero() {
+		if req.Offset == "" {
 			feed, dbErr = s.db.Feed.GetFirstTrendingFeed()
 		} else {
 			feed, dbErr = s.db.Feed.GetTrendingFeed(req.Offset)
