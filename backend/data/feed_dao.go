@@ -9,11 +9,13 @@ import (
 	"github.com/Kshitij09/snakechat_server/data/model"
 	"log"
 	"strconv"
-	"text/template"
 )
 
+const feedSize = 10
+
 type feedSqlContext struct {
-	db *sql.DB
+	db           *sql.DB
+	queryHandler feedQueryHandler
 }
 
 func (ctx *feedSqlContext) GetTrendingFeed(offset string) (*model.Feed, error) {
@@ -55,14 +57,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 			return nil, fmt.Errorf("error parsing the feed query, %w", err)
 		}
 	}
-	query := queryBuffer.String()
-	var resultRows *sql.Rows
-	var queryErr error
-	if rank != nil {
-		resultRows, queryErr = ctx.db.Query(query, rank, feedSize)
-	} else {
-		resultRows, queryErr = ctx.db.Query(query, feedSize)
-	}
+	resultRows, queryErr := ctx.queryHandler.queryFeed(rank, feedSize)
 	defer resultRows.Close()
 	if queryErr != nil {
 		return nil, fmt.Errorf("error getting trending feed: %w", queryErr)
@@ -70,7 +65,8 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 	posts := make([]model.Post, 0, feedSize)
 	for resultRows.Next() {
 		var post model.Post
-		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Rank, &post.Likes, &post.Shares, &post.Saves, &post.Downloads, &post.TagId, &post.User.Id, &post.User.Name, &post.User.ProfileUrl); err != nil {
+		post, err := ctx.queryHandler.scanFeedRow(resultRows)
+		if err != nil {
 			return nil, fmt.Errorf("error parsing trending feed row: %w", err)
 		}
 		posts = append(posts, post)
@@ -83,22 +79,3 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 	}
 	return &model.Feed{Posts: posts, Offset: nextOffset}, nil
 }
-
-const feedSize = 10
-
-var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
-	SELECT p.id, p.caption, p.media_url, p.created_at, p.rank,
-	SUM(CASE WHEN pe.type = 0 THEN 1 ELSE 0 END) AS likes,
-	SUM(CASE WHEN pe.type = 1 THEN 1 ELSE 0 END) AS shares,
-	SUM(CASE WHEN pe.type = 2 THEN 1 ELSE 0 END) AS saves,
-	SUM(CASE WHEN pe.type = 3 THEN 1 ELSE 0 END) AS downloads,
-	t.id as tag_id, u.id as user_id, u.name as user_name, u.profile_url as user_profile_url
-	FROM posts p 
-	INNER JOIN tags t ON p.tag_id = t.id
-	INNER JOIN users u ON p.user_id = u.id
-	INNER JOIN post_engagements pe ON p.id = pe.post_id
-	WHERE t.title = 'trending' AND p.deleted_at IS null
-	{{if . -}}AND p.rank < ?{{println}}{{end}}GROUP BY p.id
-	ORDER BY p.rank DESC
-	LIMIT ?
-`))

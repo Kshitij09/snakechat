@@ -29,6 +29,7 @@ func CreateDatabase() (*Database, error) {
 		return nil, errors.Join(envWarnErr, err)
 	}
 	tagsCtx := &tagsSqlContext{db: db}
-	feedCtx := &feedSqlContext{db: db}
+	queryContext := feedQueryContext{db: db}
+	feedCtx := &feedSqlContext{db: db, queryHandler: queryContext}
 	return &Database{Tags: tagsCtx, Feed: feedCtx}, nil
 }
