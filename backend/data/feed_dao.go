@@ -4,8 +4,10 @@ import (
 	"bytes"
 	"database/sql"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"github.com/Kshitij09/snakechat_server/data/model"
+	"log"
 	"strconv"
 	"text/template"
 )
@@ -15,32 +17,49 @@ type feedSqlContext struct {
 }
 
 func (ctx *feedSqlContext) GetTrendingFeed(offset string) (*model.Feed, error) {
-	return ctx.getTrendingFeed(sql.NullString{String: offset, Valid: true})
+	return ctx.getTrendingFeed(&offset)
 }
 
 func (ctx *feedSqlContext) GetFirstTrendingFeed() (*model.Feed, error) {
-	return ctx.getTrendingFeed(sql.NullString{})
+	return ctx.getTrendingFeed(nil)
 }
 
-func (ctx *feedSqlContext) getTrendingFeed(offset sql.NullString) (*model.Feed, error) {
+var ErrInvalidFeedOffset = errors.New("invalid offset")
+
+func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) {
 	var decodedOffset string
-	if offset.Valid {
-		offsetBytes, err := base64.StdEncoding.DecodeString(offset.String)
+	if offset != nil && len(*offset) > 0 {
+		offsetBytes, err := base64.StdEncoding.DecodeString(*offset)
 		if err != nil {
-			return nil, fmt.Errorf("invalid offset: %w", err)
+			log.Printf("error decoding the offset: %s", err)
+			return nil, ErrInvalidFeedOffset
 		}
 		decodedOffset = string(offsetBytes)
 	}
-	var queryBuffer bytes.Buffer
-	hasValidOffset := decodedOffset != ""
-	if err := trendingFeedQuery.Execute(&queryBuffer, hasValidOffset); err != nil {
-		return nil, fmt.Errorf("error parsing the feed query, %w", err)
+	var (
+		queryBuffer bytes.Buffer
+		rank        *int
+	)
+	if len(decodedOffset) > 0 {
+		var parseRankErr error
+		r, err := strconv.Atoi(decodedOffset)
+		if err != nil {
+			return nil, ErrInvalidFeedOffset
+		}
+		rank = &r
+		if err := trendingFeedQuery.Execute(&queryBuffer, parseRankErr != nil); err != nil {
+			return nil, fmt.Errorf("error parsing the feed query, %w", err)
+		}
+	} else {
+		if err := trendingFeedQuery.Execute(&queryBuffer, false); err != nil {
+			return nil, fmt.Errorf("error parsing the feed query, %w", err)
+		}
 	}
 	query := queryBuffer.String()
 	var resultRows *sql.Rows
 	var queryErr error
-	if hasValidOffset {
-		resultRows, queryErr = ctx.db.Query(query, decodedOffset, feedSize)
+	if rank != nil {
+		resultRows, queryErr = ctx.db.Query(query, rank, feedSize)
 	} else {
 		resultRows, queryErr = ctx.db.Query(query, feedSize)
 	}

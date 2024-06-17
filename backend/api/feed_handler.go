@@ -2,6 +2,8 @@ package api
 
 import (
 	"encoding/json"
+	"errors"
+	"github.com/Kshitij09/snakechat_server/data"
 	"github.com/Kshitij09/snakechat_server/data/model"
 	"github.com/Kshitij09/snakechat_server/util"
 	"net/http"
@@ -45,6 +47,14 @@ func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) e
 		}
 	}
 	if dbErr != nil {
+		if errors.Is(dbErr, data.ErrInvalidFeedOffset) {
+			return &util.APIError{
+				StatusCode: http.StatusBadRequest,
+				Errors: []map[string]any{
+					{"offset": "Invalid Offset"},
+				},
+			}
+		}
 		return dbErr
 	}
 	if feed == nil {
