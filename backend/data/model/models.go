@@ -21,6 +21,8 @@ type Post struct {
 	Saves     int64
 	Downloads int64
 	Rank      int64
+	TagId     string
+	User      PostUserMeta
 }
 
 type PostUserMeta struct {

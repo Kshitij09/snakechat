@@ -20,14 +20,21 @@ type TrendingFeedResponse struct {
 }
 
 type FeedPost struct {
-	Id        string
-	Caption   string
-	MediaUrl  string
-	CreatedAt int64
-	Likes     int64
-	Shares    int64
-	Saves     int64
-	Downloads int64
+	Id        string       `json:"id"`
+	Caption   string       `json:"caption"`
+	MediaUrl  string       `json:"media_url"`
+	CreatedAt int64        `json:"created_at"`
+	Likes     int64        `json:"likes"`
+	Shares    int64        `json:"shares"`
+	Saves     int64        `json:"saves"`
+	Downloads int64        `json:"downloads"`
+	User      FeedUserMeta `json:"user"`
+}
+
+type FeedUserMeta struct {
+	Id         string `json:"id"`
+	Name       string `json:"name"`
+	ProfileUrl string `json:"profile_url"`
 }
 
 func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) error {
@@ -67,6 +74,11 @@ func (s *Server) handleGetTrendingFeed(w http.ResponseWriter, r *http.Request) e
 func toApiFeedPosts(posts []model.Post) []FeedPost {
 	feedPosts := make([]FeedPost, 0, len(posts))
 	for _, post := range posts {
+		user := FeedUserMeta{
+			Id:         post.User.Id,
+			Name:       post.User.Name,
+			ProfileUrl: post.User.ProfileUrl,
+		}
 		feedPost := FeedPost{
 			Id:        post.Id,
 			Caption:   post.Caption,
@@ -76,6 +88,7 @@ func toApiFeedPosts(posts []model.Post) []FeedPost {
 			Shares:    post.Shares,
 			Saves:     post.Saves,
 			Downloads: post.Downloads,
+			User:      user,
 		}
 		feedPosts = append(feedPosts, feedPost)
 	}

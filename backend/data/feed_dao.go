@@ -70,7 +70,7 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 	posts := make([]model.Post, 0, feedSize)
 	for resultRows.Next() {
 		var post model.Post
-		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Rank, &post.Likes, &post.Shares, &post.Saves, &post.Downloads); err != nil {
+		if err := resultRows.Scan(&post.Id, &post.Caption, &post.MediaUrl, &post.CreatedAt, &post.Rank, &post.Likes, &post.Shares, &post.Saves, &post.Downloads, &post.TagId, &post.User.Id, &post.User.Name, &post.User.ProfileUrl); err != nil {
 			return nil, fmt.Errorf("error parsing trending feed row: %w", err)
 		}
 		posts = append(posts, post)
@@ -91,9 +91,11 @@ var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
 	SUM(CASE WHEN pe.type = 0 THEN 1 ELSE 0 END) AS likes,
 	SUM(CASE WHEN pe.type = 1 THEN 1 ELSE 0 END) AS shares,
 	SUM(CASE WHEN pe.type = 2 THEN 1 ELSE 0 END) AS saves,
-	SUM(CASE WHEN pe.type = 3 THEN 1 ELSE 0 END) AS downloads
+	SUM(CASE WHEN pe.type = 3 THEN 1 ELSE 0 END) AS downloads,
+	t.id as tag_id, u.id as user_id, u.name as user_name, u.profile_url as user_profile_url
 	FROM posts p 
-	INNER JOIN tags t ON p.tag_id = t.id 
+	INNER JOIN tags t ON p.tag_id = t.id
+	INNER JOIN users u ON p.user_id = u.id
 	INNER JOIN post_engagements pe ON p.id = pe.post_id
 	WHERE t.title = 'trending' AND p.deleted_at IS null
 	{{if . -}}AND p.rank < ?{{println}}{{end}}GROUP BY p.id
