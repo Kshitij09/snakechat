@@ -1,7 +1,6 @@
 package data
 
 import (
-	"bytes"
 	"database/sql"
 	"encoding/base64"
 	"errors"
@@ -29,35 +28,11 @@ func (ctx *feedSqlContext) GetFirstTrendingFeed() (*model.Feed, error) {
 var ErrInvalidFeedOffset = errors.New("invalid offset")
 
 func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) {
-	var decodedOffset string
-	if offset != nil && len(*offset) > 0 {
-		offsetBytes, err := base64.StdEncoding.DecodeString(*offset)
-		if err != nil {
-			log.Printf("error decoding the offset: %s", err)
-			return nil, ErrInvalidFeedOffset
-		}
-		decodedOffset = string(offsetBytes)
+	rankFilter, err := parseRankFilter(offset)
+	if err != nil {
+		return nil, err
 	}
-	var (
-		queryBuffer bytes.Buffer
-		rank        *int
-	)
-	if len(decodedOffset) > 0 {
-		var parseRankErr error
-		r, err := strconv.Atoi(decodedOffset)
-		if err != nil {
-			return nil, ErrInvalidFeedOffset
-		}
-		rank = &r
-		if err := trendingFeedQuery.Execute(&queryBuffer, parseRankErr != nil); err != nil {
-			return nil, fmt.Errorf("error parsing the feed query, %w", err)
-		}
-	} else {
-		if err := trendingFeedQuery.Execute(&queryBuffer, false); err != nil {
-			return nil, fmt.Errorf("error parsing the feed query, %w", err)
-		}
-	}
-	resultRows, queryErr := ctx.queryRunner.getFeed(rank, feedSize)
+	resultRows, queryErr := ctx.queryRunner.getFeed(rankFilter, feedSize)
 	defer resultRows.Close()
 	if queryErr != nil {
 		return nil, fmt.Errorf("error getting trending feed: %w", queryErr)
@@ -78,4 +53,25 @@ func (ctx *feedSqlContext) getTrendingFeed(offset *string) (*model.Feed, error) 
 		nextOffset = base64.StdEncoding.EncodeToString([]byte(nextOffset))
 	}
 	return &model.Feed{Posts: posts, Offset: nextOffset}, nil
+}
+
+func parseRankFilter(offset *string) (*int, error) {
+	var decodedOffset string
+	if offset != nil && len(*offset) > 0 {
+		offsetBytes, err := base64.StdEncoding.DecodeString(*offset)
+		if err != nil {
+			log.Printf("error decoding the offset: %s", err)
+			return nil, ErrInvalidFeedOffset
+		}
+		decodedOffset = string(offsetBytes)
+	}
+	var rank *int
+	if len(decodedOffset) > 0 {
+		r, err := strconv.Atoi(decodedOffset)
+		if err != nil {
+			return nil, ErrInvalidFeedOffset
+		}
+		rank = &r
+	}
+	return rank, nil
 }
