@@ -23,15 +23,29 @@ func NewServer(port string) *Server {
 	}
 }
 
-func (s *Server) Run() {
+func (s *Server) Run() error {
 	router := http.NewServeMux()
 	hg := NewHandlerGroup()
 	hg.RegisterMiddleware(Logging)
 	router.HandleFunc("GET /health", hg.Make(s.handleGetHealth))
-	router.HandleFunc("GET /v1/trending-tags", hg.Make(s.handleGetTrendingTags))
-	router.HandleFunc("POST /v1/trending-feed", hg.Make(s.handleGetTrendingFeed))
+	if err := s.registerSecuredGroup(router); err != nil {
+		return err
+	}
 	log.Println("snakechat server listening on " + s.listenAddr)
-	_ = http.ListenAndServe(s.listenAddr, router)
+	return http.ListenAndServe(s.listenAddr, router)
+}
+
+func (s *Server) registerSecuredGroup(router *http.ServeMux) error {
+	securedGroup := NewHandlerGroup()
+	securedGroup.RegisterMiddleware(Logging)
+	apiKeyMiddleware, err := ApiKeyValidator()
+	if err != nil {
+		return err
+	}
+	securedGroup.RegisterMiddleware(apiKeyMiddleware)
+	router.HandleFunc("GET /v1/trending-tags", securedGroup.Make(s.handleGetTrendingTags))
+	router.HandleFunc("POST /v1/trending-feed", securedGroup.Make(s.handleGetTrendingFeed))
+	return nil
 }
 
 func (s *Server) handleGetHealth(w http.ResponseWriter, _ *http.Request) error {
