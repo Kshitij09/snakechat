@@ -43,6 +43,7 @@ func (s *Server) registerSecuredGroup(router *http.ServeMux) error {
 		return err
 	}
 	securedGroup.RegisterMiddleware(apiKeyMiddleware)
+	securedGroup.RegisterMiddleware(RateLimiter)
 	router.HandleFunc("GET /v1/trending-tags", securedGroup.Make(s.handleGetTrendingTags))
 	router.HandleFunc("POST /v1/trending-feed", securedGroup.Make(s.handleGetTrendingFeed))
 	return nil
