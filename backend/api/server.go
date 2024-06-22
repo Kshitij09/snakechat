@@ -2,7 +2,6 @@ package api
 
 import (
 	"github.com/Kshitij09/snakechat_server/data"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
@@ -24,14 +23,11 @@ func NewServer(port string) *Server {
 	}
 }
 
-const httpGet = "GET"
-const httpPost = "POST"
-
 func (s *Server) Run() {
-	router := mux.NewRouter()
-	router.HandleFunc("/health", Make(s.handleGetHealth)).Methods(httpGet)
-	router.HandleFunc("/v1/trending-tags", Make(s.handleGetTrendingTags)).Methods(httpGet)
-	router.HandleFunc("/v1/trending-feed", Make(s.handleGetTrendingFeed)).Methods(httpPost)
+	router := http.NewServeMux()
+	router.HandleFunc("GET /health", Make(s.handleGetHealth))
+	router.HandleFunc("GET /v1/trending-tags", Make(s.handleGetTrendingTags))
+	router.HandleFunc("POST /v1/trending-feed", Make(s.handleGetTrendingFeed))
 	log.Println("snakechat server listening on " + s.listenAddr)
 	_ = http.ListenAndServe(s.listenAddr, router)
 }
