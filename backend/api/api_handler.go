@@ -10,9 +10,29 @@ import (
 
 type Handler func(w http.ResponseWriter, r *http.Request) error
 
-func Make(h Handler) http.HandlerFunc {
+type Middleware func(next Handler) Handler
+
+type HandlerGroup struct {
+	middlewares []Middleware
+}
+
+func NewHandlerGroup() *HandlerGroup {
+	return &HandlerGroup{}
+}
+
+func (hg *HandlerGroup) RegisterMiddleware(middleware Middleware) {
+	hg.middlewares = append(hg.middlewares, middleware)
+}
+
+func (hg *HandlerGroup) Make(handler Handler, middlewares ...Middleware) http.HandlerFunc {
+	for _, groupMiddleware := range hg.middlewares {
+		handler = groupMiddleware(handler)
+	}
+	for _, ext := range middlewares {
+		handler = ext(handler)
+	}
 	return func(w http.ResponseWriter, r *http.Request) {
-		if err := h(w, r); err != nil {
+		if err := handler(w, r); err != nil {
 			var apiErr *util.APIError
 			var writeErr error
 			if errors.As(err, &apiErr) {
