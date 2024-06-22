@@ -25,9 +25,10 @@ func NewServer(port string) *Server {
 
 func (s *Server) Run() {
 	router := http.NewServeMux()
-	router.HandleFunc("GET /health", Make(s.handleGetHealth))
-	router.HandleFunc("GET /v1/trending-tags", Make(s.handleGetTrendingTags))
-	router.HandleFunc("POST /v1/trending-feed", Make(s.handleGetTrendingFeed))
+	hg := NewHandlerGroup()
+	router.HandleFunc("GET /health", hg.Make(s.handleGetHealth))
+	router.HandleFunc("GET /v1/trending-tags", hg.Make(s.handleGetTrendingTags))
+	router.HandleFunc("POST /v1/trending-feed", hg.Make(s.handleGetTrendingFeed))
 	log.Println("snakechat server listening on " + s.listenAddr)
 	_ = http.ListenAndServe(s.listenAddr, router)
 }
