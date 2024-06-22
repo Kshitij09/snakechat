@@ -26,6 +26,7 @@ func NewServer(port string) *Server {
 func (s *Server) Run() {
 	router := http.NewServeMux()
 	hg := NewHandlerGroup()
+	hg.RegisterMiddleware(Logging)
 	router.HandleFunc("GET /health", hg.Make(s.handleGetHealth))
 	router.HandleFunc("GET /v1/trending-tags", hg.Make(s.handleGetTrendingTags))
 	router.HandleFunc("POST /v1/trending-feed", hg.Make(s.handleGetTrendingFeed))
