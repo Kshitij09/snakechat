@@ -9,13 +9,8 @@ import (
 )
 
 type Database struct {
-	Tags TagsDao
 	Feed FeedDao
 	User UserDao
-}
-
-type TagsDao interface {
-	GetTrendingTags(count int8) ([]model.Tag, error)
 }
 
 type FeedDao interface {
@@ -33,9 +28,8 @@ func CreateDatabase() (*Database, error) {
 		envWarnErr := errors.New("error opening the DB connection, make sure you have set `DB_PATH` environment variable")
 		return nil, errors.Join(envWarnErr, err)
 	}
-	tagsCtx := &tagsSqlContext{db: db}
 	queryContext := feedQueryContext{db: db}
 	feedCtx := &feedSqlContext{db: db, queryRunner: queryContext}
 	userCtx := &userSqlContext{db: db, guestUserIdHandler: guestUserIdHandler{}}
-	return &Database{Tags: tagsCtx, Feed: feedCtx, User: userCtx}, nil
+	return &Database{Feed: feedCtx, User: userCtx}, nil
 }
