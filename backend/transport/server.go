@@ -41,6 +41,9 @@ func (s *Server) Run(port string) error {
 	trendingFeed = securedMiddleware(trendingFeed)
 	router.HandleFunc("GET /v1/trending-feed", handlers.NewHttpHandler(trendingFeed))
 
+	guestSignUp := GuestSignUpHandler(db)
+	guestSignUp = securedMiddleware(guestSignUp)
+	router.HandleFunc("POST /v1/guestSignUp", handlers.NewHttpHandler(guestSignUp))
 	log.Println("snakechat server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
