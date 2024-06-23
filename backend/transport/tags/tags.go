@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"github.com/Kshitij09/snakechat_server/snakechat"
 	"github.com/Kshitij09/snakechat_server/sqlite"
+	"github.com/Kshitij09/snakechat_server/transport"
 	"github.com/Kshitij09/snakechat_server/transport/writer"
 	"net/http"
 )
@@ -18,23 +19,21 @@ type Tag struct {
 	CreatedAt int64  `json:"created_at"`
 }
 
-type Handler struct {
+type API struct {
 	tagService snakechat.TagService
 }
 
-func NewHandler(db *sql.DB) Handler {
+func TrendingTagsHandler(db *sql.DB) transport.Handler {
 	storage := sqlite.NewTagsStorage(db)
 	service := snakechat.NewTagService(storage)
-	return Handler{tagService: service}
-}
-
-func (ctx Handler) Trending(w http.ResponseWriter, _ *http.Request) error {
-	tags, err := ctx.tagService.Trending(5)
-	if err != nil {
-		return err
+	return func(w http.ResponseWriter, _ *http.Request) error {
+		tags, err := service.Trending(5)
+		if err != nil {
+			return err
+		}
+		resp := Response{Tags: toTransport(tags)}
+		return writer.SuccessJson(w, resp)
 	}
-	resp := Response{Tags: toTransport(tags)}
-	return writer.SuccessJson(w, resp)
 }
 
 func toTransport(dbTags []snakechat.Tag) []Tag {

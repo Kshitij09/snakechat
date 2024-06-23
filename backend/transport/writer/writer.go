@@ -2,11 +2,11 @@ package writer
 
 import (
 	"encoding/json"
-	"github.com/Kshitij09/snakechat_server/util"
+	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"net/http"
 )
 
-func ErrorJson(w http.ResponseWriter, apiErr *util.APIError) error {
+func ErrorJson(w http.ResponseWriter, apiErr *apierror.APIError) error {
 	return writeJson(w, apiErr.StatusCode, apiErr)
 }
 

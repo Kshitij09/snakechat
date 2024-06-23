@@ -1,7 +1,8 @@
-package transport
+package middlewares
 
 import (
-	"github.com/Kshitij09/snakechat_server/util"
+	"github.com/Kshitij09/snakechat_server/transport"
+	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"golang.org/x/time/rate"
 	"net"
 	"net/http"
@@ -9,7 +10,7 @@ import (
 	"time"
 )
 
-func RateLimiter(next Handler) Handler {
+func RateLimiter(next transport.Handler) transport.Handler {
 	newLimiter := func() *rate.Limiter { return rate.NewLimiter(rate.Every(time.Hour), 20) }
 	type client struct {
 		limiter  *rate.Limiter
@@ -45,7 +46,7 @@ func RateLimiter(next Handler) Handler {
 		clients[ip].lastSeen = time.Now()
 		if !clients[ip].limiter.Allow() {
 			mu.Unlock()
-			return util.SimpleAPIError(http.StatusTooManyRequests, "rate limit exceeded, try again later")
+			return apierror.SimpleAPIError(http.StatusTooManyRequests, "rate limit exceeded, try again later")
 		}
 		mu.Unlock()
 		return next(w, r)

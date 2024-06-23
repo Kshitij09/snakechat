@@ -2,6 +2,7 @@ package transport
 
 import (
 	"github.com/Kshitij09/snakechat_server/sqlite"
+	"github.com/Kshitij09/snakechat_server/transport/middlewares"
 	"github.com/Kshitij09/snakechat_server/transport/tags"
 	"log"
 	"net/http"
@@ -22,20 +23,19 @@ func (s *Server) Run(port string) error {
 		return err
 	}
 
-	baseHg := NewHandlerGroup()
-	baseHg.RegisterMiddlewares(HttpLogger)
-	router.HandleFunc("GET /health", baseHg.Make(health))
+	baseMiddleware := middlewares.HttpLogger
+	router.HandleFunc("GET /health", NewHttpHandler(baseMiddleware(health)))
 
-	securedHg := baseHg.Clone()
-
-	apiKeyMiddleware, err := ApiKeyValidator()
+	apiKeyMiddleware, err := middlewares.ApiKeyValidator()
 	if err != nil {
 		return err
 	}
-	securedHg.RegisterMiddlewares(apiKeyMiddleware)
 
-	tagsHandler := tags.NewHandler(db)
-	router.HandleFunc("GET /v1/trending-tags", securedHg.Make(tagsHandler.Trending))
+	securedMiddleware := Append(baseMiddleware, apiKeyMiddleware)
+
+	trendingTags := tags.TrendingTagsHandler(db)
+	trendingTags = securedMiddleware(trendingTags)
+	router.HandleFunc("GET /v1/trending-tags", NewHttpHandler(trendingTags))
 	log.Println("snakechat server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
