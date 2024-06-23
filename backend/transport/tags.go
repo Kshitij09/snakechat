@@ -1,4 +1,4 @@
-package tags
+package transport
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ import (
 	"net/http"
 )
 
-type Response struct {
+type TagsResponse struct {
 	Tags []Tag `json:"tags"`
 }
 
@@ -17,10 +17,6 @@ type Tag struct {
 	Id        string `json:"id"`
 	Title     string `json:"title"`
 	CreatedAt int64  `json:"created_at"`
-}
-
-type API struct {
-	tagService snakechat.TagService
 }
 
 func TrendingTagsHandler(db *sql.DB) handlers.Handler {
@@ -31,7 +27,7 @@ func TrendingTagsHandler(db *sql.DB) handlers.Handler {
 		if err != nil {
 			return err
 		}
-		resp := Response{Tags: toTransport(tags)}
+		resp := TagsResponse{Tags: toTransport(tags)}
 		return writer.SuccessJson(w, resp)
 	}
 }
