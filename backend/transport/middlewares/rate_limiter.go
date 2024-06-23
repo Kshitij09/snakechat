@@ -1,8 +1,8 @@
 package middlewares
 
 import (
-	"github.com/Kshitij09/snakechat_server/transport"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
+	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"golang.org/x/time/rate"
 	"net"
 	"net/http"
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-func RateLimiter(next transport.Handler) transport.Handler {
+func RateLimiter(next handlers.Handler) handlers.Handler {
 	newLimiter := func() *rate.Limiter { return rate.NewLimiter(rate.Every(time.Hour), 20) }
 	type client struct {
 		limiter  *rate.Limiter

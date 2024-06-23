@@ -1,4 +1,4 @@
-package transport
+package handlers
 
 import (
 	"errors"
@@ -9,16 +9,6 @@ import (
 )
 
 type Handler func(w http.ResponseWriter, r *http.Request) error
-
-type Middleware func(next Handler) Handler
-
-func Append(first Middleware, next Middleware) Middleware {
-	return func(h Handler) Handler {
-		handler := next(h)
-		handler = first(handler)
-		return handler
-	}
-}
 
 func NewHttpHandler(handler Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

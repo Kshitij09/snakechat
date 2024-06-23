@@ -2,14 +2,14 @@ package middlewares
 
 import (
 	"errors"
-	"github.com/Kshitij09/snakechat_server/transport"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
+	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"log"
 	"net/http"
 	"time"
 )
 
-func HttpLogger(next transport.Handler) transport.Handler {
+func HttpLogger(next handlers.Handler) handlers.Handler {
 	return func(w http.ResponseWriter, r *http.Request) error {
 		start := time.Now()
 		wrappedWriter := &wrappedResponseWriter{

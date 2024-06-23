@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"github.com/Kshitij09/snakechat_server/snakechat"
 	"github.com/Kshitij09/snakechat_server/sqlite"
-	"github.com/Kshitij09/snakechat_server/transport"
+	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/writer"
 	"net/http"
 )
@@ -23,7 +23,7 @@ type API struct {
 	tagService snakechat.TagService
 }
 
-func TrendingTagsHandler(db *sql.DB) transport.Handler {
+func TrendingTagsHandler(db *sql.DB) handlers.Handler {
 	storage := sqlite.NewTagsStorage(db)
 	service := snakechat.NewTagService(storage)
 	return func(w http.ResponseWriter, _ *http.Request) error {
