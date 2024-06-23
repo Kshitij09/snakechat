@@ -29,7 +29,6 @@ func (s *Server) Run() error {
 	router := http.NewServeMux()
 	hg := NewHandlerGroup()
 	hg.RegisterMiddleware(Logging)
-	router.HandleFunc("GET /health", hg.Make(s.handleGetHealth))
 	if err := s.registerSecuredGroup(router); err != nil {
 		return err
 	}
@@ -49,11 +48,6 @@ func (s *Server) registerSecuredGroup(router *http.ServeMux) error {
 	router.HandleFunc("POST /v1/trending-feed", securedGroup.Make(s.handleGetTrendingFeed))
 	router.HandleFunc("POST /v1/guestSignUp", securedGroup.Make(s.handleGuestSignUp))
 	return nil
-}
-
-func (s *Server) handleGetHealth(w http.ResponseWriter, _ *http.Request) error {
-	_, err := w.Write([]byte("OK"))
-	return err
 }
 
 type GuestSignUpResponse struct {

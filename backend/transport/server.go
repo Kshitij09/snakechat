@@ -24,6 +24,8 @@ func (s *Server) Run(port string) error {
 
 	baseHg := NewHandlerGroup()
 	baseHg.RegisterMiddlewares(HttpLogger)
+	router.HandleFunc("GET /health", baseHg.Make(health))
+
 	securedHg := baseHg.Clone()
 
 	apiKeyMiddleware, err := ApiKeyValidator()
@@ -36,4 +38,9 @@ func (s *Server) Run(port string) error {
 	router.HandleFunc("GET /v1/trending-tags", securedHg.Make(tagsHandler.Trending))
 	log.Println("snakechat server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
+}
+
+func health(w http.ResponseWriter, _ *http.Request) error {
+	_, err := w.Write([]byte("OK"))
+	return err
 }
