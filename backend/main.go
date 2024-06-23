@@ -1,10 +1,12 @@
 package main
 
-import "github.com/Kshitij09/snakechat_server/api"
+import (
+	"github.com/Kshitij09/snakechat_server/transport"
+)
 
 func main() {
-	server := api.NewServer("8080")
-	err := server.Run()
+	server := transport.NewServer()
+	err := server.Run("8080")
 	if err != nil {
 		panic(err)
 	}
