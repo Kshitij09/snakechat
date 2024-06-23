@@ -45,7 +45,6 @@ func (s *Server) registerSecuredGroup(router *http.ServeMux) error {
 	}
 	securedGroup.RegisterMiddleware(apiKeyMiddleware)
 	securedGroup.RegisterMiddleware(RateLimiter)
-	router.HandleFunc("POST /v1/trending-feed", securedGroup.Make(s.handleGetTrendingFeed))
 	router.HandleFunc("POST /v1/guestSignUp", securedGroup.Make(s.handleGuestSignUp))
 	return nil
 }
