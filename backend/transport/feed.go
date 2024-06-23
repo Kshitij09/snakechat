@@ -6,9 +6,9 @@ import (
 	"errors"
 	"github.com/Kshitij09/snakechat_server/snakechat"
 	"github.com/Kshitij09/snakechat_server/sqlite"
+	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/writer"
-	"github.com/Kshitij09/snakechat_server/util"
 	"net/http"
 )
 
@@ -66,7 +66,7 @@ func fetchFeed(service snakechat.FeedService, r *http.Request) (*snakechat.Feed,
 	} else {
 		req := TrendingFeedRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			return nil, util.SimpleAPIError(http.StatusBadRequest, "Invalid request body")
+			return nil, apierror.SimpleAPIError(http.StatusBadRequest, "Invalid request body")
 		}
 		if req.Offset == "" {
 			feed, dbErr = service.TrendingFeed()
@@ -102,7 +102,7 @@ func toTransportPosts(posts []snakechat.Post) []Post {
 }
 
 func invalidOffsetError() error {
-	return &util.APIError{
+	return &apierror.APIError{
 		StatusCode: http.StatusBadRequest,
 		Errors: []map[string]any{
 			{"offset": "Invalid Offset"},
