@@ -36,6 +36,11 @@ func (s *Server) Run(port string) error {
 	trendingTags := TrendingTagsHandler(db)
 	trendingTags = securedMiddleware(trendingTags)
 	router.HandleFunc("GET /v1/trending-tags", handlers.NewHttpHandler(trendingTags))
+
+	trendingFeed := TrendingFeedHandler(db)
+	trendingFeed = securedMiddleware(trendingFeed)
+	router.HandleFunc("GET /v1/trending-feed", handlers.NewHttpHandler(trendingFeed))
+
 	log.Println("snakechat server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
