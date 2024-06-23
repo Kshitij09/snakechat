@@ -11,6 +11,7 @@ import (
 type Database struct {
 	Tags TagsDao
 	Feed FeedDao
+	User UserDao
 }
 
 type TagsDao interface {
@@ -22,6 +23,10 @@ type FeedDao interface {
 	GetFirstTrendingFeed() (*model.Feed, error)
 }
 
+type UserDao interface {
+	GetOrCreateUser(deviceId string) (*model.UserCredentials, error)
+}
+
 func CreateDatabase() (*Database, error) {
 	db, err := sql.Open("sqlite3", os.Getenv("DB_PATH"))
 	if err != nil {
@@ -31,5 +36,6 @@ func CreateDatabase() (*Database, error) {
 	tagsCtx := &tagsSqlContext{db: db}
 	queryContext := feedQueryContext{db: db}
 	feedCtx := &feedSqlContext{db: db, queryRunner: queryContext}
-	return &Database{Tags: tagsCtx, Feed: feedCtx}, nil
+	userCtx := &userSqlContext{db: db, guestUserIdHandler: guestUserIdHandler{}}
+	return &Database{Tags: tagsCtx, Feed: feedCtx, User: userCtx}, nil
 }

@@ -30,3 +30,7 @@ type PostUserMeta struct {
 	Name       string
 	ProfileUrl string
 }
+
+type UserCredentials struct {
+	UserId string
+}

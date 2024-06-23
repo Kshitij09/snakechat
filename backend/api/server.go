@@ -1,7 +1,9 @@
 package api
 
 import (
+	"errors"
 	"github.com/Kshitij09/snakechat_server/data"
+	"github.com/Kshitij09/snakechat_server/util"
 	"log"
 	"net/http"
 )
@@ -46,10 +48,31 @@ func (s *Server) registerSecuredGroup(router *http.ServeMux) error {
 	securedGroup.RegisterMiddleware(RateLimiter)
 	router.HandleFunc("GET /v1/trending-tags", securedGroup.Make(s.handleGetTrendingTags))
 	router.HandleFunc("POST /v1/trending-feed", securedGroup.Make(s.handleGetTrendingFeed))
+	router.HandleFunc("POST /v1/guestSignUp", securedGroup.Make(s.handleGuestSignUp))
 	return nil
 }
 
 func (s *Server) handleGetHealth(w http.ResponseWriter, _ *http.Request) error {
 	_, err := w.Write([]byte("OK"))
 	return err
+}
+
+type GuestSignUpResponse struct {
+	UserId string `json:"user_id"`
+}
+
+func (s *Server) handleGuestSignUp(w http.ResponseWriter, r *http.Request) error {
+	deviceId := r.Header.Get(HeaderDeviceId)
+	if deviceId == "" {
+		return util.SimpleAPIError(http.StatusBadRequest, "header '"+HeaderDeviceId+"' missing")
+	}
+	credentials, err := s.db.User.GetOrCreateUser(deviceId)
+	if errors.Is(err, data.ErrInvalidDeviceId) {
+		return util.SimpleAPIError(http.StatusBadRequest, "invalid device id")
+	}
+	if err != nil {
+		return err
+	}
+	response := GuestSignUpResponse{UserId: credentials.UserId}
+	return WriteSuccessJson(w, response)
 }
