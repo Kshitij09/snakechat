@@ -1,4 +1,4 @@
-package snakechat
+package domain
 
 import (
 	"encoding/base64"

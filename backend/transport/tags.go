@@ -2,7 +2,7 @@ package transport
 
 import (
 	"database/sql"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/writer"
@@ -21,7 +21,7 @@ type Tag struct {
 
 func TrendingTagsHandler(db *sql.DB) handlers.Handler {
 	storage := sqlite.NewTagsStorage(db)
-	service := snakechat.NewTagService(storage)
+	service := domain.NewTagService(storage)
 	return func(w http.ResponseWriter, _ *http.Request) error {
 		tags, err := service.Trending(5)
 		if err != nil {
@@ -32,7 +32,7 @@ func TrendingTagsHandler(db *sql.DB) handlers.Handler {
 	}
 }
 
-func toTransport(dbTags []snakechat.Tag) []Tag {
+func toTransport(dbTags []domain.Tag) []Tag {
 	tags := make([]Tag, 0, len(dbTags))
 	for _, dbTag := range dbTags {
 		tag := Tag{Id: dbTag.Id, Title: dbTag.Title, CreatedAt: dbTag.CreatedAt}

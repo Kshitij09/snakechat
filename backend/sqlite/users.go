@@ -3,7 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"errors"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 	"time"
 )
 
@@ -27,7 +27,7 @@ func (ctx UserStorage) UserIdByDevice(deviceId string) (*string, error) {
 	err := row.Scan(&userId)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, snakechat.ErrUserNotFound
+			return nil, domain.ErrUserNotFound
 		}
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (ctx UserStorage) LastGuestUserId() (*string, error) {
 	err := row.Scan(&userId)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, snakechat.ErrUserNotFound
+			return nil, domain.ErrUserNotFound
 		}
 		return nil, err
 	}

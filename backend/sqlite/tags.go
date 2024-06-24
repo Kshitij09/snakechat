@@ -3,7 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"fmt"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 )
 
 type TagsStorage struct {
@@ -14,7 +14,7 @@ func NewTagsStorage(db *sql.DB) TagsStorage {
 	return TagsStorage{db: db}
 }
 
-func (ctx TagsStorage) Trending(count int) ([]snakechat.Tag, error) {
+func (ctx TagsStorage) Trending(count int) ([]domain.Tag, error) {
 	query := `
 	SELECT t.id, t.title, t.created_at 
 	FROM tags t INNER JOIN posts p ON t.id = p.tag_id
@@ -27,10 +27,10 @@ func (ctx TagsStorage) Trending(count int) ([]snakechat.Tag, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error fetching the trending tags: %s", err)
 	}
-	tags := make([]snakechat.Tag, 0, count)
+	tags := make([]domain.Tag, 0, count)
 	appends := 0
 	for rows.Next() {
-		var tag snakechat.Tag
+		var tag domain.Tag
 		appends++
 		if err := rows.Scan(&tag.Id, &tag.Title, &tag.CreatedAt); err != nil {
 			return nil, fmt.Errorf("error parsing a tag row: %s", err)

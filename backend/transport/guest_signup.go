@@ -3,7 +3,7 @@ package transport
 import (
 	"database/sql"
 	"errors"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
@@ -19,14 +19,14 @@ type GuestSignUpResponse struct {
 
 func GuestSignUpHandler(db *sql.DB) handlers.Handler {
 	storage := sqlite.NewUserStorage(db)
-	service := snakechat.NewUserCredentialsService(storage)
+	service := domain.NewUserCredentialsService(storage)
 	return func(w http.ResponseWriter, r *http.Request) error {
 		deviceId := r.Header.Get(HeaderDeviceId)
 		if deviceId == "" {
 			return apierror.SimpleAPIError(http.StatusBadRequest, "header '"+HeaderDeviceId+"' missing")
 		}
 		credentials, err := service.GetOrCreateUser(deviceId)
-		if errors.Is(err, snakechat.ErrInvalidDeviceId) {
+		if errors.Is(err, domain.ErrInvalidDeviceId) {
 			return apierror.SimpleAPIError(http.StatusBadRequest, "invalid device id")
 		}
 		if err != nil {

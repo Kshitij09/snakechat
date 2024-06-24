@@ -1,4 +1,4 @@
-package snakechat
+package domain
 
 type Tag struct {
 	Id        string

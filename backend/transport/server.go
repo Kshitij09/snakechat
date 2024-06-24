@@ -44,7 +44,7 @@ func (s *Server) Run(port string) error {
 	guestSignUp := GuestSignUpHandler(db)
 	guestSignUp = securedMiddleware(guestSignUp)
 	router.HandleFunc("POST /v1/guestSignUp", handlers.NewHttpHandler(guestSignUp))
-	log.Println("snakechat server listening on " + listenAddr)
+	log.Println("domain server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
 

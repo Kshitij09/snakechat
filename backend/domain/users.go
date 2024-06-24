@@ -1,4 +1,4 @@
-package snakechat
+package domain
 
 type UserDao interface {
 	LastGuestUserId() (*string, error)

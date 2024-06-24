@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
@@ -42,11 +42,11 @@ type FeedUserMeta struct {
 
 func TrendingFeedHandler(db *sql.DB) handlers.Handler {
 	storage := sqlite.NewPostStorage(db)
-	service := snakechat.NewFeedService(storage)
+	service := domain.NewFeedService(storage)
 	return func(w http.ResponseWriter, r *http.Request) error {
 		feed, err := fetchFeed(service, r)
 		if err != nil {
-			if errors.Is(err, snakechat.ErrInvalidFeedOffset) {
+			if errors.Is(err, domain.ErrInvalidFeedOffset) {
 				return invalidOffsetError()
 			}
 			return err
@@ -56,9 +56,9 @@ func TrendingFeedHandler(db *sql.DB) handlers.Handler {
 	}
 }
 
-func fetchFeed(service snakechat.FeedService, r *http.Request) (*snakechat.Feed, error) {
+func fetchFeed(service domain.FeedService, r *http.Request) (*domain.Feed, error) {
 	var (
-		feed  *snakechat.Feed
+		feed  *domain.Feed
 		dbErr error
 	)
 	if r.Body == http.NoBody {
@@ -77,7 +77,7 @@ func fetchFeed(service snakechat.FeedService, r *http.Request) (*snakechat.Feed,
 	return feed, dbErr
 }
 
-func toTransportPosts(posts []snakechat.Post) []Post {
+func toTransportPosts(posts []domain.Post) []Post {
 	feedPosts := make([]Post, 0, len(posts))
 	for _, post := range posts {
 		user := FeedUserMeta{

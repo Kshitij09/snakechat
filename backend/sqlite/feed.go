@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"database/sql"
 	"fmt"
-	"github.com/Kshitij09/snakechat_server/snakechat"
+	"github.com/Kshitij09/snakechat_server/domain"
 	"text/template"
 )
 
@@ -16,16 +16,16 @@ func NewPostStorage(db *sql.DB) *PostStorage {
 	return &PostStorage{db: db}
 }
 
-func (ctx *PostStorage) TrendingPostsBelowRank(rank int) ([]snakechat.Post, error) {
+func (ctx *PostStorage) TrendingPostsBelowRank(rank int) ([]domain.Post, error) {
 	return ctx.trendingPostsBelowRank(&rank)
 }
 
-func (ctx *PostStorage) TrendingPosts() ([]snakechat.Post, error) {
+func (ctx *PostStorage) TrendingPosts() ([]domain.Post, error) {
 	return ctx.trendingPostsBelowRank(nil)
 }
 
-func (ctx *PostStorage) trendingPostsBelowRank(rank *int) ([]snakechat.Post, error) {
-	resultRows, queryErr := ctx.getPostBelowRank(rank, snakechat.FeedPageSize)
+func (ctx *PostStorage) trendingPostsBelowRank(rank *int) ([]domain.Post, error) {
+	resultRows, queryErr := ctx.getPostBelowRank(rank, domain.FeedPageSize)
 	defer resultRows.Close()
 	if queryErr != nil {
 		return nil, fmt.Errorf("error getting trending posts: %w", queryErr)
@@ -56,10 +56,10 @@ func buildQuery(rank *int) (string, error) {
 	return queryBuffer.String(), templateErr
 }
 
-func scanPosts(rows *sql.Rows) ([]snakechat.Post, error) {
-	posts := make([]snakechat.Post, 0, snakechat.FeedPageSize)
+func scanPosts(rows *sql.Rows) ([]domain.Post, error) {
+	posts := make([]domain.Post, 0, domain.FeedPageSize)
 	for rows.Next() {
-		var post snakechat.Post
+		var post domain.Post
 		post, err := scanPost(rows)
 		if err != nil {
 			return nil, fmt.Errorf("error parsing trending posts row: %w", err)
@@ -68,8 +68,8 @@ func scanPosts(rows *sql.Rows) ([]snakechat.Post, error) {
 	}
 	return posts, nil
 }
-func scanPost(resultRows *sql.Rows) (snakechat.Post, error) {
-	var post snakechat.Post
+func scanPost(resultRows *sql.Rows) (domain.Post, error) {
+	var post domain.Post
 	err := resultRows.Scan(
 		&post.Id,
 		&post.Caption,
