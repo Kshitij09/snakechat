@@ -16,7 +16,7 @@ func NewPostStorage(db *sql.DB) *PostStorage {
 	return &PostStorage{db: db}
 }
 
-func (ctx *PostStorage) TrendingPostsBelowRank(rank int) ([]domain.Post, error) {
+func (ctx *PostStorage) TrendingPostsBelowRank(rank float64) ([]domain.Post, error) {
 	return ctx.trendingPostsBelowRank(&rank)
 }
 
@@ -24,7 +24,7 @@ func (ctx *PostStorage) TrendingPosts() ([]domain.Post, error) {
 	return ctx.trendingPostsBelowRank(nil)
 }
 
-func (ctx *PostStorage) trendingPostsBelowRank(rank *int) ([]domain.Post, error) {
+func (ctx *PostStorage) trendingPostsBelowRank(rank *float64) ([]domain.Post, error) {
 	resultRows, queryErr := ctx.getPostBelowRank(rank, domain.FeedPageSize)
 	defer resultRows.Close()
 	if queryErr != nil {
@@ -33,7 +33,7 @@ func (ctx *PostStorage) trendingPostsBelowRank(rank *int) ([]domain.Post, error)
 	return scanPosts(resultRows)
 }
 
-func (ctx *PostStorage) getPostBelowRank(rank *int, feedSize int) (*sql.Rows, error) {
+func (ctx *PostStorage) getPostBelowRank(rank *float64, feedSize int) (*sql.Rows, error) {
 	query, err := buildQuery(rank)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing the feed query, %w", err)
@@ -45,7 +45,7 @@ func (ctx *PostStorage) getPostBelowRank(rank *int, feedSize int) (*sql.Rows, er
 	}
 }
 
-func buildQuery(rank *int) (string, error) {
+func buildQuery(rank *float64) (string, error) {
 	var queryBuffer bytes.Buffer
 	var templateErr error
 	if rank != nil {
