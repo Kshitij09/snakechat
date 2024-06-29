@@ -19,7 +19,9 @@ type Post struct {
 	Caption   string
 	MediaUrl  string
 	CreatedAt int64
+	Comments  int64
 	Likes     int64
+	Views     int64
 	Shares    int64
 	Saves     int64
 	Downloads int64
