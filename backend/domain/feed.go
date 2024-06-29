@@ -19,11 +19,13 @@ type Post struct {
 	Caption   string
 	MediaUrl  string
 	CreatedAt int64
+	Comments  int64
 	Likes     int64
+	Views     int64
 	Shares    int64
 	Saves     int64
 	Downloads int64
-	Rank      int64
+	Rank      float64
 	TagId     string
 	User      PostUserMeta
 }
@@ -35,7 +37,7 @@ type PostUserMeta struct {
 }
 
 type PostDao interface {
-	TrendingPostsBelowRank(rank int) ([]Post, error)
+	TrendingPostsBelowRank(rank float64) ([]Post, error)
 	TrendingPosts() ([]Post, error)
 }
 
@@ -71,7 +73,7 @@ func (s FeedService) TrendingFeed() (*Feed, error) {
 
 var ErrInvalidFeedOffset = errors.New("invalid offset")
 
-func parseRankFilter(offset *string) (*int, error) {
+func parseRankFilter(offset *string) (*float64, error) {
 	var decodedOffset string
 	if offset != nil && len(*offset) > 0 {
 		offsetBytes, err := base64.StdEncoding.DecodeString(*offset)
@@ -81,9 +83,9 @@ func parseRankFilter(offset *string) (*int, error) {
 		}
 		decodedOffset = string(offsetBytes)
 	}
-	var rank *int
+	var rank *float64
 	if len(decodedOffset) > 0 {
-		r, err := strconv.Atoi(decodedOffset)
+		r, err := strconv.ParseFloat(decodedOffset, 64)
 		if err != nil {
 			return nil, ErrInvalidFeedOffset
 		}
@@ -96,7 +98,7 @@ func computeOffset(posts []Post) string {
 	var nextOffset string
 	if len(posts) > 0 {
 		lastPost := posts[len(posts)-1]
-		nextOffset = strconv.FormatInt(lastPost.Rank, 10)
+		nextOffset = strconv.FormatFloat(lastPost.Rank, 'f', 12, 64)
 		nextOffset = base64.StdEncoding.EncodeToString([]byte(nextOffset))
 	}
 	return nextOffset

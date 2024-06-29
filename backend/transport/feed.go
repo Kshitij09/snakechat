@@ -24,11 +24,14 @@ type TrendingFeedResponse struct {
 
 type Post struct {
 	Id        string       `json:"id"`
+	TagId     string       `json:"tag_id"`
 	Caption   string       `json:"caption"`
 	MediaUrl  string       `json:"media_url"`
 	CreatedAt int64        `json:"created_at"`
+	Comments  int64        `json:"comments"`
 	Likes     int64        `json:"likes"`
 	Shares    int64        `json:"shares"`
+	Views     int64        `json:"views"`
 	Saves     int64        `json:"saves"`
 	Downloads int64        `json:"downloads"`
 	User      FeedUserMeta `json:"user"`
@@ -87,10 +90,13 @@ func toTransportPosts(posts []domain.Post) []Post {
 		}
 		feedPost := Post{
 			Id:        post.Id,
+			TagId:     post.TagId,
 			Caption:   post.Caption,
 			MediaUrl:  post.MediaUrl,
 			CreatedAt: post.Likes,
+			Comments:  post.Comments,
 			Likes:     post.Likes,
+			Views:     post.Views,
 			Shares:    post.Shares,
 			Saves:     post.Saves,
 			Downloads: post.Downloads,
