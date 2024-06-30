@@ -66,7 +66,7 @@ func genericLikersHandler(likersGetter likersGetter) handlers.Handler {
 			likersPage, err = likersGetter(id, &req.Offset)
 		}
 		if err != nil {
-			if errors.Is(err, domain.ErrInvalidLikersOffset) {
+			if errors.Is(err, domain.ErrInvalidOffset) {
 				return apierror.SimpleAPIError(http.StatusBadRequest, "Invalid offset")
 			}
 			return err
