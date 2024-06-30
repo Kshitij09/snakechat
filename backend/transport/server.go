@@ -44,6 +44,11 @@ func (s *Server) Run(port string) error {
 	guestSignUp := GuestSignUpHandler(db)
 	guestSignUp = securedMiddleware(guestSignUp)
 	router.HandleFunc("POST /v1/guestSignUp", handlers.NewHttpHandler(guestSignUp))
+
+	userProfile := UserProfileHandler(db)
+	userProfile = securedMiddleware(userProfile)
+	router.HandleFunc("POST /v1/user/{id}", handlers.NewHttpHandler(userProfile))
+
 	log.Println("domain server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
