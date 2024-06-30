@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/Kshitij09/snakechat_server/domain"
+	"github.com/Kshitij09/snakechat_server/domain/paging"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
@@ -41,7 +42,7 @@ func CommentLikersHandler(db *sql.DB) handlers.Handler {
 	return genericLikersHandler(service.CommentLikers)
 }
 
-type likersGetter func(id string, offset *string) (*domain.LikersPage, error)
+type likersGetter func(id string, offset *string) (*paging.Page[int64, domain.Liker], error)
 
 func genericLikersHandler(likersGetter likersGetter) handlers.Handler {
 	return func(w http.ResponseWriter, r *http.Request) error {
@@ -51,7 +52,7 @@ func genericLikersHandler(likersGetter likersGetter) handlers.Handler {
 		}
 
 		var (
-			likersPage *domain.LikersPage
+			likersPage *paging.Page[int64, domain.Liker]
 			err        error
 		)
 		if r.Body == http.NoBody {
@@ -71,8 +72,8 @@ func genericLikersHandler(likersGetter likersGetter) handlers.Handler {
 			return err
 		}
 		resp := LikersResponse{
-			Total:  len(likersPage.Likers),
-			Likers: toTransportLikers(likersPage.Likers),
+			Total:  len(likersPage.Items),
+			Likers: toTransportLikers(likersPage.Items),
 			Offset: likersPage.Offset,
 		}
 		return writer.SuccessJson(w, resp)
