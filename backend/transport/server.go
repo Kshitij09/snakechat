@@ -35,11 +35,11 @@ func (s *Server) Run(port string) error {
 
 	trendingTags := TrendingTagsHandler(db)
 	trendingTags = securedMiddleware(trendingTags)
-	router.HandleFunc("GET /v1/trending-tags", handlers.NewHttpHandler(trendingTags))
+	router.HandleFunc("POST /v1/trending-tags", handlers.NewHttpHandler(trendingTags))
 
 	trendingFeed := TrendingFeedHandler(db)
 	trendingFeed = securedMiddleware(trendingFeed)
-	router.HandleFunc("GET /v1/trending-feed", handlers.NewHttpHandler(trendingFeed))
+	router.HandleFunc("POST /v1/trending-feed", handlers.NewHttpHandler(trendingFeed))
 
 	guestSignUp := GuestSignUpHandler(db)
 	guestSignUp = securedMiddleware(guestSignUp)
