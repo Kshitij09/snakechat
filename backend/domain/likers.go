@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
+	"github.com/Kshitij09/snakechat_server/domain/paging"
 	"log"
 	"strconv"
 )
@@ -25,6 +26,10 @@ type Liker struct {
 	UpdatedAt      int64
 }
 
+func (l Liker) OffsetKey() int64 {
+	return l.UpdatedAt
+}
+
 type LikersDao interface {
 	PostLikers(postId string) ([]Liker, error)
 	PostLikersUpdatedBefore(postId string, updateTimestamp int64) ([]Liker, error)
@@ -40,24 +45,27 @@ func NewLikersService(likers LikersDao) *LikersService {
 	return &LikersService{likers: likers}
 }
 
-func (s *LikersService) PostLikers(postId string, offset *string) (*LikersPage, error) {
-	fetcher := likersFetcher{
-		byId:          s.likers.PostLikers,
-		byIdAndOffset: s.likers.PostLikersUpdatedBefore,
+func (s *LikersService) PostLikers(postId string, offset *string) (*paging.Page[int64, Liker], error) {
+	fetcher := paging.Fetcher[int64, Liker]{
+		ById:          s.likers.PostLikers,
+		ByIdAndOffset: s.likers.PostLikersUpdatedBefore,
+		OffsetConv:    timestampConverter[Liker]{},
 	}
-	likers, err := fetcher.fetchPage(postId, offset)
+	likers, err := fetcher.FetchPage(postId, offset)
 	if err != nil {
 		return nil, fmt.Errorf("PostLikers: %w", err)
 	}
 	return likers, nil
 }
 
-func (s *LikersService) CommentLikers(commentId string, offset *string) (*LikersPage, error) {
-	fetcher := likersFetcher{
-		byId:          s.likers.CommentLikers,
-		byIdAndOffset: s.likers.CommentLikersUpdatedBefore,
+func (s *LikersService) CommentLikers(commentId string, offset *string) (*paging.Page[int64, Liker], error) {
+	fetcher := paging.Fetcher[int64, Liker]{
+		ById:          s.likers.CommentLikers,
+		ByIdAndOffset: s.likers.CommentLikersUpdatedBefore,
+		OffsetConv:    timestampConverter[Liker]{},
+		PageSize:      LikersPageSize,
 	}
-	likers, err := fetcher.fetchPage(commentId, offset)
+	likers, err := fetcher.FetchPage(commentId, offset)
 	if err != nil {
 		return nil, fmt.Errorf("CommentLikers: %w", err)
 	}
