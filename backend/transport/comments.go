@@ -16,7 +16,7 @@ import (
 type CommentsResponse struct {
 	Total    int       `json:"total"`
 	Comments []Comment `json:"comments"`
-	Offset   *string   `json:"offset"`
+	Offset   *string   `json:"offset,omitempty"`
 }
 
 type Comment struct {
@@ -35,8 +35,13 @@ type Commenter struct {
 func PostCommentsHandler(db *sql.DB) handlers.Handler {
 	storage := sqlite.NewCommentsStorage(db)
 	service := domain.NewCommentsService(storage)
-	commentsGetter := service.PostComments
-	return genericCommentsHandler(commentsGetter)
+	return genericCommentsHandler(service.PostComments)
+}
+
+func CommentRepliesHandler(db *sql.DB) handlers.Handler {
+	storage := sqlite.NewCommentsStorage(db)
+	service := domain.NewCommentsService(storage)
+	return genericCommentsHandler(service.CommentReplies)
 }
 
 type commentGetter func(postId string, offset *string) (*paging.Page[int64, domain.Comment], error)
