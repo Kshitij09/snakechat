@@ -25,8 +25,8 @@ type UserDao interface {
 	CreateGuest(userId string) error
 	AddDeviceMapping(userId string, deviceId string) error
 	UserIdByDevice(deviceId string) (*string, error)
-	GetUserById(userId string) (*User, error)
-	GetUserPostThumbnails(userId string) ([]UserPostThumbnail, error)
+	UserById(userId string) (*User, error)
+	UserPostThumbnails(userId string) ([]UserPostThumbnail, error)
 }
 
 type UserService struct {
@@ -37,12 +37,12 @@ func NewUserService(users UserDao) *UserService {
 	return &UserService{users: users}
 }
 
-func (s *UserService) GetUserProfile(userId string) (*UserProfile, error) {
-	user, err := s.users.GetUserById(userId)
+func (s *UserService) UserProfile(userId string) (*UserProfile, error) {
+	user, err := s.users.UserById(userId)
 	if err != nil {
 		return nil, err
 	}
-	thumbnails, err := s.users.GetUserPostThumbnails(userId)
+	thumbnails, err := s.users.UserPostThumbnails(userId)
 	if err != nil {
 		return nil, err
 	}
