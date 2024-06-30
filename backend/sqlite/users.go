@@ -3,6 +3,7 @@ package sqlite
 import (
 	"database/sql"
 	"errors"
+	"fmt"
 	"github.com/Kshitij09/snakechat_server/domain"
 	"time"
 )
@@ -57,4 +58,51 @@ func (ctx UserStorage) AddDeviceMapping(userId string, deviceId string) error {
 	query := "INSERT INTO user_devices (user_id, device_id, updated_at) VALUES (?, ?, ?)"
 	_, err := ctx.db.Exec(query, userId, deviceId, time.Now().UnixMilli())
 	return err
+}
+
+func (ctx UserStorage) GetUserById(userId string) (*domain.User, error) {
+	query := `
+		SELECT id, name, status, profile_url, 
+		followers_count, following_count, posts_count
+		FROM users WHERE id = ? 
+		LIMIT 1
+	`
+	row := ctx.db.QueryRow(query, userId)
+	var user domain.User
+	err := row.Scan(
+		&user.Id,
+		&user.Name,
+		&user.Status,
+		&user.ProfileUrl,
+		&user.FollowersCount,
+		&user.FollowingCount,
+		&user.PostsCount,
+	)
+	if errors.Is(err, sql.ErrNoRows) {
+		return nil, domain.ErrUserNotFound
+	}
+	return &user, err
+}
+
+func (ctx UserStorage) GetUserPostThumbnails(userId string) ([]domain.UserPostThumbnail, error) {
+	query := "SELECT id, media_url FROM posts WHERE user_id = ?"
+	rs, err := ctx.db.Query(query, userId)
+	defer rs.Close()
+	if err != nil {
+		return nil, fmt.Errorf("GetUserPostThumbnails: %w", err)
+	}
+	return scanUserPostThumbnails(rs)
+}
+
+func scanUserPostThumbnails(rs *sql.Rows) ([]domain.UserPostThumbnail, error) {
+	thumbs := make([]domain.UserPostThumbnail, 0)
+	for rs.Next() {
+		var thumbnail domain.UserPostThumbnail
+		err := rs.Scan(&thumbnail.PostId, &thumbnail.ThumbnailUrl)
+		if err != nil {
+			return nil, fmt.Errorf("scanUserPostThumbnails: %w", err)
+		}
+		thumbs = append(thumbs, thumbnail)
+	}
+	return thumbs, nil
 }
