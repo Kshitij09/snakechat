@@ -49,6 +49,14 @@ func (s *Server) Run(port string) error {
 	userProfile = securedMiddleware(userProfile)
 	router.HandleFunc("POST /v1/user/{id}", handlers.NewHttpHandler(userProfile))
 
+	postLikers := PostLikersHandler(db)
+	postLikers = securedMiddleware(postLikers)
+	router.HandleFunc("POST /v1/posts/{id}/likers", handlers.NewHttpHandler(postLikers))
+
+	commentLikers := CommentLikersHandler(db)
+	commentLikers = securedMiddleware(commentLikers)
+	router.HandleFunc("POST /v1/comments/{id}/likers", handlers.NewHttpHandler(commentLikers))
+
 	log.Println("domain server listening on " + listenAddr)
 	return http.ListenAndServe(listenAddr, router)
 }
