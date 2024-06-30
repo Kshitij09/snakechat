@@ -53,6 +53,10 @@ func (s *Server) Run(port string) error {
 	postLikers = securedMiddleware(postLikers)
 	router.HandleFunc("POST /v1/posts/{id}/likers", handlers.NewHttpHandler(postLikers))
 
+	postComments := PostCommentsHandler(db)
+	postComments = securedMiddleware(postComments)
+	router.HandleFunc("POST /v1/posts/{id}/comments", handlers.NewHttpHandler(postComments))
+
 	commentLikers := CommentLikersHandler(db)
 	commentLikers = securedMiddleware(commentLikers)
 	router.HandleFunc("POST /v1/comments/{id}/likers", handlers.NewHttpHandler(commentLikers))
