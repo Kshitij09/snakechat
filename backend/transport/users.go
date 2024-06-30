@@ -36,7 +36,7 @@ func UserProfileHandler(db *sql.DB) handlers.Handler {
 		if userId == "" {
 			return apierror.SimpleAPIError(http.StatusBadRequest, "user id is missing or not valid, found: "+userId)
 		}
-		profile, err := service.GetUserProfile(userId)
+		profile, err := service.UserProfile(userId)
 		if errors.Is(err, domain.ErrUserNotFound) {
 			return apierror.SimpleAPIError(http.StatusNotFound, fmt.Sprintf("User '%s' not found", userId))
 		}

@@ -60,7 +60,7 @@ func (ctx UserStorage) AddDeviceMapping(userId string, deviceId string) error {
 	return err
 }
 
-func (ctx UserStorage) GetUserById(userId string) (*domain.User, error) {
+func (ctx UserStorage) UserById(userId string) (*domain.User, error) {
 	query := `
 		SELECT id, name, status, profile_url, 
 		followers_count, following_count, posts_count
@@ -84,12 +84,12 @@ func (ctx UserStorage) GetUserById(userId string) (*domain.User, error) {
 	return &user, err
 }
 
-func (ctx UserStorage) GetUserPostThumbnails(userId string) ([]domain.UserPostThumbnail, error) {
+func (ctx UserStorage) UserPostThumbnails(userId string) ([]domain.UserPostThumbnail, error) {
 	query := "SELECT id, media_url FROM posts WHERE user_id = ?"
 	rs, err := ctx.db.Query(query, userId)
 	defer rs.Close()
 	if err != nil {
-		return nil, fmt.Errorf("GetUserPostThumbnails: %w", err)
+		return nil, fmt.Errorf("UserPostThumbnails: %w", err)
 	}
 	return scanUserPostThumbnails(rs)
 }
