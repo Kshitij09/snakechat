@@ -1,14 +1,11 @@
 package domain
 
 import (
-	"errors"
 	"fmt"
 	"github.com/Kshitij09/snakechat_server/domain/paging"
 )
 
 const LikersPageSize = 40
-
-var ErrInvalidLikersOffset = errors.New("invalid offset")
 
 type Liker struct {
 	Id             string
