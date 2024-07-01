@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/Kshitij09/snakechat_server/domain"
+	"github.com/Kshitij09/snakechat_server/domain/offsetconv"
 	"github.com/Kshitij09/snakechat_server/domain/paging"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/apierror"
@@ -66,7 +67,7 @@ func genericLikersHandler(likersGetter likersGetter) handlers.Handler {
 			likersPage, err = likersGetter(id, &req.Offset)
 		}
 		if err != nil {
-			if errors.Is(err, domain.ErrInvalidOffset) {
+			if errors.Is(err, offsetconv.ErrInvalidOffset) {
 				return apierror.SimpleAPIError(http.StatusBadRequest, "Invalid offset")
 			}
 			return err

@@ -2,7 +2,6 @@ package domain
 
 import (
 	"encoding/base64"
-	"errors"
 	"github.com/Kshitij09/snakechat_server/domain/offsetconv"
 	"log"
 	"strconv"
@@ -11,19 +10,17 @@ import (
 type timestampConverter[T offsetconv.KeyGetter[int64]] struct {
 }
 
-var ErrInvalidOffset = errors.New("invalid offset")
-
 func (c timestampConverter[T]) Parse(offset string) (*int64, error) {
 	decodedBytes, err := base64.StdEncoding.DecodeString(offset)
 	if err != nil {
 		log.Printf("error decoding offset: %s\n", err)
-		return nil, ErrInvalidOffset
+		return nil, offsetconv.ErrInvalidOffset
 	}
 	decoded := string(decodedBytes)
 	offsetInt, err := strconv.ParseInt(decoded, 10, 64)
 	if err != nil {
 		log.Printf("error parsing offset: %s\n", err)
-		return nil, ErrInvalidOffset
+		return nil, offsetconv.ErrInvalidOffset
 	}
 	return &offsetInt, nil
 }
