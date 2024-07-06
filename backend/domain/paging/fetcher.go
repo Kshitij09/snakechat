@@ -21,15 +21,15 @@ type fetcherById[K any, T offsetconv.KeyGetter[K]] func(id string) ([]T, error)
 type fetcherByIdAndOffset[K any, T offsetconv.KeyGetter[K]] func(id string, offset K) ([]T, error)
 
 func (fetcher Fetcher[K, T]) FetchPage(id string, offset *string) (*Page[K, T], error) {
-	likers, err := fetcher.Fetch(id, offset)
+	items, err := fetcher.Fetch(id, offset)
 	if err != nil {
 		return nil, err
 	}
 	var nextOffset *string
-	if len(likers) == fetcher.PageSize {
-		nextOffset = fetcher.OffsetConv.NextOffsetOrNil(likers)
+	if len(items) == fetcher.PageSize {
+		nextOffset = fetcher.OffsetConv.NextOffsetOrNil(items)
 	}
-	return &Page[K, T]{Total: len(likers), Items: likers, Offset: nextOffset}, nil
+	return &Page[K, T]{Total: len(items), Items: items, Offset: nextOffset}, nil
 }
 
 func (fetcher Fetcher[K, T]) Fetch(id string, offset *string) ([]T, error) {
