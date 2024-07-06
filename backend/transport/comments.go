@@ -24,6 +24,7 @@ type Comment struct {
 	Id        string    `json:"id"`
 	UpdatedAt int64     `json:"updated_at"`
 	Text      string    `json:"text"`
+	Likes     int64     `json:"likes"`
 	Commenter Commenter `json:"commenter"`
 }
 
@@ -45,7 +46,7 @@ func CommentRepliesHandler(db *sql.DB) handlers.Handler {
 	return genericCommentsHandler(service.CommentReplies)
 }
 
-type commentGetter func(postId string, offset *string) (*paging.Page[int64, domain.Comment], error)
+type commentGetter func(postId string, offset *string) (*paging.Page[domain.CommentsOffset, domain.Comment], error)
 
 func genericCommentsHandler(commentGetter commentGetter) handlers.Handler {
 	return func(w http.ResponseWriter, r *http.Request) error {
@@ -54,7 +55,7 @@ func genericCommentsHandler(commentGetter commentGetter) handlers.Handler {
 			return apierror.SimpleAPIError(http.StatusBadRequest, "id is missing in the path")
 		}
 		var (
-			commentsPage *paging.Page[int64, domain.Comment]
+			commentsPage *paging.Page[domain.CommentsOffset, domain.Comment]
 			err          error
 		)
 		if r.Body == http.NoBody {
@@ -89,6 +90,7 @@ func toTransportPostComments(comments []domain.Comment) []Comment {
 			Id:        comment.Id,
 			UpdatedAt: comment.UpdatedAt,
 			Text:      comment.Text,
+			Likes:     comment.Likes,
 			Commenter: Commenter{
 				Id:         comment.Commenter.Id,
 				Name:       comment.Commenter.Name,

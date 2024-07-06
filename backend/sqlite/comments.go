@@ -16,10 +16,13 @@ func NewCommentsStorage(db *sql.DB) *CommentsStorage {
 
 func (ctx CommentsStorage) PostComments(postId string) ([]domain.Comment, error) {
 	query := `
-		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url 
+		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url, count(cl.user_id) as likes
 		FROM comments c
 		INNER JOIN users u ON c.user_id = u.id
+		INNER JOIN comment_likes cl ON c.id = cl.id
 		WHERE c.post_id = ?
+		GROUP BY c.id
+		ORDER BY likes desc, c.updated_at desc
 		LIMIT ?
 	`
 	comments, err := ctx.queryPostComments(query, postId, domain.CommentsPageSize)
@@ -29,28 +32,40 @@ func (ctx CommentsStorage) PostComments(postId string) ([]domain.Comment, error)
 	return comments, nil
 }
 
-func (ctx CommentsStorage) PostCommentsUpdatedBefore(postId string, updateTimestamp int64) ([]domain.Comment, error) {
+func (ctx CommentsStorage) PostCommentsByOffset(postId string, offset domain.CommentsOffset) ([]domain.Comment, error) {
 	query := `
-		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url 
+		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url, count(cl.user_id) as likes
 		FROM comments c
 		INNER JOIN users u ON c.user_id = u.id
-		WHERE c.post_id = ?
-		AND updated_at < ?
-		LIMIT ?
+		INNER JOIN comment_likes cl ON c.id = cl.id
+		WHERE c.post_id = :post_id
+		GROUP BY c.id
+		HAVING (likes = :likes and c.updated_at < :updated_at) or likes < :likes
+		ORDER BY likes desc, c.updated_at desc
+		LIMIT :limit
 	`
-	comments, err := ctx.queryPostComments(query, postId, updateTimestamp, domain.CommentsPageSize)
+	comments, err := ctx.queryPostComments(
+		query,
+		sql.Named("post_id", postId),
+		sql.Named("likes", offset.Likes),
+		sql.Named("updated_at", offset.UpdateTimestamp),
+		sql.Named("limit", domain.CommentsPageSize),
+	)
 	if err != nil {
-		return nil, fmt.Errorf("sqlite.PostCommentsUpdatedBefore: %w", err)
+		return nil, fmt.Errorf("sqlite.PostCommentsByOffset: %w", err)
 	}
 	return comments, nil
 }
 
 func (ctx CommentsStorage) CommentReplies(commentId string) ([]domain.Comment, error) {
 	query := `
-		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url 
+		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url, count(cl.user_id) as likes
 		FROM comments c
 		INNER JOIN users u ON c.user_id = u.id
+		INNER JOIN comment_likes cl ON c.id = cl.id
 		WHERE c.comment_id = ?
+		GROUP BY c.id
+		ORDER BY likes desc, c.updated_at desc
 		LIMIT ?
 	`
 	comments, err := ctx.queryPostComments(query, commentId, domain.CommentsPageSize)
@@ -60,18 +75,27 @@ func (ctx CommentsStorage) CommentReplies(commentId string) ([]domain.Comment, e
 	return comments, nil
 }
 
-func (ctx CommentsStorage) CommentRepliesUpdatedBefore(commentId string, updateTimestamp int64) ([]domain.Comment, error) {
+func (ctx CommentsStorage) CommentRepliesByOffset(commentId string, offset domain.CommentsOffset) ([]domain.Comment, error) {
 	query := `
-		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url 
+		SELECT c.id, c.updated_at, c.text, u.id, u.name, u.profile_url, count(cl.user_id) as likes
 		FROM comments c
 		INNER JOIN users u ON c.user_id = u.id
-		WHERE c.comment_id = ?
-		AND updated_at < ?
-		LIMIT ?
+		INNER JOIN comment_likes cl ON c.id = cl.id
+		WHERE c.comment_id = :comment_id
+		GROUP BY c.id
+		HAVING (likes = :likes and c.updated_at < :updated_at) or likes < :likes
+		ORDER BY likes desc, c.updated_at desc
+		LIMIT :limit
 	`
-	comments, err := ctx.queryPostComments(query, commentId, updateTimestamp, domain.CommentsPageSize)
+	comments, err := ctx.queryPostComments(
+		query,
+		sql.Named("comment_id", commentId),
+		sql.Named("updated_at", offset.UpdateTimestamp),
+		sql.Named("likes", offset.Likes),
+		sql.Named("limit", domain.CommentsPageSize),
+	)
 	if err != nil {
-		return nil, fmt.Errorf("sqlite.CommentRepliesUpdatedBefore: %w", err)
+		return nil, fmt.Errorf("sqlite.CommentRepliesByOffset: %w", err)
 	}
 	return comments, nil
 }
@@ -92,6 +116,7 @@ func (ctx CommentsStorage) queryPostComments(query string, args ...any) ([]domai
 			&comment.Commenter.Id,
 			&comment.Commenter.Name,
 			&comment.Commenter.ProfileUrl,
+			&comment.Likes,
 		)
 		if err != nil {
 			return nil, err
