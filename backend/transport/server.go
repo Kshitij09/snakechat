@@ -6,6 +6,7 @@ import (
 	"github.com/Kshitij09/snakechat_server/transport/middlewares"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 type Server struct{}
@@ -14,8 +15,8 @@ func NewServer() *Server {
 	return &Server{}
 }
 
-func (s *Server) Run(port string) error {
-	listenAddr := ":" + port
+func (s *Server) Run(port int) error {
+	listenAddr := ":" + strconv.Itoa(port)
 	router := http.NewServeMux()
 
 	db, err := sqlite.New()
