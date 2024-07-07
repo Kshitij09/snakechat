@@ -18,7 +18,7 @@ func NewServer() *Server {
 	return &Server{}
 }
 
-func (s *Server) Run(port int) error {
+func (s *Server) Run(port int, enableSsl bool) error {
 	listenAddr := ":" + strconv.Itoa(port)
 	router := http.NewServeMux()
 
@@ -69,10 +69,13 @@ func (s *Server) Run(port int) error {
 	commentReplies = securedMiddleware(commentReplies)
 	router.HandleFunc("POST /v1/comments/{id}/replies", handlers.NewHttpHandler(commentReplies))
 
-	tlsConfig := readTlsConfig()
 	log.Println("snakechat server started listening on " + listenAddr)
-	if tlsConfig != nil {
-		_, err := os.Stat(tlsConfig.certFile)
+	if enableSsl {
+		tlsConfig, err := mustReadTlsConfig()
+		if err != nil {
+			return err
+		}
+		_, err = os.Stat(tlsConfig.certFile)
 		if os.IsNotExist(err) {
 			return errors.New("tls cert file not found:" + tlsConfig.certFile)
 		}
@@ -105,16 +108,16 @@ type tlsFileConfig struct {
 	certFile, keyFile string
 }
 
-func readTlsConfig() *tlsFileConfig {
+func mustReadTlsConfig() (*tlsFileConfig, error) {
 	certFile := os.Getenv("SSL_CERT_FILE")
 	if certFile == "" {
-		return nil
+		return nil, errors.New("'SSL_CERT_FILE' environment variable not set")
 	}
 	keyFile := os.Getenv("SSL_KEY_FILE")
 	if keyFile == "" {
-		return nil
+		return nil, errors.New("'SSL_KEY_FILE' environment variable not set")
 	}
-	return &tlsFileConfig{certFile: certFile, keyFile: keyFile}
+	return &tlsFileConfig{certFile: certFile, keyFile: keyFile}, nil
 }
 
 func health(w http.ResponseWriter, _ *http.Request) error {
