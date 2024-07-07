@@ -2,6 +2,7 @@ package transport
 
 import (
 	"crypto/tls"
+	"errors"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/middlewares"
@@ -71,6 +72,14 @@ func (s *Server) Run(port int) error {
 	tlsConfig := readTlsConfig()
 	log.Println("snakechat server started listening on " + listenAddr)
 	if tlsConfig != nil {
+		_, err := os.Stat(tlsConfig.certFile)
+		if os.IsNotExist(err) {
+			return errors.New("tls cert file not found:" + tlsConfig.certFile)
+		}
+		_, err = os.Stat(tlsConfig.keyFile)
+		if os.IsNotExist(err) {
+			return errors.New("tls key file not found:" + tlsConfig.keyFile)
+		}
 		server := &http.Server{
 			Addr: ":443",
 			TLSConfig: &tls.Config{
