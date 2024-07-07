@@ -87,10 +87,10 @@ func (ctx UserStorage) UserById(userId string) (*domain.User, error) {
 func (ctx UserStorage) UserPostThumbnails(userId string) ([]domain.UserPostThumbnail, error) {
 	query := "SELECT id, media_url FROM posts WHERE user_id = ?"
 	rs, err := ctx.db.Query(query, userId)
-	defer rs.Close()
 	if err != nil {
 		return nil, fmt.Errorf("UserPostThumbnails: %w", err)
 	}
+	defer rs.Close()
 	return scanUserPostThumbnails(rs)
 }
 

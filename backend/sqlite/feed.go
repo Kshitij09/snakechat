@@ -26,10 +26,10 @@ func (ctx *PostStorage) TrendingPosts() ([]domain.Post, error) {
 
 func (ctx *PostStorage) trendingPostsBelowRank(rank *float64) ([]domain.Post, error) {
 	resultRows, queryErr := ctx.getPostBelowRank(rank, domain.FeedPageSize)
-	defer resultRows.Close()
 	if queryErr != nil {
 		return nil, fmt.Errorf("error getting trending posts: %w", queryErr)
 	}
+	defer resultRows.Close()
 	return scanPosts(resultRows)
 }
 

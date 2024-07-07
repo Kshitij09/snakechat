@@ -98,9 +98,20 @@ func (s *Server) Run(port int, enableSsl bool) error {
 			},
 			Handler: router,
 		}
+		server.RegisterOnShutdown(func() {
+			db.Close()
+		})
 		return server.ListenAndServeTLS(tlsConfig.certFile, tlsConfig.keyFile)
 	} else {
-		return http.ListenAndServe(listenAddr, router)
+		server := &http.Server{
+			Addr:    listenAddr,
+			Handler: router,
+		}
+
+		server.RegisterOnShutdown(func() {
+			db.Close()
+		})
+		return server.ListenAndServe()
 	}
 }
 

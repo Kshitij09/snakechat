@@ -23,10 +23,10 @@ func (ctx TagsStorage) Trending(count int) ([]domain.Tag, error) {
 	ORDER BY COUNT(p.id) DESC
 	`
 	rows, err := ctx.db.Query(query, count)
-	defer rows.Close()
 	if err != nil {
 		return nil, fmt.Errorf("error fetching the trending tags: %s", err)
 	}
+	defer rows.Close()
 	tags := make([]domain.Tag, 0, count)
 	appends := 0
 	for rows.Next() {
