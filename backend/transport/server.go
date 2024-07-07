@@ -72,7 +72,7 @@ func (s *Server) Run(port int) error {
 	log.Println("snakechat server started listening on " + listenAddr)
 	if tlsConfig != nil {
 		server := &http.Server{
-			Addr: listenAddr,
+			Addr: ":443",
 			TLSConfig: &tls.Config{
 				MinVersion:       tls.VersionTLS12,
 				CurvePreferences: []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
