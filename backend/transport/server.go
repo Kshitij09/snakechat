@@ -1,11 +1,13 @@
 package transport
 
 import (
+	"crypto/tls"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/middlewares"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 )
 
@@ -66,8 +68,43 @@ func (s *Server) Run(port int) error {
 	commentReplies = securedMiddleware(commentReplies)
 	router.HandleFunc("POST /v1/comments/{id}/replies", handlers.NewHttpHandler(commentReplies))
 
-	log.Println("domain server listening on " + listenAddr)
-	return http.ListenAndServe(listenAddr, router)
+	tlsConfig := readTlsConfig()
+	log.Println("snakechat server started listening on " + listenAddr)
+	if tlsConfig != nil {
+		server := &http.Server{
+			Addr: listenAddr,
+			TLSConfig: &tls.Config{
+				MinVersion:       tls.VersionTLS12,
+				CurvePreferences: []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
+				CipherSuites: []uint16{
+					tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+					tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+					tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
+					tls.TLS_RSA_WITH_AES_256_CBC_SHA,
+				},
+			},
+			Handler: router,
+		}
+		return server.ListenAndServeTLS(tlsConfig.certFile, tlsConfig.keyFile)
+	} else {
+		return http.ListenAndServe(listenAddr, router)
+	}
+}
+
+type tlsFileConfig struct {
+	certFile, keyFile string
+}
+
+func readTlsConfig() *tlsFileConfig {
+	certFile := os.Getenv("SSL_CERT_FILE")
+	if certFile == "" {
+		return nil
+	}
+	keyFile := os.Getenv("SSL_KEY_FILE")
+	if keyFile == "" {
+		return nil
+	}
+	return &tlsFileConfig{certFile: certFile, keyFile: keyFile}
 }
 
 func health(w http.ResponseWriter, _ *http.Request) error {
