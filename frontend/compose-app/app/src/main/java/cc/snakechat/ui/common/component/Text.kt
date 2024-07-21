@@ -1,7 +1,6 @@
-package cc.snakechat.presentation.common.component
+package cc.snakechat.ui.common.component
 
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color

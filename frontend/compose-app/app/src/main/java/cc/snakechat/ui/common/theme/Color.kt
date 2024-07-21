@@ -1,4 +1,4 @@
-package cc.snakechat.presentation.common.theme
+package cc.snakechat.ui.common.theme
 
 import androidx.compose.ui.graphics.Color
 
