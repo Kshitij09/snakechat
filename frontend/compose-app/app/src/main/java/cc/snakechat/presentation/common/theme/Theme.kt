@@ -1,6 +1,5 @@
-package cc.snakechat.ui.theme
+package cc.snakechat.presentation.common.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
