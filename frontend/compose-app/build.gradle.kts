@@ -12,4 +12,6 @@ plugins {
     alias(libs.plugins.roborazzi) apply false
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
+    alias(libs.plugins.benmanes.versions) apply true
+    alias(libs.plugins.littlerobots.versionCatalogUpdate) apply true
 }

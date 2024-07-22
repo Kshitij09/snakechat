@@ -7,6 +7,8 @@ androidxAppcompat = "1.7.0"
 androidxCoreKtx = "1.13.1"
 androidxComposeBom = "2024.06.00"
 androidxTextEspressoCore = "3.6.1"
+benmanesVersions = "0.51.0"
+littlerobotsVersionCatalogUpdate = "0.8.4"
 junit = "4.13.2"
 androidxTestJunit = "1.2.1"
 androidxLifecycleRuntimeKtx = "2.8.3"
@@ -60,7 +62,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
 roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
-
+benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanesVersions" }
+littlerobots-versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "littlerobotsVersionCatalogUpdate" }
 # Plugins defined by this project
 snakechat-android-application = { id = "snakechat.android.application", version = "unspecified" }
 snakechat-android-application-compose = { id = "snakechat.android.application.compose", version = "unspecified" }
