@@ -1,4 +1,4 @@
-package cc.snakechat.ui.common.component
+package cc.snakechat.design
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

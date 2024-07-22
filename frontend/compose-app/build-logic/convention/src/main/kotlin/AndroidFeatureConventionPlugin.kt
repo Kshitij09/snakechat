@@ -19,7 +19,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", project("ui:designsystem"))
+                add("implementation", project("ui:design"))
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
             }
         }

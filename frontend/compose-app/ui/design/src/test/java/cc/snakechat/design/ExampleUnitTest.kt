@@ -1,4 +1,4 @@
-package cc.snakechat.designsystem
+package cc.snakechat.design
 
 import org.junit.Test
 
