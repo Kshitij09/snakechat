@@ -27,3 +27,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "SnakeChat"
 include(":app")
+include(":ui:designsystem")
