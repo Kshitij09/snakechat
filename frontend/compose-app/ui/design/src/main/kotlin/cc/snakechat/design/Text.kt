@@ -32,7 +32,7 @@ fun Text(
         textDecoration = textDecoration,
         fontStyle = fontStyle,
         fontWeight = fontWeight,
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -42,17 +42,15 @@ enum class TextColor {
     Tertiary,
     InversePrimary,
     Error,
-    Success
+    Success,
 }
 
 @Composable
-private fun TextColor.toComposeColor(): Color {
-    return when(this) {
-        TextColor.Primary -> MaterialTheme.colorScheme.primary
-        TextColor.Secondary -> MaterialTheme.colorScheme.secondary
-        TextColor.Tertiary -> MaterialTheme.colorScheme.tertiary
-        TextColor.InversePrimary -> MaterialTheme.colorScheme.inversePrimary
-        TextColor.Error -> MaterialTheme.colorScheme.error
-        TextColor.Success -> Color(0xff388e3c)
-    }
+private fun TextColor.toComposeColor(): Color = when (this) {
+    TextColor.Primary -> MaterialTheme.colorScheme.primary
+    TextColor.Secondary -> MaterialTheme.colorScheme.secondary
+    TextColor.Tertiary -> MaterialTheme.colorScheme.tertiary
+    TextColor.InversePrimary -> MaterialTheme.colorScheme.inversePrimary
+    TextColor.Error -> MaterialTheme.colorScheme.error
+    TextColor.Success -> Color(0xff388e3c)
 }
