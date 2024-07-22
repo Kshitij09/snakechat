@@ -10,8 +10,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                apply("nowinandroid.android.library")
-                apply("nowinandroid.hilt")
+                apply("snakechat.android.library")
+                apply("snakechat.hilt")
             }
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
@@ -19,15 +19,8 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", project(":core:ui"))
-                add("implementation", project(":core:designsystem"))
-
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.runtimeCompose").get())
-                add("implementation", libs.findLibrary("androidx.lifecycle.viewModelCompose").get())
+                add("implementation", project("ui:designsystem"))
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
-
-                add("androidTestImplementation", libs.findLibrary("androidx.lifecycle.runtimeTesting").get())
             }
         }
     }
