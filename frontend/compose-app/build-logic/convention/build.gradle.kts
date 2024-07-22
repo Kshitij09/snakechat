@@ -42,5 +42,13 @@ gradlePlugin {
             id = "snakechat.android.lint"
             implementationClass = "AndroidLintConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "snakechat.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "snakechat.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
     }
 }
