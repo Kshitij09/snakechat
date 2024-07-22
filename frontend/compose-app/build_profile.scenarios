@@ -1,0 +1,44 @@
+default-scenarios = "assembleProdDebug"
+
+assembleProdDebug {
+    title = "Build prodDebug APK"
+    tasks = ["assembleProdDebug"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleProdDebug {
+    title = "Clean Build prodDebug APK"
+    tasks = ["assembleProdDebug"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}
+
+assembleProdRelease {
+    title = "Build prodRelease APK"
+    tasks = ["assembleProdRelease"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleProdRelease {
+    title = "Clean Build prodRelease APK"
+    tasks = ["assembleProdRelease"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}
+
+androidStudioSync {
+    title = "Android Studio Sync"
+    # Measure an Android studio sync
+    android-studio-sync {
+        # Override default Android Studio jvm args
+        studio-jvm-args = ["-Xms256m", "-Xmx8g"]
+        # Pass an IDEA properties to Android Studio. This can be used to set a registry values as well
+        # idea-properties = ["gradle.tooling.models.parallel.fetch=true"]
+    }
+    warm-ups = 2
+    iterations = 5
+}
