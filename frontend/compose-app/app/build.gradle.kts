@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.snakechat.android.application)
     alias(libs.plugins.snakechat.android.application.compose)
@@ -6,12 +8,9 @@ plugins {
 
 android {
     namespace = "cc.snakechat"
-    compileSdk = 34
 
     defaultConfig {
         applicationId = "cc.snakechat"
-        minSdk = 23
-        targetSdk = 34
         versionCode = 1
         versionName = "0.1.0"
 
@@ -21,9 +20,30 @@ android {
         }
     }
 
+    val props = rootDir.resolve("debug_keystore.properties")
+        .inputStream()
+        .use { inputStream -> Properties().also { it.load(inputStream) } }
+    val keystore = rootDir.resolve("debug.keystore")
+
+    signingConfigs {
+        named("debug") {
+            storeFile = keystore
+            keyAlias = props["alias"] as String
+            storePassword = props["password"] as String
+            keyPassword = props["password"] as String
+        }
+    }
+
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            signingConfig = signingConfigs.named("debug").get()
+        }
         release {
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isCrunchPngs = true
+            isMinifyEnabled = true
+            signingConfig = signingConfigs.named("debug").get()
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
