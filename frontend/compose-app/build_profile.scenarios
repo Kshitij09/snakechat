@@ -1,0 +1,31 @@
+default-scenarios = "assembleProdDebug"
+
+assembleProdDebug {
+    title = "Build prodDebug APK"
+    tasks = ["assembleProdDebug"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleProdDebug {
+    title = "Clean Build prodDebug APK"
+    tasks = ["assembleProdDebug"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}
+
+assembleProdRelease {
+    title = "Build prodRelease APK"
+    tasks = ["assembleProdRelease"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleProdRelease {
+    title = "Clean Build prodRelease APK"
+    tasks = ["assembleProdRelease"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}

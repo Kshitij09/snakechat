@@ -1,0 +1,86 @@
+[versions]
+agp = "8.5.1"
+androidDesugarJdkLibs = "2.0.4"
+androidTools = "31.5.1"
+androidxActivityCompose = "1.9.0"
+androidxAppcompat = "1.7.0"
+androidxComposeBom = "2024.06.00"
+androidxComposeRuntimeTracing = "1.0.0-beta01"
+androidxCoreKtx = "1.13.1"
+androidxLifecycleRuntimeKtx = "2.8.3"
+androidxMacroBenchmark = "1.2.4"
+androidxTestJunit = "1.2.1"
+androidxTextEspressoCore = "3.6.1"
+androidxTracing = "1.3.0-alpha02"
+benchmarkMacroJunit4 = "1.2.4"
+benmanesVersions = "0.51.0"
+dependencyGuard = "0.5.0"
+junit = "4.13.2"
+kotlin = "2.0.0"
+ksp = "2.0.0-1.0.21"
+littlerobotsVersionCatalogUpdate = "0.8.4"
+moduleGraph = "2.5.0"
+roborazzi = "1.7.0"
+secrets = "2.0.1"
+uiautomator = "2.3.0"
+
+[libraries]
+android-desugarJdkLibs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }
+# Dependencies of the included build-logic
+android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+android-tools-common = { module = "com.android.tools:common", version.ref = "androidTools" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidxActivityCompose" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidxAppcompat" }
+androidx-benchmark-macro-junit4 = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
+androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout" }
+androidx-compose-material-iconsExtended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-compose-runtime = { module = "androidx.compose.runtime:runtime" }
+androidx-compose-runtime-tracing = { module = "androidx.compose.runtime:runtime-tracing", version.ref = "androidxComposeRuntimeTracing" }
+androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidxCoreKtx" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidxTextEspressoCore" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTestJunit" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycleRuntimeKtx" }
+androidx-material3 = { module = "androidx.compose.material3:material3" }
+androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = "androidxTracing" }
+androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
+compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "androidTools" }
+lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "androidTools" }
+lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "androidTools" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-lint = { id = "com.android.lint", version.ref = "androidTools" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
+benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanesVersions" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+littlerobots-versionCatalogUpdate = { id = "nl.littlerobots.version-catalog-update", version.ref = "littlerobotsVersionCatalogUpdate" }
+module-graph = { id = "com.jraska.module.graph.assertion", version.ref = "moduleGraph" }
+roborazzi = { id = "io.github.takahirom.roborazzi", version.ref = "roborazzi" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+# Plugins defined by this project
+snakechat-android-application = "snakechat.android.application:unspecified"
+snakechat-android-application-compose = "snakechat.android.application.compose:unspecified"
+snakechat-android-application-flavors = "snakechat.android.application.flavors:unspecified"
+snakechat-android-feature = "snakechat.android.feature:unspecified"
+snakechat-android-library = "snakechat.android.library:unspecified"
+snakechat-android-library-compose = "snakechat.android.library.compose:unspecified"
+snakechat-android-lint = "snakechat.android.lint:unspecified"
+snakechat-android-test = "snakechat.android.test:unspecified"
+snakechat-jvm-library = "snakechat.jvm.library:unspecified"
