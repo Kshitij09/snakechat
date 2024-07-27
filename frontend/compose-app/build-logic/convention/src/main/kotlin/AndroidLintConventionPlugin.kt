@@ -25,6 +25,11 @@ class AndroidLintConventionPlugin : Plugin<Project> {
             dependencies {
                 add("lintChecks", project(":lint"))
             }
+            tasks.configureEach {
+                if (name.startsWith("assemble")) {
+                    dependsOn("lint")
+                }
+            }
         }
     }
 }
@@ -32,4 +37,5 @@ class AndroidLintConventionPlugin : Plugin<Project> {
 private fun Lint.configure() {
     xmlReport = true
     checkDependencies = true
+    abortOnError = true
 }
