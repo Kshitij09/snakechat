@@ -54,5 +54,5 @@ private fun TextColor.toComposeColor(): Color = when (this) {
     TextColor.Tertiary -> MaterialTheme.colorScheme.tertiary
     TextColor.InversePrimary -> MaterialTheme.colorScheme.inversePrimary
     TextColor.Error -> MaterialTheme.colorScheme.error
-    TextColor.Success -> Color(0xff388e3c)
+    TextColor.Success -> MaterialTheme.colorScheme.success
 }
