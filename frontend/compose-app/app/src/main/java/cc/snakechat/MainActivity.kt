@@ -25,9 +25,10 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SnakeChatTheme {
-                Scaffold(modifier = Modifier
-                    .fillMaxSize()
-                    .semantics { testTagsAsResourceId = true }
+                Scaffold(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .semantics { testTagsAsResourceId = true },
                 ) { innerPadding ->
                     Greeting(
                         name = "Android",

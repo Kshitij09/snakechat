@@ -34,7 +34,7 @@ class StartupBenchmark {
         setupBlock = {
             pressHome()
             allowNotifications()
-        }
+        },
     ) {
         startActivityAndWait()
         waitUntilHelloWorld()

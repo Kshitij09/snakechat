@@ -19,6 +19,6 @@ class StartupBaselineProfile {
             startActivityAndWait()
             allowNotifications()
             waitUntilHelloWorld()
-        }
+        },
     )
 }
