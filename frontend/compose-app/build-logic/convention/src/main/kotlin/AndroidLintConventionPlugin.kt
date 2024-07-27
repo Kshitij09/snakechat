@@ -4,6 +4,8 @@ import com.android.build.api.dsl.Lint
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.project
 
 class AndroidLintConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -19,6 +21,9 @@ class AndroidLintConventionPlugin : Plugin<Project> {
                     pluginManager.apply("com.android.lint")
                     configure<Lint>(Lint::configure)
                 }
+            }
+            dependencies {
+                add("lintChecks", project(":lint"))
             }
         }
     }

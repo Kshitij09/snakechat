@@ -5,6 +5,12 @@ plugins {
 
 android.namespace = "cc.snakechat.design"
 
+android {
+    lint {
+       disable.add("DesignSystem")
+    }
+}
+
 dependencies {
     api(libs.androidx.compose.foundation)
     api(libs.androidx.compose.foundation.layout)

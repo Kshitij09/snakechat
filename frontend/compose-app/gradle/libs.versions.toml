@@ -48,6 +48,10 @@ androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = 
 compose-gradlePlugin = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
+lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "androidTools" }
+lint-checks = { group = "com.android.tools.lint", name = "lint-checks", version.ref = "androidTools" }
+lint-tests = { group = "com.android.tools.lint", name = "lint-tests", version.ref = "androidTools" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
