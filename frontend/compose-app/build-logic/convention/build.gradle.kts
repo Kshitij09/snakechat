@@ -54,5 +54,9 @@ gradlePlugin {
             id = "snakechat.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
+        register("androidTest") {
+            id = "snakechat.android.test"
+            implementationClass = "AndroidTestConventionPlugin"
+        }
     }
 }

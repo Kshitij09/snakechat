@@ -30,3 +30,4 @@ rootProject.name = "SnakeChat"
 include(":app")
 include(":ui:design")
 include(":lint")
+include(":macrobenchmark")

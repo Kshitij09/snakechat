@@ -10,3 +10,4 @@ local.properties
 .idea
 profile-out
 gradle-user-home
+benchmark-results

@@ -39,11 +39,16 @@ android {
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs.named("debug").get()
         }
+        create("benchmark") {
+            initWith(buildTypes.getByName("release"))
+            matchingFallbacks += listOf("release")
+            isDebuggable = false
+        }
         release {
             isShrinkResources = true
             isCrunchPngs = true
             isMinifyEnabled = true
-            signingConfig = signingConfigs.named("debug").get()
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
