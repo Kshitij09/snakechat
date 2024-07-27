@@ -21,10 +21,10 @@ android {
         }
     }
 
-    val props = rootDir.resolve("debug_keystore.properties")
+    val props = rootDir.resolve("signing/debug_keystore.properties")
         .inputStream()
         .use { inputStream -> Properties().also { it.load(inputStream) } }
-    val keystore = rootDir.resolve("debug.keystore")
+    val keystore = rootDir.resolve("signing/debug.keystore")
 
     signingConfigs {
         named("debug") {
