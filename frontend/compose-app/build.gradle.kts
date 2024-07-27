@@ -14,4 +14,5 @@ plugins {
     alias(libs.plugins.module.graph) apply true // Plugin applied to allow module graph generation
     alias(libs.plugins.benmanes.versions) apply true
     alias(libs.plugins.littlerobots.versionCatalogUpdate) apply true
+    alias(libs.plugins.kotlin.android) apply false
 }
