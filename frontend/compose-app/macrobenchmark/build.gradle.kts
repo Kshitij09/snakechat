@@ -1,6 +1,7 @@
 import cc.snakechat.configureFlavors
 
 plugins {
+    alias(libs.plugins.baselineprofile)
     alias(libs.plugins.snakechat.android.test)
 }
 

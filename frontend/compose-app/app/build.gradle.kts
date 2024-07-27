@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.snakechat.android.application)
     alias(libs.plugins.snakechat.android.application.compose)
     alias(libs.plugins.snakechat.android.application.flavors)
+    alias(libs.plugins.baselineprofile)
 }
 
 android {
@@ -49,6 +50,8 @@ android {
             isCrunchPngs = true
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
+            // Ensure Baseline Profile is fresh for release builds.
+            baselineProfile.automaticGenerationDuringBuild = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -74,8 +77,15 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    baselineProfile(projects.macrobenchmark)
 }
 
 dependencyGuard {
     configuration("prodReleaseRuntimeClasspath")
+}
+
+baselineProfile {
+    // Don't build on every iteration of a full assemble.
+    // Instead enable generation directly for the release build variant.
+    automaticGenerationDuringBuild = false
 }
