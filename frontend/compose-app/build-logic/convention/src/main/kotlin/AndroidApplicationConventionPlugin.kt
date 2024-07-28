@@ -14,6 +14,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
                 apply("snakechat.android.lint")
+                apply("snakechat.kotlininject")
                 apply("com.dropbox.dependency-guard")
             }
 

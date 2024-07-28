@@ -10,6 +10,7 @@ class KotlinInjectConventionPlugin : Plugin<Project> {
             dependencies {
                 add("ksp", libs.findLibrary("kotlininject.compiler").get())
                 add("implementation", libs.findLibrary("kotlininject.runtime").get())
+                add("implementation", project(":libraries:inject"))
             }
         }
     }

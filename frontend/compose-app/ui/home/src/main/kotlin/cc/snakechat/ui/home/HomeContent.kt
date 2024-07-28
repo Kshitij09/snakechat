@@ -25,6 +25,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
+import com.slack.circuit.runtime.CircuitContext
+import com.slack.circuit.runtime.screen.Screen
+import com.slack.circuit.runtime.ui.Ui
+import com.slack.circuit.runtime.ui.ui
+import me.tatarka.inject.annotations.Inject
+
+@Inject
+class HomeUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
+        return if (screen is HomeScreen) ui<HomeScreen.State> { state, modifier ->
+            HomeContent(state = state, modifier = modifier) {
+
+            }
+        } else null
+    }
+}
 
 @Composable
 fun HomeContent(
