@@ -14,21 +14,38 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
+import cc.snakechat.ui.home.HomeContent
+import cc.snakechat.ui.home.HomePresenter
 import cc.snakechat.ui.home.HomeScreen
+import com.slack.circuit.backstack.rememberSaveableBackStack
+import com.slack.circuit.foundation.Circuit
+import com.slack.circuit.foundation.CircuitCompositionLocals
+import com.slack.circuit.foundation.NavigableCircuitContent
+import com.slack.circuit.foundation.rememberCircuitNavigator
 
 class MainActivity : ComponentActivity() {
+    private val circuit = Circuit.Builder()
+        .addPresenterFactory(HomePresenter.Factory())
+        .addUi<HomeScreen, HomeScreen.State> { state, modifier ->
+            HomeContent(state, modifier) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    SnakeText(text = "Feed")
+                }
+            }
+        }
+        .build()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             SnakeChatTheme {
-                HomeScreen {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        SnakeText(text = "Feed")
-                    }
+                val backstack = rememberSaveableBackStack(root = HomeScreen)
+                val navigator = rememberCircuitNavigator(backStack = backstack)
+                CircuitCompositionLocals(circuit) {
+                    NavigableCircuitContent(navigator, backstack)
                 }
             }
         }

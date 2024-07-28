@@ -15,4 +15,5 @@ plugins {
     alias(libs.plugins.benmanes.versions) apply true
     alias(libs.plugins.littlerobots.versionCatalogUpdate) apply true
     alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
 }

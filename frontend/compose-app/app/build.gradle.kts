@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.snakechat.android.application.compose)
     alias(libs.plugins.snakechat.android.application.flavors)
     alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -70,6 +71,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
+    implementation(libs.circuit.foundation)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
     testImplementation(libs.junit)

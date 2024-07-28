@@ -26,7 +26,8 @@ import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
 
 @Composable
-fun HomeScreen(
+fun HomeContent(
+    state: HomeScreen.State,
     modifier: Modifier = Modifier,
     content: @Composable (PaddingValues) -> Unit,
 ) {
@@ -116,7 +117,7 @@ fun HomeScreen(
 @Composable
 private fun SnakeScaffoldPreview() {
     SnakeChatTheme {
-        HomeScreen {
+        HomeContent(state = HomeScreen.State) {
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
