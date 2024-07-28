@@ -11,6 +11,7 @@ class AndroidUiConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply {
                 apply("snakechat.android.library.compose")
+                apply("snakechat.kotlininject")
             }
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
@@ -20,6 +21,7 @@ class AndroidUiConventionPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", project(":ui:design"))
                 add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
+                add("implementation", libs.findLibrary("circuit.foundation").get())
             }
         }
     }

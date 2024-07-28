@@ -18,7 +18,8 @@ dependencyGuard = "0.5.0"
 circuit = "0.22.2"
 junit = "4.13.2"
 kotlin = "2.0.0"
-ksp = "2.0.0-1.0.21"
+kotlininject = "0.7.1"
+ksp = "2.0.0-1.0.23"
 littlerobotsVersionCatalogUpdate = "0.8.4"
 moduleGraph = "2.5.0"
 roborazzi = "1.7.0"
@@ -55,6 +56,9 @@ circuit-foundation = { module = "com.slack.circuit:circuit-foundation", version.
 junit = { module = "junit:junit", version.ref = "junit" }
 kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlininject-compiler = { module = "me.tatarka.inject:kotlin-inject-compiler-ksp", version.ref = "kotlininject" }
+kotlininject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", version.ref = "kotlininject" }
+ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-plugin", version.ref = "ksp" }
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "androidTools" }
 lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "androidTools" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "androidTools" }
