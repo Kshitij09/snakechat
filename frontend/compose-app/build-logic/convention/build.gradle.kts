@@ -58,5 +58,9 @@ gradlePlugin {
             id = "snakechat.android.test"
             implementationClass = "AndroidTestConventionPlugin"
         }
+        register("androidUi") {
+            id = "snakechat.android.ui"
+            implementationClass = "AndroidUiConventionPlugin"
+        }
     }
 }

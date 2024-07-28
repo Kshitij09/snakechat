@@ -78,7 +78,7 @@ secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugi
 snakechat-android-application = "snakechat.android.application:unspecified"
 snakechat-android-application-compose = "snakechat.android.application.compose:unspecified"
 snakechat-android-application-flavors = "snakechat.android.application.flavors:unspecified"
-snakechat-android-feature = "snakechat.android.feature:unspecified"
+snakechat-android-ui = "snakechat.android.ui:unspecified"
 snakechat-android-library = "snakechat.android.library:unspecified"
 snakechat-android-library-compose = "snakechat.android.library.compose:unspecified"
 snakechat-android-lint = "snakechat.android.lint:unspecified"
