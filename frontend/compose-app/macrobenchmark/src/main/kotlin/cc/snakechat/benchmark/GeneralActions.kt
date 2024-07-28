@@ -14,6 +14,6 @@ fun MacrobenchmarkScope.allowNotifications() {
     }
 }
 
-fun MacrobenchmarkScope.waitUntilHelloWorld() {
-    device.wait(Until.hasObject(By.text("Hello Android!")), 5000)
+fun MacrobenchmarkScope.waitUntilText(text: String) {
+    device.wait(Until.hasObject(By.text(text)), 5000)
 }

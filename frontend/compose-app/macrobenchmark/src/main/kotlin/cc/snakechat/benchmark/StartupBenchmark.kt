@@ -37,6 +37,6 @@ class StartupBenchmark {
         },
     ) {
         startActivityAndWait()
-        waitUntilHelloWorld()
+        waitUntilText("Feed")
     }
 }
