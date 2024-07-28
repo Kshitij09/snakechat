@@ -1,5 +1,6 @@
 package cc.snakechat.ui.home
 
+import androidx.activity.compose.ReportDrawn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -108,7 +109,10 @@ fun HomeContent(
                 }
             }
         },
-        content = content,
+        content = {
+            content(it)
+            ReportDrawn()
+        },
         modifier = modifier,
     )
 }
