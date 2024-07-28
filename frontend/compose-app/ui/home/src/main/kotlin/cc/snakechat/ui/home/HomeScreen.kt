@@ -39,7 +39,7 @@ fun HomeScreen(
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = "Search Icon"
+                                contentDescription = "Search Icon",
                             )
                         },
                         placeholder = {
@@ -47,10 +47,10 @@ fun HomeScreen(
                         },
                         trailingIcon = {
                             IconButton(onClick = { /*TODO*/ }) {
-                               Icon(
-                                   imageVector = Icons.Default.Mic,
-                                   contentDescription = "Voice Search CTA",
-                               )
+                                Icon(
+                                    imageVector = Icons.Default.Mic,
+                                    contentDescription = "Voice Search CTA",
+                                )
                             }
                         },
                     )
@@ -73,7 +73,7 @@ fun HomeScreen(
         },
         bottomBar = {
             BottomAppBar(
-                tonalElevation = SnakeElevation.Level2
+                tonalElevation = SnakeElevation.Level2,
             ) {
                 IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
                     Icon(

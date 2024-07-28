@@ -23,7 +23,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnakeChatTheme {
                 HomeScreen {
-                    Box(modifier = Modifier.fillMaxSize(),
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center,
                     ) {
                         SnakeText(text = "Feed")

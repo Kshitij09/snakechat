@@ -34,7 +34,7 @@ fun SnakeTopBar(
                     .height(64.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                if(leadingIcon != null) leadingIcon()
+                if (leadingIcon != null) leadingIcon()
                 Box(modifier = Modifier.weight(1f)) { centerContent() }
                 if (trailingActions != null) trailingActions()
             }
@@ -60,7 +60,7 @@ internal fun SnakeSearch(
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Surface(
         tonalElevation = SnakeElevation.Level2,
@@ -76,9 +76,11 @@ internal fun SnakeSearch(
                     leadingIcon()
                 }
                 if (placeholder != null) {
-                    Box(modifier = Modifier
-                        .padding(start = 8.dp)
-                        .weight(1f)) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .weight(1f),
+                    ) {
                         placeholder()
                     }
                 }
