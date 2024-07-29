@@ -31,6 +31,7 @@ include(":app")
 include(":lint")
 
 include(":libraries:inject")
+include(":libraries:ktor-client")
 
 include(":macrobenchmark")
 
