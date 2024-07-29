@@ -67,5 +67,9 @@ gradlePlugin {
             id = "snakechat.kotlininject"
             implementationClass = "KotlinInjectConventionPlugin"
         }
+        register("lyricist") {
+            id = "snakechat.lyricist"
+            implementationClass = "LyricistConventionPlugin"
+        }
     }
 }

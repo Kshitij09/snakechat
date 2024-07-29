@@ -21,6 +21,7 @@ kotlin = "2.0.0"
 kotlininject = "0.7.1"
 ksp = "2.0.0-1.0.23"
 littlerobotsVersionCatalogUpdate = "0.8.4"
+lyricist = "1.7.0"
 moduleGraph = "2.5.0"
 roborazzi = "1.7.0"
 secrets = "2.0.1"
@@ -62,6 +63,8 @@ ksp-gradlePlugin = { module = "com.google.devtools.ksp:symbol-processing-gradle-
 lint-api = { module = "com.android.tools.lint:lint-api", version.ref = "androidTools" }
 lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "androidTools" }
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "androidTools" }
+lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
+lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -91,3 +94,4 @@ snakechat-android-library-compose = "snakechat.android.library.compose:unspecifi
 snakechat-android-lint = "snakechat.android.lint:unspecified"
 snakechat-android-test = "snakechat.android.test:unspecified"
 snakechat-jvm-library = "snakechat.jvm.library:unspecified"
+snakechat-lyricist = "snakechat.lyricist:unspecified"
