@@ -1,21 +1,27 @@
 package cc.snakechat.ui.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import cc.snakechat.domain.feed.GetTrendingFeed
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class HomePresenter(
-    @Assisted private val screen: HomeScreen,
-) : Presenter<HomeScreen.State> {
+    private val getTrendingFeed: GetTrendingFeed,
+) : Presenter<HomeState> {
 
     @Composable
-    override fun present(): HomeScreen.State {
-        return HomeScreen.State
+    override fun present(): HomeState {
+        val state by produceState<HomeState>(initialValue = Loading) {
+            val feed = getTrendingFeed.execute()
+            value = Data(feed)
+        }
+        return state
     }
 }
 

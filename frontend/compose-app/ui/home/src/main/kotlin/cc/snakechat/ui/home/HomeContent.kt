@@ -2,8 +2,8 @@ package cc.snakechat.ui.home
 
 import androidx.activity.compose.ReportDrawn
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Explore
@@ -26,7 +26,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
+import cc.snakechat.domain.feed.TrendingFeed
 import cc.snakechat.resources.strings
+import cc.snakechat.ui.home.feed.FeedScreen
+import cc.snakechat.ui.home.feed.mockPost
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
@@ -36,19 +39,16 @@ import me.tatarka.inject.annotations.Inject
 @Inject
 class HomeUiFactory : Ui.Factory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return if (screen is HomeScreen) ui<HomeScreen.State> { state, modifier ->
-            HomeContent(state = state, modifier = modifier) {
-
-            }
+        return if (screen is HomeScreen) ui<HomeState> { state, modifier ->
+            HomeContent(state = state, modifier = modifier)
         } else null
     }
 }
 
 @Composable
 fun HomeContent(
-    state: HomeScreen.State,
+    state: HomeState,
     modifier: Modifier = Modifier,
-    content: @Composable (PaddingValues) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -160,7 +160,11 @@ fun HomeContent(
             }
         },
         content = {
-            content(it)
+            val paddingModifier = Modifier.padding(it)
+            when (state) {
+                is Data -> FeedScreen(trendingFeed = state.feed, modifier = paddingModifier)
+                Loading -> LoadingScreen(modifier = paddingModifier)
+            }
             ReportDrawn()
         },
         modifier = modifier,
@@ -170,15 +174,15 @@ fun HomeContent(
 @Preview
 @Composable
 private fun SnakeScaffoldPreview() {
+    val state = Data(TrendingFeed(posts = listOf(mockPost)))
     SnakeChatTheme {
-        HomeContent(state = HomeScreen.State) {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentAlignment = Alignment.Center,
-            ) {
-                SnakeText(text = "Feed")
-            }
-        }
+        HomeContent(state = state)
+    }
+}
+
+@Composable
+fun LoadingScreen(modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        SnakeText(text = "Loading")
     }
 }

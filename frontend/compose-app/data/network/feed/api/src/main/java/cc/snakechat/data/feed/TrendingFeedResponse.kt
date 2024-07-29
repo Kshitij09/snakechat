@@ -13,20 +13,20 @@ class TrendingFeedResponse(
 @Serializable
 class Post(
     val caption: String? = null,
-    val comments: Int? = null,
+    val comments: Long? = null,
     @SerialName("created_at")
-    val createdAt: Int? = null,
-    val downloads: Int? = null,
+    val createdAt: Long? = null,
+    val downloads: Long? = null,
     val id: String? = null,
-    val likes: Int? = null,
+    val likes: Long? = null,
     @SerialName("media_url")
     val mediaUrl: String? = null,
-    val saves: Int? = null,
-    val shares: Int? = null,
+    val saves: Long? = null,
+    val shares: Long? = null,
     @SerialName("tag_id")
     val tagId: String? = null,
     val user: User? = null,
-    val views: Int? = null
+    val views: Long? = null
 )
 
 @Serializable

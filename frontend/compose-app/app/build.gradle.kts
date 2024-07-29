@@ -79,6 +79,8 @@ dependencies {
     implementation(projects.ui.home)
     implementation(projects.libraries.ktorClient)
 
+    implementation(projects.domain.feed)
+
     debugImplementation(libs.slf4j.android)
     implementation(projects.data.network.feed.impl)
 
