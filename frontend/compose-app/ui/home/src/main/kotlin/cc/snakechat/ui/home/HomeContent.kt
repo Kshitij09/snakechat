@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.SmartDisplay
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
+import cc.snakechat.resources.strings
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
@@ -93,36 +95,68 @@ fun HomeContent(
             BottomAppBar(
                 tonalElevation = SnakeElevation.Level2,
             ) {
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(
-                        imageVector = Icons.Default.Home,
-                        contentDescription = "BottomBar Home CTA",
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(
-                        imageVector = Icons.Default.Explore,
-                        contentDescription = "BottomBar Explore CTA",
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(
-                        imageVector = Icons.Default.AddCircle,
-                        contentDescription = "BottomBar Create CTA",
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(
-                        imageVector = Icons.Default.Sensors,
-                        contentDescription = "BottomBar Live CTA",
-                    )
-                }
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.weight(1f)) {
-                    Icon(
-                        imageVector = Icons.Default.SmartDisplay,
-                        contentDescription = "BottomBar Videos CTA",
-                    )
-                }
+                NavigationBarItem(
+                    label = {
+                        SnakeText(text = strings.home)
+                    },
+                    selected = true,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Home,
+                            contentDescription = "BottomBar Home CTA",
+                        )
+                    },
+                )
+                NavigationBarItem(
+                    label = {
+                        SnakeText(text = strings.explore)
+                    },
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Explore,
+                            contentDescription = "BottomBar Explore CTA",
+                        )
+                    },
+                )
+                NavigationBarItem(
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.AddCircle,
+                            contentDescription = "BottomBar Create CTA",
+                        )
+                    },
+                )
+                NavigationBarItem(
+                    label = {
+                        SnakeText(text = strings.live)
+                    },
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.Sensors,
+                            contentDescription = "BottomBar Live CTA",
+                        )
+                    },
+                )
+                NavigationBarItem(
+                    label = {
+                        SnakeText(text = strings.videos)
+                    },
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {
+                        Icon(
+                            imageVector = Icons.Default.SmartDisplay,
+                            contentDescription = "BottomBar Videos CTA",
+                        )
+                    },
+                )
             }
         },
         content = {

@@ -8,4 +8,5 @@ android.namespace = "cc.snakechat.ui.home"
 dependencies {
     implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.activity.compose)
+    implementation(projects.ui.strings)
 }
