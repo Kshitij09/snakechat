@@ -1,6 +1,7 @@
 package cc.snakechat.ui.home
 
-import cc.snakechat.domain.feed.TrendingFeed
+import androidx.paging.compose.LazyPagingItems
+import cc.snakechat.domain.feed.Post
 import com.slack.circuit.runtime.CircuitUiState
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.parcelize.Parcelize
@@ -12,4 +13,4 @@ sealed interface HomeState : CircuitUiState
 
 data object Loading : HomeState
 
-class Data(val feed: TrendingFeed) : HomeState
+class Data(val feed: LazyPagingItems<Post>) : HomeState

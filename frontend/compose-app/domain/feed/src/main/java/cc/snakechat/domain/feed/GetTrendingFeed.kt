@@ -27,6 +27,7 @@ class GetTrendingFeed(private val api: FeedApi) {
     private fun cc.snakechat.data.feed.Post.toDomain(): Post? {
         val user = user?.toDomain() ?: return null
         val createdAt = createdAt
+        val id = id ?: return null
         return Post(
             caption = caption,
             comments = comments ?: 0,

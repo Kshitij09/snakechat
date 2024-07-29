@@ -60,7 +60,11 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                 contentDescription = "Profile Picture",
                 modifier = Modifier.size(24.dp),
             )
-            SnakeText(text = post.user.name, Modifier.padding(start = 4.dp))
+            SnakeText(
+                text = post.user.name,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 4.dp),
+            )
         }
 
         val contentModifier = Modifier
@@ -70,12 +74,8 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
             url = post.mediaUrl,
             contentDescription = "Post Content",
             contentScale = ContentScale.Crop,
-            loadingView = {
-                Box(modifier = contentModifier
-                    .background(MaterialTheme.colorScheme.surfaceDim)
-                    .height(300.dp)
-                )
-            },
+            loadingView = { PostContentPlaceholder(contentModifier) },
+            fallbackView = { PostContentPlaceholder(contentModifier) },
             modifier = contentModifier,
         )
         Box(modifier = Modifier.fillMaxWidth()) {
@@ -148,6 +148,14 @@ fun ProfileLoading(modifier: Modifier = Modifier) {
     )
 }
 
+@Composable
+fun PostContentPlaceholder(modifier: Modifier = Modifier) {
+    Box(modifier = modifier
+        .background(MaterialTheme.colorScheme.surfaceDim)
+        .height(300.dp)
+    )
+}
+
 
 @Composable
 private fun Interaction(
@@ -187,7 +195,7 @@ internal val mockUser = User(
 internal val mockPost = Post(
     caption = "Caption",
     createdAt = LocalDateTime.now(),
-    id = null,
+    id = "1",
     mediaUrl = null,
     tagId = null,
     user = mockUser,

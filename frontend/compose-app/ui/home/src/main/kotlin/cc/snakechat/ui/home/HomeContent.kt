@@ -23,10 +23,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
-import cc.snakechat.domain.feed.TrendingFeed
 import cc.snakechat.resources.strings
 import cc.snakechat.ui.home.feed.FeedScreen
 import cc.snakechat.ui.home.feed.mockPost
@@ -34,6 +35,7 @@ import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
+import kotlinx.coroutines.flow.flowOf
 import me.tatarka.inject.annotations.Inject
 
 @Inject
@@ -174,7 +176,10 @@ fun HomeContent(
 @Preview
 @Composable
 private fun SnakeScaffoldPreview() {
-    val state = Data(TrendingFeed(posts = listOf(mockPost)))
+    val fakePagingData = flowOf(
+        PagingData.from(listOf(mockPost))
+    )
+    val state = Data(fakePagingData.collectAsLazyPagingItems())
     SnakeChatTheme {
         HomeContent(state = state)
     }

@@ -16,7 +16,7 @@ class Post(
     val comments: Long = 0,
     val createdAt: LocalDateTime? = null,
     val downloads: Long = 0,
-    val id: String? = null,
+    val id: String,
     val likes: Long = 0,
     val mediaUrl: String? = null,
     val saves: Long = 0,

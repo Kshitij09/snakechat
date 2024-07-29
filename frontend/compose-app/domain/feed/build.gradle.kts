@@ -6,4 +6,5 @@ plugins {
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(projects.data.network.feed.api)
+    implementation(libs.androidx.paging.common)
 }

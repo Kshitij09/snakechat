@@ -58,6 +58,7 @@ androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidxTe
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidxLifecycleRuntimeKtx" }
 androidx-material3 = { module = "androidx.compose.material3:material3" }
 androidx-paging-common = { module = "androidx.paging:paging-common", version.ref = "paging" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging" }
 androidx-tracing-ktx = { module = "androidx.tracing:tracing-ktx", version.ref = "androidxTracing" }
 androidx-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
 coil-core = { module = "io.coil-kt.coil3:coil-core", version.ref = "coil" }
