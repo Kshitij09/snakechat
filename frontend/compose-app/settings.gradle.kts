@@ -28,8 +28,12 @@ dependencyResolutionManagement {
 
 rootProject.name = "SnakeChat"
 include(":app")
-include(":ui:design")
 include(":lint")
-include(":macrobenchmark")
-include(":ui:home")
+
 include(":libraries:inject")
+
+include(":macrobenchmark")
+
+include(":ui:design")
+include(":ui:home")
+include(":ui:strings")
