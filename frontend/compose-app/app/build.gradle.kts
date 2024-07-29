@@ -76,6 +76,8 @@ dependencies {
     implementation(projects.ui.design)
     implementation(projects.ui.home)
     implementation(projects.libraries.ktorClient)
+
+    debugImplementation(libs.slf4j.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

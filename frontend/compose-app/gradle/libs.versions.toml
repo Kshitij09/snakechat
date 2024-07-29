@@ -17,6 +17,7 @@ benmanesVersions = "0.51.0"
 bytemask = "1.0.0-beta01"
 dependencyGuard = "0.5.0"
 circuit = "0.22.2"
+coroutines = "1.9.0-RC"
 junit = "4.13.2"
 kotlin = "2.0.0"
 kotlininject = "0.7.1"
@@ -74,6 +75,7 @@ lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "an
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "androidTools" }
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
+slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
