@@ -78,6 +78,8 @@ dependencies {
     implementation(projects.libraries.ktorClient)
 
     debugImplementation(libs.slf4j.android)
+    implementation(projects.data.network.feed.impl)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
