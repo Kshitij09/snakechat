@@ -73,6 +73,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
     implementation(libs.circuit.foundation)
+    implementation(libs.coil.core)
+    implementation(libs.coil.network)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
     implementation(projects.libraries.ktorClient)
