@@ -14,6 +14,7 @@ androidxTextEspressoCore = "3.6.1"
 androidxTracing = "1.3.0-alpha02"
 benchmarkMacroJunit4 = "1.2.4"
 benmanesVersions = "0.51.0"
+bytemask = "1.0.0-beta01"
 dependencyGuard = "0.5.0"
 circuit = "0.22.2"
 junit = "4.13.2"
@@ -81,6 +82,7 @@ android-lint = { id = "com.android.lint", version.ref = "androidTools" }
 android-test = { id = "com.android.test", version.ref = "agp" }
 baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidxMacroBenchmark" }
 benmanes-versions = { id = "com.github.ben-manes.versions", version.ref = "benmanesVersions" }
+bytemask = { id = "dev.shreyaspatil.bytemask.plugin", version.ref = "bytemask" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 dependencyGuard = { id = "com.dropbox.dependency-guard", version.ref = "dependencyGuard" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

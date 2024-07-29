@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.snakechat.android.application.flavors)
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.bytemask)
 }
 
 android {
@@ -74,6 +75,7 @@ dependencies {
     implementation(libs.circuit.foundation)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
+    implementation(projects.libraries.ktorClient)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -91,4 +93,10 @@ baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
     automaticGenerationDuringBuild = false
+}
+
+bytemaskConfig {
+    configure("release") {
+        enableEncryption = true
+    }
 }
