@@ -70,6 +70,7 @@ class DesignSystemDetector :
         // instead of hardcoded names.
         val METHOD_NAMES = mapOf(
             "Text" to "SnakeText",
+            "AsyncImage" to "SnakeAsyncImage",
         )
 
         fun reportIssue(
