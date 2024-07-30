@@ -75,11 +75,13 @@ dependencies {
     implementation(libs.circuit.foundation)
     implementation(libs.coil.core)
     implementation(libs.coil.network)
+    demoImplementation(libs.coil.test)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)
+    implementation(projects.libraries.imageloading)
 
     implementation(projects.domain.feed)
 
