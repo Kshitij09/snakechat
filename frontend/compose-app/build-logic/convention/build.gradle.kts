@@ -9,6 +9,7 @@ dependencies {
     compileOnly(libs.android.tools.common)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
 }
 
 // Configure the build-logic plugins to target JDK 17
@@ -57,6 +58,18 @@ gradlePlugin {
         register("androidTest") {
             id = "snakechat.android.test"
             implementationClass = "AndroidTestConventionPlugin"
+        }
+        register("androidUi") {
+            id = "snakechat.android.ui"
+            implementationClass = "AndroidUiConventionPlugin"
+        }
+        register("kotlinInject") {
+            id = "snakechat.kotlininject"
+            implementationClass = "KotlinInjectConventionPlugin"
+        }
+        register("lyricist") {
+            id = "snakechat.lyricist"
+            implementationClass = "LyricistConventionPlugin"
         }
     }
 }

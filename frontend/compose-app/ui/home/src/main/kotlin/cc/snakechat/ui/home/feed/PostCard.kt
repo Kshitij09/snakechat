@@ -1,0 +1,210 @@
+package cc.snakechat.ui.home.feed
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Message
+import androidx.compose.material.icons.filled.Whatsapp
+import androidx.compose.material.icons.outlined.Download
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import cc.snakechat.design.SnakeAsyncImage
+import cc.snakechat.design.SnakeChatTheme
+import cc.snakechat.design.SnakeText
+import cc.snakechat.domain.feed.Post
+import cc.snakechat.domain.feed.User
+import cc.snakechat.resources.strings
+import cc.snakechat.ui.home.R
+import java.time.LocalDateTime
+
+@Composable
+fun PostCard(
+    post: Post,
+    modifier: Modifier = Modifier,
+    onLoadComplete: (() -> Unit)? = null,
+) {
+    Column(modifier = modifier) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp, vertical = 12.dp),
+        ) {
+            SnakeAsyncImage(
+                url = post.user.profileUrl,
+                loadingView = {
+                    ProfileLoading()
+                },
+                fallbackView = {
+                    ProfileLoading()
+                },
+                contentDescription = "Profile Picture",
+                modifier = Modifier.size(24.dp),
+            )
+            SnakeText(
+                text = post.user.name,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 4.dp),
+            )
+        }
+
+        val contentModifier = Modifier
+            .fillMaxWidth()
+            .heightIn(max = 300.dp)
+        SnakeAsyncImage(
+            url = post.mediaUrl,
+            contentDescription = "Post Content",
+            contentScale = ContentScale.Crop,
+            loadingView = { PostContentPlaceholder(contentModifier) },
+            fallbackView = { PostContentPlaceholder(contentModifier) },
+            onLoadComplete = { onLoadComplete?.invoke() },
+            modifier = contentModifier,
+        )
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier,
+            ) {
+                Interaction(
+                    count = post.likes.toString(),
+                    icon = Icons.Outlined.FavoriteBorder,
+                )
+                Interaction(
+                    count = post.comments.toString(),
+                    icon = Icons.AutoMirrored.Default.Message,
+                )
+                Interaction(
+                    count = post.downloads.toString(),
+                    icon = Icons.Outlined.Download,
+                )
+            }
+            Interaction(
+                count = post.shares.toString(),
+                icon = Icons.Default.Whatsapp,
+                modifier = Modifier.align(Alignment.CenterEnd),
+            )
+        }
+        Column(modifier = Modifier.padding(4.dp)) {
+            post.caption?.let {
+                val text = buildAnnotatedString {
+                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                        append(post.user.name)
+                    }
+                    append(" ")
+                    append(it)
+                }
+                SnakeText(
+                    text = text,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+            if (post.comments > 0) {
+                SnakeText(
+                    text = strings.viewAllComments(post.comments),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+            post.createdAt?.let {
+                SnakeText(
+                    text = formatDate(it),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onTertiaryContainer,
+                    modifier = Modifier.padding(top = 4.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ProfileLoading(modifier: Modifier = Modifier) {
+    Icon(
+        painter = painterResource(id = R.drawable.ui_home_profile_placeholder),
+        tint = MaterialTheme.colorScheme.secondary,
+        contentDescription = "Profile Loading View",
+        modifier = modifier.size(24.dp),
+    )
+}
+
+@Composable
+fun PostContentPlaceholder(modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceDim)
+            .height(300.dp),
+    )
+}
+
+@Composable
+private fun Interaction(
+    count: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clickable { }
+            .minimumInteractiveComponentSize(),
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+        )
+//        SnakeText(text = count)
+    }
+}
+
+@Preview
+@Composable
+private fun PostCardPreview() {
+    SnakeChatTheme {
+        Surface {
+            PostCard(post = mockPost)
+        }
+    }
+}
+
+internal val mockUser = User(
+    id = "user123",
+    name = "John Doe",
+)
+
+internal val mockPost = Post(
+    caption = "Caption",
+    createdAt = LocalDateTime.now(),
+    id = "1",
+    mediaUrl = null,
+    tagId = null,
+    user = mockUser,
+    comments = 4,
+)
+
+private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"

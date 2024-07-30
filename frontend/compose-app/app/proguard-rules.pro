@@ -19,3 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Using ktor client in Android has missing proguard rule
+# See https://youtrack.jetbrains.com/issue/KTOR-5528
+-dontwarn org.slf4j.**

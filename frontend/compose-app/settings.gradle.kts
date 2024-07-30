@@ -28,6 +28,22 @@ dependencyResolutionManagement {
 
 rootProject.name = "SnakeChat"
 include(":app")
-include(":ui:design")
 include(":lint")
+
+include(":libraries:inject")
+include(":libraries:ktor-client")
+
 include(":macrobenchmark")
+
+include(":ui:design")
+include(":ui:home")
+include(":ui:strings")
+
+include(":domain:feed")
+
+include(":data:network:feed:api")
+include(":data:network:feed:impl")
+include(":data:network:fake")
+include(":libraries:json")
+include(":libraries:imageloading")
+include(":libraries:test")

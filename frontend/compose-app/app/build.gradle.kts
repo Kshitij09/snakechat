@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.snakechat.android.application.compose)
     alias(libs.plugins.snakechat.android.application.flavors)
     alias(libs.plugins.baselineprofile)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.bytemask)
 }
 
 android {
@@ -40,11 +42,6 @@ android {
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs.named("debug").get()
         }
-        create("benchmark") {
-            initWith(buildTypes.getByName("release"))
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
-        }
         release {
             isShrinkResources = true
             isCrunchPngs = true
@@ -70,7 +67,24 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.material3)
+    implementation(libs.circuit.foundation)
+    implementation(libs.coil.core)
+    implementation(libs.coil.network)
+    demoImplementation(libs.coil.test)
     implementation(projects.ui.design)
+    implementation(projects.ui.home)
+
+    implementation(projects.libraries.ktorClient)
+    implementation(projects.libraries.json)
+    prodImplementation(projects.libraries.imageloading)
+    demoImplementation(projects.libraries.test)
+
+    implementation(projects.domain.feed)
+
+    debugImplementation(libs.slf4j.android)
+    prodImplementation(projects.data.network.feed.impl)
+    demoImplementation(projects.data.network.fake)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -88,4 +102,10 @@ baselineProfile {
     // Don't build on every iteration of a full assemble.
     // Instead enable generation directly for the release build variant.
     automaticGenerationDuringBuild = false
+}
+
+bytemaskConfig {
+    configure("release") {
+        enableEncryption = true
+    }
 }
