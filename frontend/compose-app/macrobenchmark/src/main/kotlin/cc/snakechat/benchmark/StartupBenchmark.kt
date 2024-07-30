@@ -31,7 +31,7 @@ class StartupBenchmark {
         packageName = PACKAGE_NAME,
         metrics = listOf(
             StartupTimingMetric(),
-            FrameTimingMetric()
+            FrameTimingMetric(),
         ),
         iterations = 35,
         startupMode = StartupMode.COLD,

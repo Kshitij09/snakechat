@@ -11,12 +11,10 @@ interface ImageLoadingComponent {
 
     @Provides
     @ApplicationScope
-    fun provideImageLoader(context: Context): ImageLoader {
-        return ImageLoader.Builder(context)
-            .memoryCache {
-                MemoryCache.Builder()
-                    .maxSizePercent(context, percent = 0.25)
-                    .build()
-            }.build()
-    }
+    fun provideImageLoader(context: Context): ImageLoader = ImageLoader.Builder(context)
+        .memoryCache {
+            MemoryCache.Builder()
+                .maxSizePercent(context, percent = 0.25)
+                .build()
+        }.build()
 }
