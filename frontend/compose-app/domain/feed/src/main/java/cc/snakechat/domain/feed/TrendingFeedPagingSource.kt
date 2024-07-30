@@ -20,17 +20,18 @@ class TrendingFeedPagingSource(private val getTrendingFeed: GetTrendingFeed) : P
         val offset = params.key
         val req = TrendingFeedRequest(offset)
         val result = getTrendingFeed.execute(req)
+        val dedupPosts = result.posts.filter {
+            if (!visitedPostIds.contains(it.id)) {
+                visitedPostIds.add(it.id)
+                true
+            } else {
+                false
+            }
+        }
         return LoadResult.Page(
-            data =  result.posts.filter {
-                if (!visitedPostIds.contains(it.id)) {
-                    visitedPostIds.add(it.id)
-                    true
-                } else {
-                    false
-                }
-            },
+            data =  dedupPosts,
             prevKey = offset,
-            nextKey = result.offset,
+            nextKey = if (dedupPosts.isNotEmpty()) result.offset else null,
         )
     }
 }

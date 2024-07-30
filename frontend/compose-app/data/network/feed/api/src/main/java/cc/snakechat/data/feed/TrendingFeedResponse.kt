@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class TrendingFeedResponse(
-    val offset: String? = null,
+    var offset: String? = null,
     @SerialName("page_size")
     val pageSize: Int? = null,
     val posts: List<Post?>? = null

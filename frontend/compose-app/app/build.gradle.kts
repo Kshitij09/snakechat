@@ -84,7 +84,9 @@ dependencies {
     implementation(projects.domain.feed)
 
     debugImplementation(libs.slf4j.android)
-    implementation(projects.data.network.feed.impl)
+//    implementation(projects.data.network.feed.impl)
+    prodImplementation(projects.data.network.feed.impl)
+    demoImplementation(projects.data.network.fake)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
