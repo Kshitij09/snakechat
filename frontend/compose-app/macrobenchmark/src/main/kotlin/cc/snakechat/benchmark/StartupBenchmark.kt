@@ -37,6 +37,6 @@ class StartupBenchmark {
         },
     ) {
         startActivityAndWait()
-        waitUntilText("Feed")
+        waitForScreenSettle()
     }
 }

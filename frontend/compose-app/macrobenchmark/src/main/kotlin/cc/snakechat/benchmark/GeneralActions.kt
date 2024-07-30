@@ -14,6 +14,6 @@ fun MacrobenchmarkScope.allowNotifications() {
     }
 }
 
-fun MacrobenchmarkScope.waitUntilText(text: String) {
-    device.wait(Until.hasObject(By.text(text)), 5000)
+fun MacrobenchmarkScope.waitForScreenSettle() {
+    device.wait(Until.hasObject(By.desc("Post Content")), 6000)
 }
