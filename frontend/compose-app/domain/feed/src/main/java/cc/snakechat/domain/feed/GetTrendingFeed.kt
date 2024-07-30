@@ -1,5 +1,6 @@
 package cc.snakechat.domain.feed
 
+import androidx.paging.PagingSource
 import cc.snakechat.data.feed.FeedApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -9,19 +10,35 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Inject
-class GetTrendingFeed(private val api: FeedApi) {
-    suspend fun execute(request: TrendingFeedRequest? = null): TrendingFeed {
+internal class TrendingFeedFetcher(private val api: FeedApi) {
+    private val visitedPostIds = mutableSetOf<String>()
+
+    suspend fun fetch(request: TrendingFeedRequest? = null): PagingSource.LoadResult<String, Post> {
+
         return withContext(Dispatchers.IO) {
-            val req = cc.snakechat.data.feed.TrendingFeedRequest(request?.offset)
-            api.getTrendingFeed(req).toDomain()
+            val currentOffset = request?.offset
+            val req = cc.snakechat.data.feed.TrendingFeedRequest(currentOffset)
+            // TODO: Better error handling
+            val resp = api.getTrendingFeed(req)
+            val upstreamPosts = resp.posts
+            if (upstreamPosts.isNullOrEmpty()) return@withContext PagingSource.LoadResult.Error(NoSuchElementException("No more posts"))
+            val posts = uniquePosts(upstreamPosts)
+            val nextKey = if (posts.isNotEmpty()) resp.offset else null
+            PagingSource.LoadResult.Page(
+                nextKey = nextKey,
+                data = posts,
+                prevKey = request?.offset,
+            )
         }
     }
 
-    private fun cc.snakechat.data.feed.TrendingFeedResponse.toDomain(): TrendingFeed {
-        return TrendingFeed(
-            offset = offset,
-            posts = posts?.mapNotNull { it?.toDomain() } ?: emptyList(),
-        )
+    private fun uniquePosts(posts: List<cc.snakechat.data.feed.Post?>): List<Post> {
+        return posts.asSequence()
+            .filterNotNull()
+            .filterNot { visitedPostIds.contains(it.id) }
+            .onEach { p -> p.id?.let { visitedPostIds.add(it) } }
+            .mapNotNull { it.toDomain() }
+            .toList()
     }
 
     private fun cc.snakechat.data.feed.Post.toDomain(): Post? {

@@ -2,11 +2,6 @@ package cc.snakechat.domain.feed
 
 import java.time.LocalDateTime
 
-class TrendingFeed(
-    val offset: String? = null,
-    val posts: List<Post> = emptyList()
-)
-
 class TrendingFeedRequest(
     val offset: String? = null
 )

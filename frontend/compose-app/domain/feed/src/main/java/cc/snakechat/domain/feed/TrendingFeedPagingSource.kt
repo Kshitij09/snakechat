@@ -2,13 +2,12 @@ package cc.snakechat.domain.feed
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import cc.snakechat.inject.ApplicationScope
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-@ApplicationScope
-class TrendingFeedPagingSource(private val getTrendingFeed: GetTrendingFeed) : PagingSource<String, Post>() {
-    private val visitedPostIds = mutableSetOf<String>()
+internal class TrendingFeedPagingSource(
+    private val feedFetcher: suspend (TrendingFeedRequest) -> LoadResult<String, Post>
+) : PagingSource<String, Post>() {
 
     override fun getRefreshKey(state: PagingState<String, Post>): String? {
         val anchor = state.anchorPosition ?: return null
@@ -19,19 +18,12 @@ class TrendingFeedPagingSource(private val getTrendingFeed: GetTrendingFeed) : P
     override suspend fun load(params: LoadParams<String>): LoadResult<String, Post> {
         val offset = params.key
         val req = TrendingFeedRequest(offset)
-        val result = getTrendingFeed.execute(req)
-        val dedupPosts = result.posts.filter {
-            if (!visitedPostIds.contains(it.id)) {
-                visitedPostIds.add(it.id)
-                true
-            } else {
-                false
-            }
-        }
-        return LoadResult.Page(
-            data =  dedupPosts,
-            prevKey = offset,
-            nextKey = if (dedupPosts.isNotEmpty()) result.offset else null,
-        )
+        return feedFetcher(req)
     }
+}
+
+internal fun trendingFeedPagingSourceFactory(
+    feedFetcher: TrendingFeedFetcher,
+): () -> PagingSource<String, Post> {
+    return { TrendingFeedPagingSource { feedFetcher.fetch(it) } }
 }

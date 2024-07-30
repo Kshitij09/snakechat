@@ -4,41 +4,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.paging.LoadState
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
-import cc.snakechat.domain.feed.TrendingFeedPagingSource
+import cc.snakechat.domain.feed.ObservePagingData
+import cc.snakechat.domain.feed.Post
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class HomePresenter(
-    private val feedPagingSource: TrendingFeedPagingSource,
+    private val observePagingData: Lazy<ObservePagingData<Unit, Post>>
 ) : Presenter<HomeState> {
 
     @Composable
     override fun present(): HomeState {
-        val pager = rememberRetained(feedPagingSource) {
-            Pager(
-                config = PagingConfig(
-                    pageSize = 10,
-                    prefetchDistance = 2,
-                    initialLoadSize = 10,
-                ),
-                pagingSourceFactory = { feedPagingSource },
-            )
-        }
-        val feed = pager.flow.collectAsLazyPagingItems()
-        val state by rememberRetained(feed) {
+        val scope = rememberRetainedCoroutineScope()
+        val feedFlow = rememberRetained { observePagingData.value.observe(Unit).cachedIn(scope) }
+        val pagingItems = feedFlow.collectAsLazyPagingItems()
+        val state by rememberRetained(pagingItems) {
             derivedStateOf {
-                if (feed.loadState.refresh is LoadState.Loading) {
+                if (pagingItems.loadState.refresh is LoadState.Loading) {
                     Loading
                 } else {
-                    Data(feed)
+                    Data(pagingItems)
                 }
             }
         }
@@ -58,3 +53,8 @@ class HomePresenterFactory(
         return if (screen is HomeScreen) presenterFactory(screen) else null
     }
 }
+
+@Composable
+inline fun <T : Any> Flow<PagingData<T>>.rememberRetainedCachedPagingFlow(
+    scope: CoroutineScope = rememberRetainedCoroutineScope(),
+): Flow<PagingData<T>> = rememberRetained(this, scope) { cachedIn(scope) }
