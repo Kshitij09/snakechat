@@ -42,11 +42,6 @@ android {
             applicationIdSuffix = ".debug"
             signingConfig = signingConfigs.named("debug").get()
         }
-        create("benchmark") {
-            initWith(buildTypes.getByName("release"))
-            matchingFallbacks += listOf("release")
-            isDebuggable = false
-        }
         release {
             isShrinkResources = true
             isCrunchPngs = true
@@ -89,6 +84,7 @@ dependencies {
     debugImplementation(libs.slf4j.android)
 //    implementation(projects.data.network.feed.impl)
     prodImplementation(projects.data.network.feed.impl)
+//    "benchmarkImplementation"(projects.data.network.fake)
     demoImplementation(projects.data.network.fake)
 
     testImplementation(libs.junit)
