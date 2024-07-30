@@ -42,7 +42,11 @@ import cc.snakechat.ui.home.R
 import java.time.LocalDateTime
 
 @Composable
-fun PostCard(post: Post, modifier: Modifier = Modifier) {
+fun PostCard(
+    post: Post,
+    modifier: Modifier = Modifier,
+    onLoadComplete: (() -> Unit)? = null,
+) {
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
@@ -76,6 +80,7 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
             contentScale = ContentScale.Crop,
             loadingView = { PostContentPlaceholder(contentModifier) },
             fallbackView = { PostContentPlaceholder(contentModifier) },
+            onLoadComplete = { onLoadComplete?.invoke() },
             modifier = contentModifier,
         )
         Box(modifier = Modifier.fillMaxWidth()) {

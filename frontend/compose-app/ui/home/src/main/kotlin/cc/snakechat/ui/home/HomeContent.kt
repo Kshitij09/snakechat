@@ -1,6 +1,5 @@
 package cc.snakechat.ui.home
 
-import androidx.activity.compose.ReportDrawn
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -169,7 +168,6 @@ fun HomeContent(
                 is Data -> FeedScreen(trendingFeed = state.feed, modifier = paddingModifier)
                 Loading -> LoadingScreen(modifier = paddingModifier)
             }
-            ReportDrawn()
         },
         modifier = modifier,
     )

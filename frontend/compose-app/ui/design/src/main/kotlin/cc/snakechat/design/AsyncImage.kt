@@ -16,6 +16,7 @@ fun SnakeAsyncImage(
     url: String?,
     transform: (State) -> State = DefaultTransform,
     contentScale: ContentScale = ContentScale.Fit,
+    onLoadComplete: ((State) -> Unit)? = null,
     loadingView: @Composable (() -> Unit)? = null,
     fallbackView: @Composable (() -> Unit)? = null,
     contentDescription: String? = null,
@@ -23,6 +24,7 @@ fun SnakeAsyncImage(
     val painter = rememberAsyncImagePainter(
         model = url,
         transform = transform,
+        onState = { if (it.isLoaded && onLoadComplete != null) onLoadComplete(it) },
         contentScale = contentScale,
     )
     val state by painter.state.collectAsState()
@@ -43,3 +45,5 @@ fun SnakeAsyncImage(
         }
     }
 }
+
+private val State.isLoaded: Boolean get() = this is State.Success || this is State.Error
