@@ -77,7 +77,9 @@ dependencies {
     implementation(libs.coil.network)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
+
     implementation(projects.libraries.ktorClient)
+    implementation(projects.libraries.json)
 
     implementation(projects.domain.feed)
 
@@ -107,4 +109,8 @@ bytemaskConfig {
     configure("release") {
         enableEncryption = true
     }
+}
+
+ksp {
+    arg("me.tatarka.inject.dumpGraph", "true")
 }

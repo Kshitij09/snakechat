@@ -19,18 +19,13 @@ import me.tatarka.inject.annotations.Provides
 interface HttpClientComponent {
     @Provides
     @ApplicationScope
-    fun provideHttpClient(@ApiKey apiKey: String): HttpClient = buildHttpClient(apiKey)
+    fun provideHttpClient(@ApiKey apiKey: String, json: Json): HttpClient = buildHttpClient(apiKey, json)
 }
 
-internal fun buildHttpClient(apiKey: String): HttpClient {
+internal fun buildHttpClient(apiKey: String, json: Json): HttpClient {
     return HttpClient(OkHttp) {
         install(ContentNegotiation) {
-            json(
-                Json {
-                    isLenient = true
-                    ignoreUnknownKeys = true
-                },
-            )
+            json(json)
         }
         install(Logging) {
             logger = Logger.DEFAULT

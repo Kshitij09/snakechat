@@ -43,3 +43,4 @@ include(":domain:feed")
 
 include(":data:network:feed:api")
 include(":data:network:feed:impl")
+include(":libraries:json")
