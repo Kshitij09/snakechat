@@ -1,5 +1,6 @@
 package cc.snakechat.benchmark
 
+import androidx.benchmark.macro.FrameTimingMetric
 import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.StartupTimingMetric
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
@@ -28,7 +29,10 @@ class StartupBenchmark {
     @Test
     fun startup() = benchmarkRule.measureRepeated(
         packageName = PACKAGE_NAME,
-        metrics = listOf(StartupTimingMetric()),
+        metrics = listOf(
+            StartupTimingMetric(),
+            FrameTimingMetric()
+        ),
         iterations = 35,
         startupMode = StartupMode.COLD,
         setupBlock = {
