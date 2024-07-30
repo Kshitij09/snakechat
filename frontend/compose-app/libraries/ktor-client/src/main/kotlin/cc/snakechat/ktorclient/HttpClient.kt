@@ -22,19 +22,17 @@ interface HttpClientComponent {
     fun provideHttpClient(@ApiKey apiKey: String, json: Json): HttpClient = buildHttpClient(apiKey, json)
 }
 
-internal fun buildHttpClient(apiKey: String, json: Json): HttpClient {
-    return HttpClient(OkHttp) {
-        install(ContentNegotiation) {
-            json(json)
-        }
-        install(Logging) {
-            logger = Logger.DEFAULT
-            level = LogLevel.ALL
-        }
-        install(DefaultRequest) {
-            header("X-API-KEY", apiKey)
-            url("https://apis.snakechat.cc/")
-            contentType(ContentType.Application.Json)
-        }
+internal fun buildHttpClient(apiKey: String, json: Json): HttpClient = HttpClient(OkHttp) {
+    install(ContentNegotiation) {
+        json(json)
+    }
+    install(Logging) {
+        logger = Logger.DEFAULT
+        level = LogLevel.ALL
+    }
+    install(DefaultRequest) {
+        header("X-API-KEY", apiKey)
+        url("https://apis.snakechat.cc/")
+        contentType(ContentType.Application.Json)
     }
 }

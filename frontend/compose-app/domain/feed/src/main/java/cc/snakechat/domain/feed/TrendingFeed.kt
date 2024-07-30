@@ -3,7 +3,7 @@ package cc.snakechat.domain.feed
 import java.time.LocalDateTime
 
 class TrendingFeedRequest(
-    val offset: String? = null
+    val offset: String? = null,
 )
 
 class Post(
@@ -24,5 +24,5 @@ class Post(
 class User(
     val id: String,
     val name: String,
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )

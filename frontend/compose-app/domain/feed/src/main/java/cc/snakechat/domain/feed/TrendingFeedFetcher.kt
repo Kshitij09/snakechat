@@ -14,7 +14,6 @@ internal class TrendingFeedFetcher(private val api: FeedApi) {
     private val visitedPostIds = mutableSetOf<String>()
 
     suspend fun fetch(request: TrendingFeedRequest? = null): PagingSource.LoadResult<String, Post> {
-
         return withContext(Dispatchers.IO) {
             val currentOffset = request?.offset
             val req = cc.snakechat.data.feed.TrendingFeedRequest(currentOffset)
@@ -32,14 +31,12 @@ internal class TrendingFeedFetcher(private val api: FeedApi) {
         }
     }
 
-    private fun uniquePosts(posts: List<cc.snakechat.data.feed.Post?>): List<Post> {
-        return posts.asSequence()
-            .filterNotNull()
-            .filterNot { visitedPostIds.contains(it.id) }
-            .onEach { p -> p.id?.let { visitedPostIds.add(it) } }
-            .mapNotNull { it.toDomain() }
-            .toList()
-    }
+    private fun uniquePosts(posts: List<cc.snakechat.data.feed.Post?>): List<Post> = posts.asSequence()
+        .filterNotNull()
+        .filterNot { visitedPostIds.contains(it.id) }
+        .onEach { p -> p.id?.let { visitedPostIds.add(it) } }
+        .mapNotNull { it.toDomain() }
+        .toList()
 
     private fun cc.snakechat.data.feed.Post.toDomain(): Post? {
         val user = user?.toDomain() ?: return null
@@ -71,10 +68,8 @@ internal class TrendingFeedFetcher(private val api: FeedApi) {
         )
     }
 
-    private fun localDateTimeOf(epochMilli: Long): LocalDateTime {
-        return LocalDateTime.ofInstant(
-            Instant.ofEpochMilli(epochMilli),
-            ZoneId.systemDefault()
-        )
-    }
+    private fun localDateTimeOf(epochMilli: Long): LocalDateTime = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(epochMilli),
+        ZoneId.systemDefault(),
+    )
 }

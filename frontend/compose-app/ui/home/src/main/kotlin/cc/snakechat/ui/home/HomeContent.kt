@@ -40,10 +40,12 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 class HomeUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return if (screen is HomeScreen) ui<HomeState> { state, modifier ->
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? = if (screen is HomeScreen) {
+        ui<HomeState> { state, modifier ->
             HomeContent(state = state, modifier = modifier)
-        } else null
+        }
+    } else {
+        null
     }
 }
 
@@ -177,7 +179,7 @@ fun HomeContent(
 @Composable
 private fun SnakeScaffoldPreview() {
     val fakePagingData = flowOf(
-        PagingData.from(listOf(mockPost))
+        PagingData.from(listOf(mockPost)),
     )
     val state = Data(fakePagingData.collectAsLazyPagingItems())
     SnakeChatTheme {

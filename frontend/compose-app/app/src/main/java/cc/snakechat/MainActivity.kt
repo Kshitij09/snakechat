@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 modifier = Modifier.semantics {
                     @OptIn(ExperimentalComposeUiApi::class)
                     testTagsAsResourceId = true
-                }
+                },
             )
         }
     }
@@ -63,6 +63,4 @@ fun GreetingPreview() {
     }
 }
 
-private fun AndroidApplicationComponent.Companion.from(context: Context): AndroidApplicationComponent {
-    return (context.applicationContext as SnakeApplication).component
-}
+private fun AndroidApplicationComponent.Companion.from(context: Context): AndroidApplicationComponent = (context.applicationContext as SnakeApplication).component

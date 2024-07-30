@@ -11,7 +11,7 @@ class SnakeStrings(
         } else {
             "View $count comments"
         }
-    }
+    },
 )
 
 object Locales {

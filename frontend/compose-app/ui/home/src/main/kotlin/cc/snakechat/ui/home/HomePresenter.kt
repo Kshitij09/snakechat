@@ -20,7 +20,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 class HomePresenter(
-    private val observePagingData: Lazy<ObservePagingData<Unit, Post>>
+    private val observePagingData: Lazy<ObservePagingData<Unit, Post>>,
 ) : Presenter<HomeState> {
 
     @Composable
@@ -49,9 +49,7 @@ class HomePresenterFactory(
         screen: Screen,
         navigator: Navigator,
         context: CircuitContext,
-    ): Presenter<*>? {
-        return if (screen is HomeScreen) presenterFactory(screen) else null
-    }
+    ): Presenter<*>? = if (screen is HomeScreen) presenterFactory(screen) else null
 }
 
 @Composable

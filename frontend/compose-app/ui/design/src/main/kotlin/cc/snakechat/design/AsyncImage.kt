@@ -26,7 +26,7 @@ fun SnakeAsyncImage(
         contentScale = contentScale,
     )
     val state by painter.state.collectAsState()
-    when  {
+    when {
         state is State.Error && fallbackView != null -> {
             fallbackView()
         }

@@ -6,7 +6,7 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class TrendingFeedPagingSource(
-    private val feedFetcher: suspend (TrendingFeedRequest) -> LoadResult<String, Post>
+    private val feedFetcher: suspend (TrendingFeedRequest) -> LoadResult<String, Post>,
 ) : PagingSource<String, Post>() {
 
     override fun getRefreshKey(state: PagingState<String, Post>): String? {
@@ -24,6 +24,4 @@ internal class TrendingFeedPagingSource(
 
 internal fun trendingFeedPagingSourceFactory(
     feedFetcher: TrendingFeedFetcher,
-): () -> PagingSource<String, Post> {
-    return { TrendingFeedPagingSource { feedFetcher.fetch(it) } }
-}
+): () -> PagingSource<String, Post> = { TrendingFeedPagingSource { feedFetcher.fetch(it) } }

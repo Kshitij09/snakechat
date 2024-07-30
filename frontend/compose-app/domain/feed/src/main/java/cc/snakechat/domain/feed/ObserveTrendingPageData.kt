@@ -12,14 +12,12 @@ interface ObservePagingData<in Request, Data : Any> {
 internal class ObserveTrendingFeedPageData(
     private val feedFetcher: TrendingFeedFetcher,
 ) : ObservePagingData<Unit, Post> {
-    override fun observe(request: Unit): Flow<PagingData<Post>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                prefetchDistance = 2,
-                initialLoadSize = 10,
-            ),
-            pagingSourceFactory = trendingFeedPagingSourceFactory(feedFetcher)
-        ).flow
-    }
+    override fun observe(request: Unit): Flow<PagingData<Post>> = Pager(
+        config = PagingConfig(
+            pageSize = 10,
+            prefetchDistance = 2,
+            initialLoadSize = 10,
+        ),
+        pagingSourceFactory = trendingFeedPagingSourceFactory(feedFetcher),
+    ).flow
 }

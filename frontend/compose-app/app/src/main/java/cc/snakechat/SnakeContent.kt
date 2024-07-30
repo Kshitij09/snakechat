@@ -15,7 +15,7 @@ interface SnakeContent {
     fun Content(
         backstack: SaveableBackStack,
         navigator: Navigator,
-        modifier: Modifier
+        modifier: Modifier,
     )
 }
 
@@ -35,5 +35,4 @@ class DefaultSnakeContent(
             }
         }
     }
-
 }

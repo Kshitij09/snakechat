@@ -17,11 +17,11 @@ class FakeFeedApi(
         val offset = if (reqOffset == null) "1" else (reqOffset.toInt() + 1).toString()
         println("Loading new page with offset: $offset")
         val assetName = if (request?.offset == null) "feed/trending_feed_1.json" else "feed/trending_feed_2.json"
-         return context.assets.open(assetName)
-             .use { json.decodeFromStream<TrendingFeedResponse>(it) }
-             // Paging library breaks if we return the same offset
-             // It is safe to make assumptions from implementation details
-             // while writing fake code
-             .also { it.offset = offset }
+        return context.assets.open(assetName)
+            .use { json.decodeFromStream<TrendingFeedResponse>(it) }
+            // Paging library breaks if we return the same offset
+            // It is safe to make assumptions from implementation details
+            // while writing fake code
+            .also { it.offset = offset }
     }
 }

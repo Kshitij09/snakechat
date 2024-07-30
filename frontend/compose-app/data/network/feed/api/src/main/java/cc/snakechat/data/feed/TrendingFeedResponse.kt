@@ -7,7 +7,7 @@ class TrendingFeedResponse(
     var offset: String? = null,
     @SerialName("page_size")
     val pageSize: Int? = null,
-    val posts: List<Post?>? = null
+    val posts: List<Post?>? = null,
 )
 
 @Serializable
@@ -26,7 +26,7 @@ class Post(
     @SerialName("tag_id")
     val tagId: String? = null,
     val user: User? = null,
-    val views: Long? = null
+    val views: Long? = null,
 )
 
 @Serializable
@@ -34,5 +34,5 @@ class User(
     val id: String? = null,
     val name: String? = null,
     @SerialName("profile_url")
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )

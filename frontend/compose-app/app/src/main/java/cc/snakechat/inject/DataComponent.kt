@@ -8,8 +8,7 @@ import me.tatarka.inject.annotations.Provides
 
 interface DataComponent :
     FeedApiComponent,
-    FeedComponent
-{
+    FeedComponent {
     @Provides
     @ApplicationScope
     fun provideApiKey(): @ApiKey String = BytemaskConfig.API_KEY

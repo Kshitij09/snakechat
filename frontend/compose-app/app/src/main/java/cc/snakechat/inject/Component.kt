@@ -20,7 +20,8 @@ abstract class AndroidActivityComponent(
 @ApplicationScope
 abstract class AndroidApplicationComponent(
     @get:Provides val application: Application,
-) : DataComponent, LibrariesComponent {
+) : DataComponent,
+    LibrariesComponent {
     @get:Provides
     val context: Context = application
     companion object

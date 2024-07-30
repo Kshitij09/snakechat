@@ -41,18 +41,18 @@ import cc.snakechat.resources.strings
 import cc.snakechat.ui.home.R
 import java.time.LocalDateTime
 
-
 @Composable
 fun PostCard(post: Post, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 4.dp, vertical = 12.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp, vertical = 12.dp),
         ) {
             SnakeAsyncImage(
                 url = post.user.profileUrl,
                 loadingView = {
-                   ProfileLoading()
+                    ProfileLoading()
                 },
                 fallbackView = {
                     ProfileLoading()
@@ -82,11 +82,11 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier
+                modifier = Modifier,
             ) {
                 Interaction(
                     count = post.likes.toString(),
-                    icon = Icons.Outlined.FavoriteBorder
+                    icon = Icons.Outlined.FavoriteBorder,
                 )
                 Interaction(
                     count = post.comments.toString(),
@@ -94,13 +94,13 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                 )
                 Interaction(
                     count = post.downloads.toString(),
-                    icon = Icons.Outlined.Download
+                    icon = Icons.Outlined.Download,
                 )
             }
             Interaction(
                 count = post.shares.toString(),
                 icon = Icons.Default.Whatsapp,
-                modifier = Modifier.align(Alignment.CenterEnd)
+                modifier = Modifier.align(Alignment.CenterEnd),
             )
         }
         Column(modifier = Modifier.padding(4.dp)) {
@@ -123,7 +123,7 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                     text = strings.viewAllComments(post.comments),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
             post.createdAt?.let {
@@ -131,7 +131,7 @@ fun PostCard(post: Post, modifier: Modifier = Modifier) {
                     text = formatDate(it),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }
@@ -150,12 +150,12 @@ fun ProfileLoading(modifier: Modifier = Modifier) {
 
 @Composable
 fun PostContentPlaceholder(modifier: Modifier = Modifier) {
-    Box(modifier = modifier
-        .background(MaterialTheme.colorScheme.surfaceDim)
-        .height(300.dp)
+    Box(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surfaceDim)
+            .height(300.dp),
     )
 }
-
 
 @Composable
 private fun Interaction(
@@ -167,7 +167,7 @@ private fun Interaction(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .clickable { }
-            .minimumInteractiveComponentSize()
+            .minimumInteractiveComponentSize(),
     ) {
         Icon(
             imageVector = icon,
@@ -189,7 +189,7 @@ private fun PostCardPreview() {
 
 internal val mockUser = User(
     id = "user123",
-    name = "John Doe"
+    name = "John Doe",
 )
 
 internal val mockPost = Post(
