@@ -82,9 +82,7 @@ dependencies {
     implementation(projects.domain.feed)
 
     debugImplementation(libs.slf4j.android)
-//    implementation(projects.data.network.feed.impl)
     prodImplementation(projects.data.network.feed.impl)
-//    "benchmarkImplementation"(projects.data.network.fake)
     demoImplementation(projects.data.network.fake)
 
     testImplementation(libs.junit)
@@ -110,8 +108,4 @@ bytemaskConfig {
     configure("release") {
         enableEncryption = true
     }
-}
-
-ksp {
-    arg("me.tatarka.inject.dumpGraph", "true")
 }
