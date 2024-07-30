@@ -81,7 +81,8 @@ dependencies {
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)
-    implementation(projects.libraries.imageloading)
+    prodImplementation(projects.libraries.imageloading)
+    demoImplementation(projects.libraries.test)
 
     implementation(projects.domain.feed)
 
