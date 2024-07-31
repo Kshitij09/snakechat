@@ -9,6 +9,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.paging.compose)
     implementation(libs.coil.compose)
+    implementation(projects.ui.common)
     implementation(projects.ui.strings)
     implementation(projects.ui.likers)
     implementation(projects.domain.feed)

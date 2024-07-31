@@ -37,6 +37,7 @@ class LikesPresenterFactory(
         return if (screen is LikersScreen) {
             LikesPresenter(
                 screen = screen,
+                navigator = navigator,
                 observePagingData = observePagingData,
             )
         } else {

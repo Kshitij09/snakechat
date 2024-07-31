@@ -12,6 +12,7 @@ class SnakeStrings(
             "View $count comments"
         }
     },
+    val follow: String,
 )
 
 object Locales {

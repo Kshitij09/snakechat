@@ -10,6 +10,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.likers.LikersScreen
+import cc.snakechat.ui.common.rememberRetainedCoroutineScope
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
