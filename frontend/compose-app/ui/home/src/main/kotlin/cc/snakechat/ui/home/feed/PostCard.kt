@@ -96,16 +96,13 @@ fun PostCard(
                     onClick = { onLikeClick(post) }
                 )
                 Interaction(
-                    count = post.comments.toString(),
                     icon = Icons.AutoMirrored.Default.Message,
                 )
                 Interaction(
-                    count = post.downloads.toString(),
                     icon = Icons.Outlined.Download,
                 )
             }
             Interaction(
-                count = post.shares.toString(),
                 icon = Icons.Default.Whatsapp,
                 modifier = Modifier.align(Alignment.CenterEnd),
             )
@@ -166,7 +163,7 @@ fun PostContentPlaceholder(modifier: Modifier = Modifier) {
 
 @Composable
 private fun Interaction(
-    count: String,
+    count: String? = null,
     icon: ImageVector,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
@@ -181,7 +178,13 @@ private fun Interaction(
             imageVector = icon,
             contentDescription = null,
         )
-//        SnakeText(text = count)
+        if (count != null) {
+            SnakeText(
+                text = count,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.padding(start = 4.dp),
+            )
+        }
     }
 }
 
@@ -211,3 +214,5 @@ internal val mockPost = Post(
 )
 
 private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
+
+private fun countString(count: Long) = if (count < 999) count.toString() else "${count / 1000}k"
