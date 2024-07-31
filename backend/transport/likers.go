@@ -27,7 +27,7 @@ type LikersRequest struct {
 type Liker struct {
 	Id             string  `json:"id"`
 	Name           string  `json:"name"`
-	ProfileUrl     *string `json:"profile_url"`
+	ProfileUrl     *string `json:"profile_url,omitempty"`
 	FollowersCount int64   `json:"followers_count"`
 }
 

@@ -85,7 +85,7 @@ func scanPost(resultRows *sql.Rows) (domain.Post, error) {
 		&post.TagId,
 		&post.User.Id,
 		&post.User.Name,
-		post.User.ProfileUrl,
+		&post.User.ProfileUrl,
 	)
 	return post, err
 }
