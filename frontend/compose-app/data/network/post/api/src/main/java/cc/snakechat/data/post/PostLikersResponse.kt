@@ -9,3 +9,8 @@ class PostLikersResponse(
     val offset: String? = null,
     val total: Int? = null
 )
+
+@Serializable
+class PostLikersRequest(
+    val offset: String?
+)
