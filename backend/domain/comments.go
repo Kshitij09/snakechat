@@ -24,7 +24,7 @@ type Comment struct {
 type Commenter struct {
 	Id         string
 	Name       string
-	ProfileUrl string
+	ProfileUrl *string
 }
 
 func (c Comment) OffsetKey() CommentsOffset {

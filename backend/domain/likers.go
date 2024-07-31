@@ -10,7 +10,7 @@ const LikersPageSize = 40
 type Liker struct {
 	Id             string
 	Name           string
-	ProfileUrl     string
+	ProfileUrl     *string
 	FollowersCount int64
 	UpdatedAt      int64
 }

@@ -3,8 +3,8 @@ package domain
 type User struct {
 	Id             string
 	Name           string
-	Status         string
-	ProfileUrl     string
+	Status         *string
+	ProfileUrl     *string
 	FollowersCount int64
 	FollowingCount int64
 	PostsCount     int64

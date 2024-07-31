@@ -15,8 +15,8 @@ import (
 type UserProfileResponse struct {
 	Id             string              `json:"id"`
 	Name           string              `json:"username"`
-	Status         string              `json:"status"`
-	ProfileUrl     string              `json:"profile_url"`
+	Status         *string             `json:"status,omitempty"`
+	ProfileUrl     *string             `json:"profile_url,omitempty"`
 	FollowersCount int64               `json:"followers_count"`
 	FollowingCount int64               `json:"following_count"`
 	PostsCount     int64               `json:"posts_count"`

@@ -25,10 +25,10 @@ type LikersRequest struct {
 }
 
 type Liker struct {
-	Id             string `json:"id"`
-	Name           string `json:"name"`
-	ProfileUrl     string `json:"profile_url"`
-	FollowersCount int64  `json:"followers_count"`
+	Id             string  `json:"id"`
+	Name           string  `json:"name"`
+	ProfileUrl     *string `json:"profile_url"`
+	FollowersCount int64   `json:"followers_count"`
 }
 
 func PostLikersHandler(db *sql.DB) handlers.Handler {
