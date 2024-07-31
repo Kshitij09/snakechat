@@ -7,7 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
-import cc.snakechat.domain.feed.ObservePagingData
+import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.likes.LikesScreen
 import com.slack.circuit.retained.rememberRetained
