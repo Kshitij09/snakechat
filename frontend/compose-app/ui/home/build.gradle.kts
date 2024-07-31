@@ -10,7 +10,7 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.coil.compose)
     implementation(projects.ui.strings)
-    implementation(projects.ui.likes)
+    implementation(projects.ui.likers)
     implementation(projects.domain.feed)
     implementation(libs.kotlinx.serialization)
 }

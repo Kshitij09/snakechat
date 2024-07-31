@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
-import cc.snakechat.likes.LikesScreen
+import cc.snakechat.likers.LikersScreen
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -38,7 +38,7 @@ class HomePresenter(
                 } else {
                     Data(pagingItems) { event ->
                         when (event) {
-                            is OnLikeClicked -> navigator.goTo(LikesScreen(event.post.id))
+                            is OnLikeClicked -> navigator.goTo(LikersScreen(event.post.id))
                         }
                     }
                 }

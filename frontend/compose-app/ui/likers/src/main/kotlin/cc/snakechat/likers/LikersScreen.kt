@@ -1,4 +1,4 @@
-package cc.snakechat.likes
+package cc.snakechat.likers
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,20 +12,17 @@ import cc.snakechat.design.SnakeText
 import cc.snakechat.inject.ActivityScope
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.CircuitUiState
-import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.presenter.presenterOf
 import com.slack.circuit.runtime.screen.Screen
 import com.slack.circuit.runtime.ui.Ui
 import com.slack.circuit.runtime.ui.ui
 import kotlinx.parcelize.Parcelize
-import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 import me.tatarka.inject.annotations.IntoSet
 import me.tatarka.inject.annotations.Provides
 
 @Composable
-fun LikesContent(state: LikesState, modifier: Modifier = Modifier) {
+fun LikersContent(state: LikersState, modifier: Modifier = Modifier) {
     Surface(modifier = modifier) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             SnakeText(text = "Likes Screen here: ${state.postId}")
@@ -34,43 +31,28 @@ fun LikesContent(state: LikesState, modifier: Modifier = Modifier) {
 }
 
 @Inject
-class LikesUiFactory : Ui.Factory {
+class LikersUiFactory : Ui.Factory {
     override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return if (screen is LikesScreen) {
-            ui<LikesState> { state, modifier -> LikesContent(state, modifier) }
+        return if (screen is LikersScreen) {
+            ui<LikersState> { state, modifier -> LikersContent(state, modifier) }
         } else {
             null
         }
     }
 }
 
-@Composable
-fun LikesPresenter(@Assisted screen: LikesScreen): LikesState {
-    return LikesState(screen.postId)
-}
-
-@Inject
-class LikesPresenterFactory : Presenter.Factory {
-    override fun create(
-        screen: Screen,
-        navigator: Navigator,
-        context: CircuitContext,
-    ): Presenter<*>? {
-        return if (screen is LikesScreen) presenterOf { LikesPresenter(screen) } else null
-    }
-}
 
 @Parcelize
-class LikesScreen(val postId: String) : Screen
+class LikersScreen(val postId: String) : Screen
 
-class LikesState(val postId: String) : CircuitUiState
+class LikersState(val postId: String) : CircuitUiState
 
 
-interface LikesComponent {
+interface LikersComponent {
     @Provides
     @IntoSet
     @ActivityScope
-    fun provideLikesUiFactory(impl: LikesUiFactory): Ui.Factory = impl
+    fun provideLikersUiFactory(impl: LikersUiFactory): Ui.Factory = impl
 
     @Provides
     @IntoSet
@@ -80,8 +62,8 @@ interface LikesComponent {
 
 @Preview
 @Composable
-private fun LikesContentPreview() {
+private fun LikersContentPreview() {
     SnakeChatTheme {
-        LikesContent(state = LikesState("123"))
+        LikersContent(state = LikersState("123"))
     }
 }
