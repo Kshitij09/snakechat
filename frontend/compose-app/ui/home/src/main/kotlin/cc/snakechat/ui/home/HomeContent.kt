@@ -165,7 +165,13 @@ fun HomeContent(
         content = {
             val paddingModifier = Modifier.padding(it)
             when (state) {
-                is Data -> FeedScreen(trendingFeed = state.feed, modifier = paddingModifier)
+                is Data -> {
+                    FeedScreen(
+                        trendingFeed = state.feed,
+                        modifier = paddingModifier,
+                        onLikeClick = { state.eventSink(OnLikeClicked(it)) }
+                    )
+                }
                 Loading -> LoadingScreen(modifier = paddingModifier)
             }
         },

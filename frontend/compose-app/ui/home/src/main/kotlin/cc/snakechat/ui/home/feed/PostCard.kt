@@ -46,6 +46,7 @@ fun PostCard(
     post: Post,
     modifier: Modifier = Modifier,
     onLoadComplete: (() -> Unit)? = null,
+    onLikeClick: (Post) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Row(
@@ -92,6 +93,7 @@ fun PostCard(
                 Interaction(
                     count = post.likes.toString(),
                     icon = Icons.Outlined.FavoriteBorder,
+                    onClick = { onLikeClick(post) }
                 )
                 Interaction(
                     count = post.comments.toString(),
@@ -167,11 +169,12 @@ private fun Interaction(
     count: String,
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .clickable { }
+            .clickable(onClick = onClick)
             .minimumInteractiveComponentSize(),
     ) {
         Icon(

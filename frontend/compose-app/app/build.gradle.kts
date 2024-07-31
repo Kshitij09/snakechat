@@ -73,6 +73,7 @@ dependencies {
     demoImplementation(libs.coil.test)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
+    implementation(projects.ui.likes)
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)

@@ -13,7 +13,11 @@ import androidx.paging.compose.itemKey
 import cc.snakechat.domain.feed.Post
 
 @Composable
-fun FeedScreen(trendingFeed: LazyPagingItems<Post>, modifier: Modifier = Modifier) {
+fun FeedScreen(
+    trendingFeed: LazyPagingItems<Post>,
+    modifier: Modifier = Modifier,
+    onLikeClick: (Post) -> Unit = {},
+) {
     var isFirstPostLoaded by remember { mutableStateOf(false) }
     ReportDrawnWhen { isFirstPostLoaded }
     LazyColumn(modifier = modifier) {
@@ -26,6 +30,7 @@ fun FeedScreen(trendingFeed: LazyPagingItems<Post>, modifier: Modifier = Modifie
                 PostCard(
                     post = post,
                     onLoadComplete = { isFirstPostLoaded = true },
+                    onLikeClick = { onLikeClick(it) }
                 )
             }
         }
