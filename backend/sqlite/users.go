@@ -63,7 +63,9 @@ func (ctx UserStorage) AddDeviceMapping(userId string, deviceId string) error {
 func (ctx UserStorage) UserById(userId string) (*domain.User, error) {
 	query := `
 		SELECT id, name, status, profile_url, 
-		followers_count, following_count, posts_count
+		IFNULL(followers_count, 0),
+		IFNULL(following_count, 0),
+		IFNULL(posts_count, 0)
 		FROM users WHERE id = ? 
 		LIMIT 1
 	`

@@ -29,9 +29,9 @@ type Comment struct {
 }
 
 type Commenter struct {
-	Id         string `json:"id"`
-	Name       string `json:"name"`
-	ProfileUrl string `json:"profile_url"`
+	Id         string  `json:"id"`
+	Name       string  `json:"name"`
+	ProfileUrl *string `json:"profile_url,omitempty"`
 }
 
 func PostCommentsHandler(db *sql.DB) handlers.Handler {

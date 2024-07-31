@@ -92,12 +92,18 @@ func scanPost(resultRows *sql.Rows) (domain.Post, error) {
 
 var trendingFeedQuery = template.Must(template.New("trending_feed").Parse(`
 SELECT p.id, p.caption, p.media_url, p.created_at, p.rank,
-p.comments_count, p.likes_count, p.views_count, p.shares_count, p.saves_count, p.downloads_count,
+IFNULL(p.comments_count, 0),
+IFNULL(p.likes_count, 0),
+IFNULL(p.views_count, 0),
+IFNULL(p.shares_count, 0),
+IFNULL(p.saves_count, 0),
+IFNULL(p.downloads_count, 0),
 t.id as tag_id, u.id as user_id, u.name as user_name, u.profile_url as user_profile_url
 FROM posts p 
 INNER JOIN tags t ON p.tag_id = t.id
 INNER JOIN users u ON p.user_id = u.id
 WHERE t.title = 'trending' AND p.deleted_at IS null
+AND p.rank IS NOT NULL
 {{if . -}}AND p.rank < ?{{println}}{{end}}ORDER BY p.rank DESC
 LIMIT ?
 `))

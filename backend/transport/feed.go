@@ -17,15 +17,15 @@ type TrendingFeedRequest struct {
 }
 
 type TrendingFeedResponse struct {
-	PageSize int    `json:"page_size"`
-	Posts    []Post `json:"posts"`
-	Offset   string `json:"offset,omitempty"`
+	PageSize int     `json:"page_size"`
+	Posts    []Post  `json:"posts"`
+	Offset   *string `json:"offset,omitempty"`
 }
 
 type Post struct {
 	Id        string       `json:"id"`
 	TagId     string       `json:"tag_id"`
-	Caption   string       `json:"caption"`
+	Caption   *string      `json:"caption"`
 	MediaUrl  string       `json:"media_url"`
 	CreatedAt int64        `json:"created_at"`
 	Comments  int64        `json:"comments"`
@@ -38,9 +38,9 @@ type Post struct {
 }
 
 type FeedUserMeta struct {
-	Id         string `json:"id"`
-	Name       string `json:"name"`
-	ProfileUrl string `json:"profile_url"`
+	Id         string  `json:"id"`
+	Name       string  `json:"name"`
+	ProfileUrl *string `json:"profile_url"`
 }
 
 func TrendingFeedHandler(db *sql.DB) handlers.Handler {

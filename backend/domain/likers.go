@@ -10,7 +10,7 @@ const LikersPageSize = 40
 type Liker struct {
 	Id             string
 	Name           string
-	ProfileUrl     string
+	ProfileUrl     *string
 	FollowersCount int64
 	UpdatedAt      int64
 }
@@ -39,6 +39,7 @@ func (s *LikersService) PostLikers(postId string, offset *string) (*paging.Page[
 		ById:          s.likers.PostLikers,
 		ByIdAndOffset: s.likers.PostLikersUpdatedBefore,
 		OffsetConv:    timestampConverter[Liker]{},
+		PageSize:      LikersPageSize,
 	}
 	likers, err := fetcher.FetchPage(postId, offset)
 	if err != nil {
