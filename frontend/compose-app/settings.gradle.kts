@@ -39,6 +39,7 @@ include(":ui:design")
 include(":ui:home")
 include(":ui:strings")
 
+include(":domain:common")
 include(":domain:feed")
 
 include(":data:network:feed:api")

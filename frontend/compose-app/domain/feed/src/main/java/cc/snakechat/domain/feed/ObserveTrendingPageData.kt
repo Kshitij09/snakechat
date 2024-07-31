@@ -3,11 +3,8 @@ package cc.snakechat.domain.feed
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import cc.snakechat.domain.common.ObservePagingData
 import kotlinx.coroutines.flow.Flow
-
-interface ObservePagingData<in Request, Data : Any> {
-    fun observe(request: Request): Flow<PagingData<Data>>
-}
 
 internal class ObserveTrendingFeedPageData(
     private val feedFetcher: TrendingFeedFetcher,
