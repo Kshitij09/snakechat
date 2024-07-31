@@ -103,6 +103,7 @@ FROM posts p
 INNER JOIN tags t ON p.tag_id = t.id
 INNER JOIN users u ON p.user_id = u.id
 WHERE t.title = 'trending' AND p.deleted_at IS null
+AND p.rank IS NOT NULL
 {{if . -}}AND p.rank < ?{{println}}{{end}}ORDER BY p.rank DESC
 LIMIT ?
 `))

@@ -25,7 +25,7 @@ type Post struct {
 	Shares    int64
 	Saves     int64
 	Downloads int64
-	Rank      *float64
+	Rank      float64
 	TagId     string
 	User      PostUserMeta
 }
@@ -98,11 +98,7 @@ func computeOffset(posts []Post) *string {
 	var nextOffset string
 	if len(posts) > 0 {
 		lastPost := posts[len(posts)-1]
-		if lastPost.Rank == nil {
-			return nil
-		}
-		rank := *lastPost.Rank
-		nextOffset = strconv.FormatFloat(rank, 'f', 12, 64)
+		nextOffset = strconv.FormatFloat(lastPost.Rank, 'f', 12, 64)
 		nextOffset = base64.StdEncoding.EncodeToString([]byte(nextOffset))
 	}
 	return &nextOffset
