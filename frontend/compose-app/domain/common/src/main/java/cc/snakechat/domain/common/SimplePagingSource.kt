@@ -4,8 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
 class SimplePagingSource<Req, Key : Any, Value : Any>(
-    private val feedFetcher: suspend (Req) -> LoadResult<Key, Value>,
-    private val requestMapper: (LoadParams<Key>) -> Req,
+    private val fetcher: suspend (Req) -> LoadResult<Key, Value>,
+    private val requestBuilder: (LoadParams<Key>) -> Req,
 ) : PagingSource<Key, Value>() {
 
     override fun getRefreshKey(state: PagingState<Key, Value>): Key? {
@@ -15,7 +15,7 @@ class SimplePagingSource<Req, Key : Any, Value : Any>(
     }
 
     override suspend fun load(params: LoadParams<Key>): LoadResult<Key, Value> {
-        val request = requestMapper(params)
-        return feedFetcher(request)
+        val request = requestBuilder(params)
+        return fetcher(request)
     }
 }

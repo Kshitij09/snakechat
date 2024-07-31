@@ -8,7 +8,7 @@ internal fun trendingFeedPagingSourceFactory(
     feedFetcher: TrendingFeedFetcher,
 ): () -> PagingSource<String, Post> = {
     SimplePagingSource(
-        feedFetcher = { feedFetcher.fetch(it) },
-        requestMapper = { TrendingFeedRequest(it.key) },
+        fetcher = { feedFetcher.fetch(it) },
+        requestBuilder = { TrendingFeedRequest(it.key) },
     )
 }
