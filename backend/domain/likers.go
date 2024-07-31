@@ -39,6 +39,7 @@ func (s *LikersService) PostLikers(postId string, offset *string) (*paging.Page[
 		ById:          s.likers.PostLikers,
 		ByIdAndOffset: s.likers.PostLikersUpdatedBefore,
 		OffsetConv:    timestampConverter[Liker]{},
+		PageSize:      LikersPageSize,
 	}
 	likers, err := fetcher.FetchPage(postId, offset)
 	if err != nil {
