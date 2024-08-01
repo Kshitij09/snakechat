@@ -209,16 +209,3 @@ internal val mockPost = Post(
     likes = 1270,
 )
 
-private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
-
-private fun countString(count: Long): String = if (count < 999) {
-    count.toString()
-} else {
-    "${(count / 1000.0).round(2)}k"
-}
-
-fun Double.round(decimals: Int): Double {
-    var multiplier = 1.0
-    repeat(decimals) { multiplier *= 10 }
-    return round(this * multiplier) / multiplier
-}
