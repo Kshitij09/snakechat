@@ -27,7 +27,7 @@ class Commenter(
 class Comment(
     val commenter: Commenter? = null,
     val id: String? = null,
-    val likes: Int? = null,
+    val likes: Long? = null,
     val text: String? = null,
     @SerialName("updated_at")
     val updatedAt: Long? = null

@@ -16,7 +16,7 @@ class Commenter(
 class Comment(
     val commenter: Commenter,
     val id: String,
-    val likes: Int = 0,
+    val likes: Long = 0,
     val text: String,
     val updatedAt: LocalDateTime
 )

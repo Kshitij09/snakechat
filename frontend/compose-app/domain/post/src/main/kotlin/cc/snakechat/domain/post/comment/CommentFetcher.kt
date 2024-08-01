@@ -51,7 +51,8 @@ internal class PostCommentsFetcher(private val api: PostApi) {
             id = id,
             commenter = commenter,
             text = text,
-            updatedAt = updatedAt
+            updatedAt = updatedAt,
+            likes = likes ?: 0
         )
     }
 
