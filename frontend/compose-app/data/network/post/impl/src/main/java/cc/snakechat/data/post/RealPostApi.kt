@@ -1,5 +1,7 @@
 package cc.snakechat.data.post
 
+import cc.snakechat.data.post.comment.PostCommentsRequest
+import cc.snakechat.data.post.comment.PostCommentsResponse
 import cc.snakechat.data.post.like.PostLikersRequest
 import cc.snakechat.data.post.like.PostLikersResponse
 import io.ktor.client.HttpClient
@@ -17,6 +19,16 @@ internal class RealPostApi(private val httpClient: HttpClient) : PostApi {
         httpClient.post("/v1/posts/$postId/likers") {
             if (offset != null) {
                 setBody(PostLikersRequest(offset))
+            } else {
+                setBody(NullBody)
+            }
+        }.body()
+    }
+
+    override suspend fun getPostComments(postId: String, offset: String?): PostCommentsResponse = withContext(Dispatchers.IO) {
+        httpClient.post("/v1/posts/$postId/comments") {
+            if (offset != null) {
+                setBody(PostCommentsRequest(offset))
             } else {
                 setBody(NullBody)
             }
