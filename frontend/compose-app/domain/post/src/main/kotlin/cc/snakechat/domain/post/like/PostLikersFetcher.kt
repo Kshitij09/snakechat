@@ -1,4 +1,4 @@
-package cc.snakechat.domain.post
+package cc.snakechat.domain.post.like
 
 import androidx.paging.PagingSource.LoadResult
 import cc.snakechat.data.post.PostApi

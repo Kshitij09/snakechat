@@ -2,7 +2,9 @@ package cc.snakechat.domain.post
 
 import cc.snakechat.data.post.PostApi
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.feed.ObservePostLikersPageData
+import cc.snakechat.domain.post.like.Liker
+import cc.snakechat.domain.post.like.ObservePostLikersPageData
+import cc.snakechat.domain.post.like.PostLikersFetcher
 import me.tatarka.inject.annotations.Provides
 
 interface PostComponent {

@@ -37,7 +37,7 @@ import androidx.paging.compose.itemKey
 import cc.snakechat.design.SnakeAsyncImage
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
-import cc.snakechat.domain.post.Liker
+import cc.snakechat.domain.post.like.Liker
 import cc.snakechat.resources.strings
 import kotlinx.coroutines.flow.flowOf
 

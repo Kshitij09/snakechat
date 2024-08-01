@@ -11,7 +11,7 @@ import androidx.paging.cachedIn
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.post.Liker
+import cc.snakechat.domain.post.like.Liker
 import cc.snakechat.ui.common.rememberRetainedCoroutineScope
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator

@@ -1,4 +1,4 @@
-package cc.snakechat.domain.post
+package cc.snakechat.domain.post.like
 
 class PostLikersRequest(
     val postId: String,
