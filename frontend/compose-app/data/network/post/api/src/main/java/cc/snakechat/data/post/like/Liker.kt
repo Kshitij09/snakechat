@@ -1,4 +1,4 @@
-package cc.snakechat.data.post
+package cc.snakechat.data.post.like
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

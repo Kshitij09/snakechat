@@ -74,6 +74,7 @@ dependencies {
     implementation(projects.ui.design)
     implementation(projects.ui.home)
     implementation(projects.ui.likers)
+    implementation(projects.ui.comments)
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)

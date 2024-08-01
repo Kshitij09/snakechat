@@ -3,3 +3,7 @@ plugins {
 }
 
 android.namespace = "cc.snakechat.ui.common"
+
+dependencies {
+    api(libs.androidx.paging.compose)
+}

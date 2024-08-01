@@ -37,10 +37,10 @@ import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.domain.feed.User
-import cc.snakechat.resources.strings
+import cc.snakechat.ui.common.countString
+import cc.snakechat.ui.common.formatDate
 import cc.snakechat.ui.home.R
 import java.time.LocalDateTime
-import kotlin.math.round
 
 @Composable
 fun PostCard(
@@ -48,6 +48,7 @@ fun PostCard(
     modifier: Modifier = Modifier,
     onLoadComplete: (() -> Unit)? = null,
     onLikeClick: (Post) -> Unit = {},
+    onCommentClick: (Post) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Row(
@@ -99,6 +100,7 @@ fun PostCard(
                 Interaction(
                     count = countString(post.comments),
                     icon = Icons.AutoMirrored.Default.Message,
+                    onClick = { onCommentClick(post) },
                 )
                 Interaction(
                     icon = Icons.Outlined.Download,
@@ -122,14 +124,6 @@ fun PostCard(
                     text = text,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
-            }
-            if (post.comments > 0) {
-                SnakeText(
-                    text = strings.viewAllComments(post.comments),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
             post.createdAt?.let {
@@ -216,17 +210,3 @@ internal val mockPost = Post(
     comments = 4,
     likes = 1270,
 )
-
-private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
-
-private fun countString(count: Long): String = if (count < 999) {
-    count.toString()
-} else {
-    "${(count / 1000.0).round(2)}k"
-}
-
-fun Double.round(decimals: Int): Double {
-    var multiplier = 1.0
-    repeat(decimals) { multiplier *= 10 }
-    return round(this * multiplier) / multiplier
-}

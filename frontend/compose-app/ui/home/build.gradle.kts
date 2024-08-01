@@ -12,6 +12,7 @@ dependencies {
     implementation(projects.ui.common)
     implementation(projects.ui.strings)
     implementation(projects.ui.likers)
+    implementation(projects.ui.comments)
     implementation(projects.domain.feed)
     implementation(libs.kotlinx.serialization)
 }

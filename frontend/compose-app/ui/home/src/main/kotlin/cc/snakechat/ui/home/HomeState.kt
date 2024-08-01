@@ -22,3 +22,4 @@ class Data(
 sealed interface HomeEvent : CircuitUiEvent
 
 class OnLikeClicked(val post: Post) : HomeEvent
+class OnCommentClicked(val post: Post) : HomeEvent

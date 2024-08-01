@@ -2,6 +2,7 @@ package cc.snakechat.inject
 
 import cc.snakechat.DefaultSnakeContent
 import cc.snakechat.SnakeContent
+import cc.snakechat.likers.CommentsComponent
 import cc.snakechat.likers.LikersComponent
 import cc.snakechat.ui.home.HomeComponent
 import com.slack.circuit.foundation.Circuit
@@ -12,7 +13,8 @@ import me.tatarka.inject.annotations.Provides
 interface UiComponent :
     HomeComponent,
     RootUiComponent,
-    LikersComponent {
+    LikersComponent,
+    CommentsComponent {
 
     val snakeContent: SnakeContent
 

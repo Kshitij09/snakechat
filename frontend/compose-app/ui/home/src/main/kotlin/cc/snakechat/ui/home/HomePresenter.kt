@@ -7,6 +7,7 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
+import cc.snakechat.comments.CommentsScreen
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.likers.LikersScreen
@@ -40,6 +41,7 @@ class HomePresenter(
                     Data(pagingItems) { event ->
                         when (event) {
                             is OnLikeClicked -> navigator.goTo(LikersScreen(event.post.id))
+                            is OnCommentClicked -> navigator.goTo(CommentsScreen(event.post.id))
                         }
                     }
                 }

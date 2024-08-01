@@ -10,3 +10,9 @@ dependencies {
     api(projects.data.network.post.api)
     implementation(libs.kotlinx.serialization)
 }
+
+kotlin {
+    compilerOptions {
+        optIn.add("kotlinx.serialization.ExperimentalSerializationApi")
+    }
+}

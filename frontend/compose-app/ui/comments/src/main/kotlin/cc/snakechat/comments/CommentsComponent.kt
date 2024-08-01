@@ -1,7 +1,11 @@
 package cc.snakechat.likers
 
+import cc.snakechat.comments.CommentsContent
+import cc.snakechat.comments.CommentsPresenter
+import cc.snakechat.comments.CommentsScreen
+import cc.snakechat.comments.CommentsState
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.post.like.Liker
+import cc.snakechat.domain.post.comment.Comment
 import cc.snakechat.inject.ActivityScope
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -13,28 +17,28 @@ import me.tatarka.inject.annotations.Inject
 import me.tatarka.inject.annotations.IntoSet
 import me.tatarka.inject.annotations.Provides
 
-interface LikersComponent {
+interface CommentsComponent {
     @Provides
     @IntoSet
     @ActivityScope
-    fun provideLikersUiFactory(impl: LikersUiFactory): Ui.Factory = impl
+    fun provideCommentsUiFactory(impl: CommentsUiFactory): Ui.Factory = impl
 
     @Provides
     @IntoSet
     @ActivityScope
-    fun provideLikesPresenterFactory(impl: LikesPresenterFactory): Presenter.Factory = impl
+    fun provideCommentsPresenterFactory(impl: CommentsPresenterFactory): Presenter.Factory = impl
 }
 
 @Inject
-class LikesPresenterFactory(
-    private val observePagingData: () -> ObservePagingData<String, Liker>,
+class CommentsPresenterFactory(
+    private val observePagingData: () -> ObservePagingData<String, Comment>,
 ) : Presenter.Factory {
     override fun create(
         screen: Screen,
         navigator: Navigator,
         context: CircuitContext,
-    ): Presenter<*>? = if (screen is LikersScreen) {
-        LikesPresenter(
+    ): Presenter<*>? = if (screen is CommentsScreen) {
+        CommentsPresenter(
             screen = screen,
             navigator = navigator,
             observePagingData = observePagingData,
@@ -45,9 +49,9 @@ class LikesPresenterFactory(
 }
 
 @Inject
-class LikersUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? = if (screen is LikersScreen) {
-        ui<LikersState> { state, modifier -> LikersContent(state, modifier) }
+class CommentsUiFactory : Ui.Factory {
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? = if (screen is CommentsScreen) {
+        ui<CommentsState> { state, modifier -> CommentsContent(state, modifier) }
     } else {
         null
     }

@@ -167,9 +167,8 @@ fun HomeContent(
             when (state) {
                 is Data -> {
                     FeedScreen(
-                        trendingFeed = state.feed,
+                        state = state,
                         modifier = paddingModifier,
-                        onLikeClick = { state.eventSink(OnLikeClicked(it)) },
                     )
                 }
                 Loading -> LoadingScreen(modifier = paddingModifier)

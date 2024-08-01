@@ -1,4 +1,4 @@
-package cc.snakechat.domain.post
+package cc.snakechat.domain.post.like
 
 import androidx.paging.PagingSource.LoadResult
 import cc.snakechat.data.post.PostApi
@@ -28,14 +28,14 @@ internal class PostLikersFetcher(private val api: PostApi) {
         }
     }
 
-    private fun uniqueItems(items: List<cc.snakechat.data.post.Liker?>): List<Liker> = items.asSequence()
+    private fun uniqueItems(items: List<cc.snakechat.data.post.like.Liker?>): List<Liker> = items.asSequence()
         .filterNotNull()
         .filterNot { visitedItems.contains(it.id) }
         .onEach { p -> p.id?.let { visitedItems.add(it) } }
         .mapNotNull { it.toDomain() }
         .toList()
 
-    private fun cc.snakechat.data.post.Liker.toDomain(): Liker? {
+    private fun cc.snakechat.data.post.like.Liker.toDomain(): Liker? {
         val id = id ?: return null
         val name = name ?: return null
         return Liker(

@@ -1,4 +1,4 @@
-package cc.snakechat.likers
+package cc.snakechat.comments
 
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -7,7 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.paging.LoadState
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.post.like.Liker
+import cc.snakechat.domain.post.comment.Comment
 import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -16,17 +16,17 @@ import kotlinx.parcelize.Parcelize
 import me.tatarka.inject.annotations.Assisted
 
 @Parcelize
-class LikersScreen(val postId: String) : Screen
+class CommentsScreen(val postId: String) : Screen
 
-internal class LikesPresenter(
-    @Assisted private val screen: LikersScreen,
+internal class CommentsPresenter(
+    @Assisted private val screen: CommentsScreen,
     @Assisted private val navigator: Navigator,
-    private val observePagingData: () -> ObservePagingData<String, Liker>,
-) : Presenter<LikersState> {
+    private val observePagingData: () -> ObservePagingData<String, Comment>,
+) : Presenter<CommentsState> {
     private val onBack: () -> Unit = { navigator.pop() }
 
     @Composable
-    override fun present(): LikersState {
+    override fun present(): CommentsState {
         val pagingItems = collectLazyRetainedCachedPagingFlow {
             observePagingData().observe(screen.postId)
         }
@@ -38,7 +38,7 @@ internal class LikesPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { Log.e("likers", "clicked") },
+                        onRowClick = { Log.e("comments", "clicked") },
                     )
                 }
             }

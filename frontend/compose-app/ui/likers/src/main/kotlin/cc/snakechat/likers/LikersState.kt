@@ -1,7 +1,7 @@
 package cc.snakechat.likers
 
 import androidx.paging.compose.LazyPagingItems
-import cc.snakechat.domain.post.Liker
+import cc.snakechat.domain.post.like.Liker
 import com.slack.circuit.runtime.CircuitUiState
 
 sealed interface LikersState : CircuitUiState {
