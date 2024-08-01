@@ -40,12 +40,14 @@ import cc.snakechat.domain.feed.User
 import cc.snakechat.resources.strings
 import cc.snakechat.ui.home.R
 import java.time.LocalDateTime
+import kotlin.math.round
 
 @Composable
 fun PostCard(
     post: Post,
     modifier: Modifier = Modifier,
     onLoadComplete: (() -> Unit)? = null,
+    onLikeClick: (Post) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Row(
@@ -90,20 +92,19 @@ fun PostCard(
                 modifier = Modifier,
             ) {
                 Interaction(
-                    count = post.likes.toString(),
+                    count = countString(post.likes),
                     icon = Icons.Outlined.FavoriteBorder,
+                    onClick = { onLikeClick(post) },
                 )
                 Interaction(
-                    count = post.comments.toString(),
+                    count = countString(post.comments),
                     icon = Icons.AutoMirrored.Default.Message,
                 )
                 Interaction(
-                    count = post.downloads.toString(),
                     icon = Icons.Outlined.Download,
                 )
             }
             Interaction(
-                count = post.shares.toString(),
                 icon = Icons.Default.Whatsapp,
                 modifier = Modifier.align(Alignment.CenterEnd),
             )
@@ -164,21 +165,29 @@ fun PostContentPlaceholder(modifier: Modifier = Modifier) {
 
 @Composable
 private fun Interaction(
-    count: String,
+    count: String? = null,
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .clickable { }
+            .clickable(onClick = onClick)
             .minimumInteractiveComponentSize(),
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
         )
-//        SnakeText(text = count)
+        if (count != null) {
+            SnakeText(
+                text = count,
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(start = 4.dp),
+            )
+        }
     }
 }
 
@@ -205,6 +214,19 @@ internal val mockPost = Post(
     tagId = null,
     user = mockUser,
     comments = 4,
+    likes = 1270,
 )
 
 private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
+
+private fun countString(count: Long): String = if (count < 999) {
+    count.toString()
+} else {
+    "${(count / 1000.0).round(2)}k"
+}
+
+fun Double.round(decimals: Int): Double {
+    var multiplier = 1.0
+    repeat(decimals) { multiplier *= 10 }
+    return round(this * multiplier) / multiplier
+}

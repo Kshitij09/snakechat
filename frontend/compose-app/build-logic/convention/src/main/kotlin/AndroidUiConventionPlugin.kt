@@ -12,6 +12,7 @@ class AndroidUiConventionPlugin : Plugin<Project> {
             pluginManager.apply {
                 apply("snakechat.android.library.compose")
                 apply("snakechat.kotlininject")
+                apply("kotlin-parcelize")
             }
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true

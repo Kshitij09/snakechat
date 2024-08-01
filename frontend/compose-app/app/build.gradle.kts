@@ -73,6 +73,7 @@ dependencies {
     demoImplementation(libs.coil.test)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
+    implementation(projects.ui.likers)
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)
@@ -80,10 +81,12 @@ dependencies {
     demoImplementation(projects.libraries.test)
 
     implementation(projects.domain.feed)
+    implementation(projects.domain.post)
 
     debugImplementation(libs.slf4j.android)
-    prodImplementation(projects.data.network.feed.impl)
     demoImplementation(projects.data.network.fake)
+    prodImplementation(projects.data.network.feed.impl)
+    prodImplementation(projects.data.network.post.impl)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

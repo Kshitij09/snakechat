@@ -7,4 +7,5 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(projects.data.network.feed.api)
     implementation(libs.androidx.paging.common)
+    api(projects.domain.common)
 }

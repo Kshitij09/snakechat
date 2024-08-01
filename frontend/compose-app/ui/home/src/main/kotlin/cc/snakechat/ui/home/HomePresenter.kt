@@ -7,8 +7,10 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
-import cc.snakechat.domain.feed.ObservePagingData
+import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
+import cc.snakechat.likers.LikersScreen
+import cc.snakechat.ui.common.rememberRetainedCoroutineScope
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
@@ -16,10 +18,12 @@ import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 @Inject
 class HomePresenter(
+    @Assisted private val navigator: Navigator,
     private val observePagingData: Lazy<ObservePagingData<Unit, Post>>,
 ) : Presenter<HomeState> {
 
@@ -33,7 +37,11 @@ class HomePresenter(
                 if (pagingItems.loadState.refresh is LoadState.Loading) {
                     Loading
                 } else {
-                    Data(pagingItems)
+                    Data(pagingItems) { event ->
+                        when (event) {
+                            is OnLikeClicked -> navigator.goTo(LikersScreen(event.post.id))
+                        }
+                    }
                 }
             }
         }
@@ -43,13 +51,13 @@ class HomePresenter(
 
 @Inject
 class HomePresenterFactory(
-    private val presenterFactory: (HomeScreen) -> HomePresenter,
+    private val presenterFactory: (Navigator) -> HomePresenter,
 ) : Presenter.Factory {
     override fun create(
         screen: Screen,
         navigator: Navigator,
         context: CircuitContext,
-    ): Presenter<*>? = if (screen is HomeScreen) presenterFactory(screen) else null
+    ): Presenter<*>? = if (screen is HomeScreen) presenterFactory(navigator) else null
 }
 
 @Composable

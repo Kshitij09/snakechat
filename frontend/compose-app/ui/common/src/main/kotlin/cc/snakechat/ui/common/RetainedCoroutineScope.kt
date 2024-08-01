@@ -1,4 +1,4 @@
-package cc.snakechat.ui.home
+package cc.snakechat.ui.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.RememberObserver
