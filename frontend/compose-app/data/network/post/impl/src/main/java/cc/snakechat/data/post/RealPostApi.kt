@@ -1,5 +1,7 @@
 package cc.snakechat.data.post
 
+import cc.snakechat.data.post.like.PostLikersRequest
+import cc.snakechat.data.post.like.PostLikersResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.post

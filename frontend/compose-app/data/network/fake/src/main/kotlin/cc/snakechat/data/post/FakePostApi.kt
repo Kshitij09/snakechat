@@ -1,6 +1,7 @@
 package cc.snakechat.data.post
 
 import android.content.Context
+import cc.snakechat.data.post.like.PostLikersResponse
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import me.tatarka.inject.annotations.Inject
