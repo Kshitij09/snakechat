@@ -6,19 +6,12 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.paging.LoadState
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
-import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.post.like.Liker
-import cc.snakechat.ui.common.rememberRetainedCoroutineScope
-import com.slack.circuit.retained.rememberRetained
+import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.parcelize.Parcelize
 import me.tatarka.inject.annotations.Assisted
 
@@ -52,14 +45,4 @@ internal class LikesPresenter(
         }
         return state
     }
-}
-
-@Composable
-inline fun <T : Any> collectLazyRetainedCachedPagingFlow(
-    scope: CoroutineScope = rememberRetainedCoroutineScope(),
-    crossinline producer: () -> Flow<PagingData<T>>,
-): LazyPagingItems<T> {
-    val flow = rememberRetained { producer() }
-    val cachedFlow = rememberRetained(flow, scope) { flow.cachedIn(scope) }
-    return cachedFlow.collectAsLazyPagingItems()
 }
