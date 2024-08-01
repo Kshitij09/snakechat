@@ -124,14 +124,6 @@ fun PostCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            if (post.comments > 0) {
-                SnakeText(
-                    text = strings.viewAllComments(post.comments),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
-            }
             post.createdAt?.let {
                 SnakeText(
                     text = formatDate(it),
