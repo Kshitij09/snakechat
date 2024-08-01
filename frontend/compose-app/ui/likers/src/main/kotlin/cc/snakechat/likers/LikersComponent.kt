@@ -27,7 +27,7 @@ interface LikersComponent {
 
 @Inject
 class LikesPresenterFactory(
-    private val observePagingData: ObservePagingData<String, Liker>,
+    private val observePagingData: () -> ObservePagingData<String, Liker>,
 ) : Presenter.Factory {
     override fun create(
         screen: Screen,
