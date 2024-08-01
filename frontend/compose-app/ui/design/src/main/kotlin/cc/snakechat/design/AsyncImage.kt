@@ -1,6 +1,9 @@
 package cc.snakechat.design
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,28 +23,33 @@ fun SnakeAsyncImage(
     loadingView: @Composable (() -> Unit)? = null,
     fallbackView: @Composable (() -> Unit)? = null,
     contentDescription: String? = null,
+    isDebug: Boolean = false,
 ) {
-    val painter = rememberAsyncImagePainter(
-        model = url,
-        transform = transform,
-        onState = { if (it.isLoaded && onLoadComplete != null) onLoadComplete(it) },
-        contentScale = contentScale,
-    )
-    val state by painter.state.collectAsState()
-    when {
-        state is State.Error && fallbackView != null -> {
-            fallbackView()
-        }
-        state is State.Loading && loadingView != null -> {
-            loadingView()
-        }
-        else -> {
-            Image(
-                painter = painter,
-                contentScale = contentScale,
-                contentDescription = contentDescription,
-                modifier = modifier,
-            )
+    if (isDebug) {
+        Box(modifier = modifier.background(MaterialTheme.colorScheme.surfaceDim))
+    } else {
+        val painter = rememberAsyncImagePainter(
+            model = url,
+            transform = transform,
+            onState = { if (it.isLoaded && onLoadComplete != null) onLoadComplete(it) },
+            contentScale = contentScale,
+        )
+        val state by painter.state.collectAsState()
+        when {
+            state is State.Error && fallbackView != null -> {
+                fallbackView()
+            }
+            state is State.Loading && loadingView != null -> {
+                loadingView()
+            }
+            else -> {
+                Image(
+                    painter = painter,
+                    contentScale = contentScale,
+                    contentDescription = contentDescription,
+                    modifier = modifier,
+                )
+            }
         }
     }
 }
