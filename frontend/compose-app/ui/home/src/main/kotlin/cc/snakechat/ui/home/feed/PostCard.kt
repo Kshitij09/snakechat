@@ -37,10 +37,10 @@ import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.domain.feed.User
-import cc.snakechat.resources.strings
+import cc.snakechat.ui.common.countString
+import cc.snakechat.ui.common.formatDate
 import cc.snakechat.ui.home.R
 import java.time.LocalDateTime
-import kotlin.math.round
 
 @Composable
 fun PostCard(
@@ -48,6 +48,7 @@ fun PostCard(
     modifier: Modifier = Modifier,
     onLoadComplete: (() -> Unit)? = null,
     onLikeClick: (Post) -> Unit = {},
+    onCommentClick: (Post) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Row(
@@ -99,6 +100,7 @@ fun PostCard(
                 Interaction(
                     count = countString(post.comments),
                     icon = Icons.AutoMirrored.Default.Message,
+                    onClick = { onCommentClick(post) },
                 )
                 Interaction(
                     icon = Icons.Outlined.Download,

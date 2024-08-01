@@ -40,6 +40,7 @@ include(":ui:home")
 include(":ui:strings")
 include(":ui:likers")
 include(":ui:common")
+include(":ui:comments")
 
 include(":domain:common")
 include(":domain:feed")

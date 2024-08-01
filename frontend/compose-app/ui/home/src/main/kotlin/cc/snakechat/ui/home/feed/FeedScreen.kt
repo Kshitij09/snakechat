@@ -8,16 +8,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemKey
-import cc.snakechat.domain.feed.Post
+import cc.snakechat.ui.home.Data
+import cc.snakechat.ui.home.OnCommentClicked
+import cc.snakechat.ui.home.OnLikeClicked
 
 @Composable
 fun FeedScreen(
-    trendingFeed: LazyPagingItems<Post>,
+    state: Data,
     modifier: Modifier = Modifier,
-    onLikeClick: (Post) -> Unit = {},
 ) {
+    val trendingFeed = state.feed
     var isFirstPostLoaded by remember { mutableStateOf(false) }
     ReportDrawnWhen { isFirstPostLoaded }
     LazyColumn(modifier = modifier) {
@@ -30,7 +31,8 @@ fun FeedScreen(
                 PostCard(
                     post = post,
                     onLoadComplete = { isFirstPostLoaded = true },
-                    onLikeClick = { onLikeClick(it) },
+                    onLikeClick = { state.eventSink(OnLikeClicked(it)) },
+                    onCommentClick = { state.eventSink(OnCommentClicked(it)) },
                 )
             }
         }
