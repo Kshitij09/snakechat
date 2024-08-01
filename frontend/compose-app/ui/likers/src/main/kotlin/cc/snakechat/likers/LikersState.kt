@@ -9,11 +9,11 @@ sealed interface LikersState : CircuitUiState {
 }
 
 class Loading(
-    override val onBack: () -> Unit
+    override val onBack: () -> Unit,
 ) : LikersState
 
 class Data(
     val pagingItems: LazyPagingItems<Liker>,
     val onRowClick: (Liker) -> Unit = {},
-    override val onBack: () -> Unit = {}
+    override val onBack: () -> Unit = {},
 ) : LikersState

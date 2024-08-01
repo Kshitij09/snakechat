@@ -94,7 +94,7 @@ fun PostCard(
                 Interaction(
                     count = countString(post.likes),
                     icon = Icons.Outlined.FavoriteBorder,
-                    onClick = { onLikeClick(post) }
+                    onClick = { onLikeClick(post) },
                 )
                 Interaction(
                     count = countString(post.comments),
@@ -219,12 +219,10 @@ internal val mockPost = Post(
 
 private fun formatDate(dateTime: LocalDateTime) = "${dateTime.dayOfMonth} ${dateTime.month} ${dateTime.year}"
 
-private fun countString(count: Long): String {
-    return if (count < 999) {
-        count.toString()
-    } else {
-        "${(count / 1000.0).round(2)}k"
-    }
+private fun countString(count: Long): String = if (count < 999) {
+    count.toString()
+} else {
+    "${(count / 1000.0).round(2)}k"
 }
 
 fun Double.round(decimals: Int): Double {

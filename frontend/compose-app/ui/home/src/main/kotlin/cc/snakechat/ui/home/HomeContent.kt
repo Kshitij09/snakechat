@@ -169,7 +169,7 @@ fun HomeContent(
                     FeedScreen(
                         trendingFeed = state.feed,
                         modifier = paddingModifier,
-                        onLikeClick = { state.eventSink(OnLikeClicked(it)) }
+                        onLikeClick = { state.eventSink(OnLikeClicked(it)) },
                     )
                 }
                 Loading -> LoadingScreen(modifier = paddingModifier)

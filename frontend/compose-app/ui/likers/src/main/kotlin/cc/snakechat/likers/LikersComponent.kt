@@ -33,26 +33,22 @@ class LikesPresenterFactory(
         screen: Screen,
         navigator: Navigator,
         context: CircuitContext,
-    ): Presenter<*>? {
-        return if (screen is LikersScreen) {
-            LikesPresenter(
-                screen = screen,
-                navigator = navigator,
-                observePagingData = observePagingData,
-            )
-        } else {
-            null
-        }
+    ): Presenter<*>? = if (screen is LikersScreen) {
+        LikesPresenter(
+            screen = screen,
+            navigator = navigator,
+            observePagingData = observePagingData,
+        )
+    } else {
+        null
     }
 }
 
 @Inject
 class LikersUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return if (screen is LikersScreen) {
-            ui<LikersState> { state, modifier -> LikersContent(state, modifier) }
-        } else {
-            null
-        }
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? = if (screen is LikersScreen) {
+        ui<LikersState> { state, modifier -> LikersContent(state, modifier) }
+    } else {
+        null
     }
 }

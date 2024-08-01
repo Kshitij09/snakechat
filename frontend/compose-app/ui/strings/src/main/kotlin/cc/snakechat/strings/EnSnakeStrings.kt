@@ -8,5 +8,5 @@ val EnSnakeStrings = SnakeStrings(
     explore = "Explore",
     live = "Live",
     videos = "Videos",
-    follow = "Follow"
+    follow = "Follow",
 )

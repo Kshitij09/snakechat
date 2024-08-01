@@ -1,6 +1,5 @@
 package cc.snakechat.data.post
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,5 +10,5 @@ class Liker(
     val id: String? = null,
     val name: String? = null,
     @SerialName("profile_url")
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )

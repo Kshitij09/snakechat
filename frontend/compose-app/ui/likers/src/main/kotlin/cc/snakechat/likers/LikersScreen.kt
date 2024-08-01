@@ -41,7 +41,6 @@ import cc.snakechat.domain.post.Liker
 import cc.snakechat.resources.strings
 import kotlinx.coroutines.flow.flowOf
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun LikersContent(state: LikersState, modifier: Modifier = Modifier) {
@@ -53,7 +52,7 @@ internal fun LikersContent(state: LikersState, modifier: Modifier = Modifier) {
                     IconButton(onClick = { state.onBack() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
-                            contentDescription = "Back Button"
+                            contentDescription = "Back Button",
                         )
                     }
                 },
@@ -82,7 +81,7 @@ internal fun LikersContent(state: LikersState, modifier: Modifier = Modifier) {
                                 LikerCard(
                                     liker = liker,
                                     onClick = { state.onRowClick(liker) },
-                                    onFollow = {  }
+                                    onFollow = { },
                                 )
                             }
                         }
@@ -98,8 +97,8 @@ internal fun LikersContent(state: LikersState, modifier: Modifier = Modifier) {
 private fun LikersContentPreview() {
     val pagingItems = flowOf(
         PagingData.from(
-            List(10) { fakeLikerOf(id = "liker_$it") }
-        )
+            List(10) { fakeLikerOf(id = "liker_$it") },
+        ),
     ).collectAsLazyPagingItems()
     val state = Data(pagingItems)
     SnakeChatTheme {
@@ -146,7 +145,8 @@ private fun LikerCard(
         Spacer(
             Modifier
                 .padding(start = 4.dp)
-                .weight(1f))
+                .weight(1f),
+        )
         val backgroundColor = MaterialTheme.colorScheme.primary
         Button(
             onClick = { onFollow?.invoke() },
@@ -176,8 +176,8 @@ private fun ProfileLoadingView(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier.background(
             color = MaterialTheme.colorScheme.surfaceDim,
-            shape = CircleShape
-        )
+            shape = CircleShape,
+        ),
     )
 }
 

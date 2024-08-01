@@ -12,8 +12,7 @@ import me.tatarka.inject.annotations.Provides
 interface UiComponent :
     HomeComponent,
     RootUiComponent,
-    LikersComponent
-{
+    LikersComponent {
 
     val snakeContent: SnakeContent
 

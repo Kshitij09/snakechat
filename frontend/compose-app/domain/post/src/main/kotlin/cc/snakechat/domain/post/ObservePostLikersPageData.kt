@@ -30,6 +30,6 @@ internal fun postLikersPagingSourceFactory(
 ): () -> PagingSource<String, Liker> = {
     SimplePagingSource(
         fetcher = { fetcher.fetch(it.postId, it.offset) },
-        requestBuilder = { PostLikersRequest(postId, it.key) }
+        requestBuilder = { PostLikersRequest(postId, it.key) },
     )
 }

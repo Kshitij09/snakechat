@@ -11,15 +11,13 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 internal class RealPostApi(private val httpClient: HttpClient) : PostApi {
-    override suspend fun getPostLikers(postId: String, offset: String?): PostLikersResponse {
-        return withContext(Dispatchers.IO) {
-            httpClient.post("/v1/posts/$postId/likers") {
-                if (offset != null) {
-                    setBody(PostLikersRequest(offset))
-                } else {
-                    setBody(NullBody)
-                }
-            }.body()
-        }
+    override suspend fun getPostLikers(postId: String, offset: String?): PostLikersResponse = withContext(Dispatchers.IO) {
+        httpClient.post("/v1/posts/$postId/likers") {
+            if (offset != null) {
+                setBody(PostLikersRequest(offset))
+            } else {
+                setBody(NullBody)
+            }
+        }.body()
     }
 }

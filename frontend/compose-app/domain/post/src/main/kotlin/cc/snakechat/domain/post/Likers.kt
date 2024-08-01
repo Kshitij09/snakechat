@@ -9,7 +9,7 @@ class Liker(
     val followersCount: Int = 0,
     val id: String,
     val name: String,
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )
 
 class User(

@@ -30,7 +30,7 @@ fun FeedScreen(
                 PostCard(
                     post = post,
                     onLoadComplete = { isFirstPostLoaded = true },
-                    onLikeClick = { onLikeClick(it) }
+                    onLikeClick = { onLikeClick(it) },
                 )
             }
         }

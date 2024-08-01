@@ -12,4 +12,3 @@ interface PostComponent {
         return ObservePostLikersPageData(fetcher)
     }
 }
-

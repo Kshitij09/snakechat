@@ -29,7 +29,7 @@ internal class LikesPresenter(
     @Assisted private val screen: LikersScreen,
     @Assisted private val navigator: Navigator,
     private val observePagingData: () -> ObservePagingData<String, Liker>,
-): Presenter<LikersState> {
+) : Presenter<LikersState> {
     private val onBack: () -> Unit = { navigator.pop() }
 
     @Composable
@@ -45,7 +45,7 @@ internal class LikesPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { Log.e("likers", "clicked") }
+                        onRowClick = { Log.e("likers", "clicked") },
                     )
                 }
             }
