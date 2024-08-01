@@ -7,12 +7,12 @@ import kotlinx.serialization.Serializable
 class PostCommentsResponse(
     val comments: List<Comment>? = null,
     val offset: String? = null,
-    val total: Int? = null
+    val total: Int? = null,
 )
 
 @Serializable
 class PostCommentsRequest(
-   val offset: String?
+    val offset: String?,
 )
 
 @Serializable
@@ -20,7 +20,7 @@ class Commenter(
     val id: String? = null,
     val name: String? = null,
     @SerialName("profile_url")
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )
 
 @Serializable
@@ -30,5 +30,5 @@ class Comment(
     val likes: Long? = null,
     val text: String? = null,
     @SerialName("updated_at")
-    val updatedAt: Long? = null
+    val updatedAt: Long? = null,
 )

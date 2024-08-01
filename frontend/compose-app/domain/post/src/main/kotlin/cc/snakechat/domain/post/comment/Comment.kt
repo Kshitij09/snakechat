@@ -4,13 +4,13 @@ import java.time.LocalDateTime
 
 class PostCommentsRequest(
     val postId: String,
-    val offset: String? = null
+    val offset: String? = null,
 )
 
 class Commenter(
     val id: String,
     val name: String,
-    val profileUrl: String? = null
+    val profileUrl: String? = null,
 )
 
 class Comment(
@@ -18,5 +18,5 @@ class Comment(
     val id: String,
     val likes: Long = 0,
     val text: String,
-    val updatedAt: LocalDateTime
+    val updatedAt: LocalDateTime,
 )

@@ -46,4 +46,3 @@ internal class CommentsPresenter(
         return state
     }
 }
-

@@ -52,7 +52,7 @@ internal class PostCommentsFetcher(private val api: PostApi) {
             commenter = commenter,
             text = text,
             updatedAt = updatedAt,
-            likes = likes ?: 0
+            likes = likes ?: 0,
         )
     }
 
@@ -62,7 +62,7 @@ internal class PostCommentsFetcher(private val api: PostApi) {
         return Commenter(
             id = id,
             name = name,
-            profileUrl = profileUrl
+            profileUrl = profileUrl,
         )
     }
 }

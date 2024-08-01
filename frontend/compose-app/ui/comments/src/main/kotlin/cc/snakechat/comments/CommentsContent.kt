@@ -218,7 +218,7 @@ fun CommentInteraction(
                 if (contentDescription != null) {
                     this.contentDescription = contentDescription
                 }
-            }
+            },
     ) {
         Icon(
             imageVector = icon,
@@ -238,10 +238,10 @@ fun CommentInteraction(
 private fun fakeCommentOf(id: String? = null) = Comment(
     commenter = Commenter(
         id = "1234",
-        name = "Bert Gould"
+        name = "Bert Gould",
     ),
     likes = 3611,
     id = id ?: "1234",
     text = "Sometimes I'll start a sentence and I don't even know where it's going. I just I find it along the way",
-    updatedAt = LocalDateTime.now()
+    updatedAt = LocalDateTime.now(),
 )

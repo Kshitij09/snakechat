@@ -210,4 +210,3 @@ internal val mockPost = Post(
     comments = 4,
     likes = 1270,
 )
-
