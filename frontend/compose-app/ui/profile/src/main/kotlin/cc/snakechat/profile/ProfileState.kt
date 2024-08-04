@@ -7,19 +7,22 @@ import com.slack.circuit.runtime.CircuitUiState
 
 sealed interface ProfileState : CircuitUiState {
     val id: String
-    val name: String
     val onBack: () -> Unit
 }
 
 class Loading(
     override val id: String,
-    override val name: String,
     override val onBack: () -> Unit,
+) : ProfileState
+
+class Error(
+    override val id: String,
+    override val onBack: () -> Unit,
+    val message: String
 ) : ProfileState
 
 class Data(
     override val id: String,
-    override val name: String,
     override val onBack: () -> Unit,
     val profile: Profile,
     val eventSink: (ProfileEvent) -> Unit,
@@ -51,7 +54,6 @@ internal val fakeProfile = Profile(
 
 internal val fakeDataState = Data(
     id = fakeProfile.id,
-    name = fakeProfile.username,
     profile = fakeProfile,
     onBack = {},
     eventSink = {}

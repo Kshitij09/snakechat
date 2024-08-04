@@ -18,7 +18,7 @@ internal class RealProfileApi(private val httpClient: HttpClient) : ProfileApi {
             apiCall<ProfileResponse>(
                 httpErrorMapper = userNotFoundMapper(),
             ) {
-                httpClient.post("/profile/$userId") {
+                httpClient.post("/v1/user/$userId") {
                     setBody(NullBody)
                 }
             }

@@ -23,3 +23,4 @@ sealed interface HomeEvent : CircuitUiEvent
 
 class OnLikeClicked(val post: Post) : HomeEvent
 class OnCommentClicked(val post: Post) : HomeEvent
+class OnProfileClicked(val post: Post) : HomeEvent

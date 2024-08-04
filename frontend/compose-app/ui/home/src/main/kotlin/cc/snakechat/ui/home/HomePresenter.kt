@@ -11,6 +11,7 @@ import cc.snakechat.comments.CommentsScreen
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
 import cc.snakechat.likers.LikersScreen
+import cc.snakechat.profile.ProfileScreen
 import cc.snakechat.ui.common.rememberRetainedCoroutineScope
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.CircuitContext
@@ -42,6 +43,7 @@ class HomePresenter(
                         when (event) {
                             is OnLikeClicked -> navigator.goTo(LikersScreen(event.post.id))
                             is OnCommentClicked -> navigator.goTo(CommentsScreen(event.post.id))
+                            is OnProfileClicked -> navigator.goTo(ProfileScreen(event.post.user.id))
                         }
                     }
                 }

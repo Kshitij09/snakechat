@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,7 +29,7 @@ import cc.snakechat.resources.strings
 fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
     val profile = state.profile
     Column(modifier = modifier
-        .padding(horizontal = 6.dp)) {
+        .padding(horizontal = 12.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SnakeAsyncImage(
                 url = profile.profileUrl,
@@ -57,7 +58,7 @@ fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
         SnakeText(
             text = profile.username,
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleLarge,
         )
         val status = profile.status
         if (status != null) {
@@ -70,6 +71,7 @@ fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
         Button(
             onClick = { state.eventSink(OnFollowClick) },
             shape = MaterialTheme.shapes.large,
+            modifier = Modifier.fillMaxWidth(0.33f)
         ) {
             SnakeText(text = strings.follow)
         }
@@ -92,8 +94,8 @@ private fun ProfileLoadingView(modifier: Modifier = Modifier) {
 private fun CountColumn(
     count: Long,
     label: String,
-    onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = modifier.clickable(enabled = onClick != null, onClick = { onClick?.invoke() }),

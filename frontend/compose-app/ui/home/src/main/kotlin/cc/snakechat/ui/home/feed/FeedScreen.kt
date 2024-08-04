@@ -12,6 +12,7 @@ import androidx.paging.compose.itemKey
 import cc.snakechat.ui.home.Data
 import cc.snakechat.ui.home.OnCommentClicked
 import cc.snakechat.ui.home.OnLikeClicked
+import cc.snakechat.ui.home.OnProfileClicked
 
 @Composable
 fun FeedScreen(
@@ -33,6 +34,7 @@ fun FeedScreen(
                     onLoadComplete = { isFirstPostLoaded = true },
                     onLikeClick = { state.eventSink(OnLikeClicked(it)) },
                     onCommentClick = { state.eventSink(OnCommentClicked(it)) },
+                    onProfileClick = { state.eventSink(OnProfileClicked(it)) }
                 )
             }
         }

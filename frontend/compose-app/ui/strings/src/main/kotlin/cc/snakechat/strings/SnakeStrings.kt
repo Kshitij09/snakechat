@@ -16,6 +16,9 @@ class SnakeStrings(
     val posts: String,
     val followers: String,
     val following: String,
+    val userNotFound: String,
+    val noInternet: String,
+    val somethingWentWrong: String,
 )
 
 object Locales {

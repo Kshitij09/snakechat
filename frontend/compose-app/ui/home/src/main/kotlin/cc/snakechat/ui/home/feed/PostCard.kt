@@ -49,6 +49,7 @@ fun PostCard(
     onLoadComplete: (() -> Unit)? = null,
     onLikeClick: (Post) -> Unit = {},
     onCommentClick: (Post) -> Unit = {},
+    onProfileClick: (Post) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         Row(
@@ -65,12 +66,12 @@ fun PostCard(
                     ProfileLoading()
                 },
                 contentDescription = "Profile Picture",
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(24.dp).clickable { onProfileClick(post) },
             )
             SnakeText(
                 text = post.user.name,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 4.dp),
+                modifier = Modifier.padding(start = 4.dp).clickable { onProfileClick(post) },
             )
         }
 
