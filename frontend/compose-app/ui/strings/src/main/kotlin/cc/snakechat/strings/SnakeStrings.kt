@@ -13,6 +13,9 @@ class SnakeStrings(
         }
     },
     val follow: String,
+    val posts: String,
+    val followers: String,
+    val following: String,
 )
 
 object Locales {

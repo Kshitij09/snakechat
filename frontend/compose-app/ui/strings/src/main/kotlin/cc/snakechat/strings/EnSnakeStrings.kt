@@ -9,4 +9,7 @@ val EnSnakeStrings = SnakeStrings(
     live = "Live",
     videos = "Videos",
     follow = "Follow",
+    posts = "posts",
+    followers = "followers",
+    following = "following"
 )

@@ -41,6 +41,7 @@ include(":ui:strings")
 include(":ui:likers")
 include(":ui:common")
 include(":ui:comments")
+include(":ui:profile")
 
 include(":domain:common")
 include(":domain:feed")
