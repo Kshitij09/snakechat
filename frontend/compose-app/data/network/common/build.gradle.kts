@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api(libs.result)
+    api(projects.libraries.ktorClient)
 }
