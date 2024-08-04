@@ -25,9 +25,10 @@ internal class ProfilePresenter(
     private val getUserProfile: GetUserProfile,
 ) : Presenter<ProfileState> {
     private val onBack: () -> Unit = { navigator.pop() }
+
     @Composable
     override fun present(): ProfileState {
-        val profileResult by produceState<Result<Profile, DomainError>?>(null){
+        val profileResult by produceState<Result<Profile, DomainError>?>(null) {
             value = getUserProfile.execute(screen.userId)
         }
         if (profileResult == null) return Loading(screen.userId, onBack = onBack)

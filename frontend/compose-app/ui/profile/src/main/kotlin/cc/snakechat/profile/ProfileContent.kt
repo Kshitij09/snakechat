@@ -57,18 +57,18 @@ fun ProfileContent(state: ProfileState, modifier: Modifier = Modifier) {
                 }
             }
             is Error -> {
-               Scaffold(
-                   topBar = { TopBar(state.id, state.onBack) },
-               ) {
-                   Box(
-                       modifier = Modifier
-                           .padding(it)
-                           .fillMaxSize(),
-                       contentAlignment = Alignment.Center,
-                   ) {
-                       SnakeText(text = state.message, modifier = Modifier.padding(it))
-                   }
-               }
+                Scaffold(
+                    topBar = { TopBar(state.id, state.onBack) },
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .padding(it)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        SnakeText(text = state.message, modifier = Modifier.padding(it))
+                    }
+                }
             }
         }
     }
@@ -82,7 +82,7 @@ fun TopBar(userid: String, onBack: () -> Unit, modifier: Modifier = Modifier) {
         navigationIcon = {
             SnakeBackNavigationIcon(onBack = { onBack() })
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }
 
@@ -111,12 +111,12 @@ fun ProfilePosts(
 
 @Composable
 fun ThumbnailPlaceholder(modifier: Modifier = Modifier) {
-    Box(modifier = modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.surfaceDim)
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceDim),
     )
 }
-
 
 @Preview
 @Composable
@@ -130,6 +130,6 @@ private fun ContentPreview() {
 @Composable
 private fun ErrorPreview() {
     SnakeChatTheme {
-        ProfileContent(state = Error(fakeProfile.id,{},"Something went wrong"))
+        ProfileContent(state = Error(fakeProfile.id, {}, "Something went wrong"))
     }
 }

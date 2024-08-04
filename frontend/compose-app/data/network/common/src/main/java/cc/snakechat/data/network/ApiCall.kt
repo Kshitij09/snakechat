@@ -38,7 +38,8 @@ suspend inline fun <reified T> apiCall(
             is SocketTimeoutException,
             is ConnectTimeoutException,
             is HttpRequestTimeoutException,
-            is IOException -> Err(ConnectionError)
+            is IOException,
+            -> Err(ConnectionError)
             else -> {
                 val unknownError = unknownExceptionMapper?.map(e)
                 if (unknownError != null) {

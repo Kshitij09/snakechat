@@ -8,10 +8,10 @@ class Profile(
     val postsCount: Long = 0,
     val profileUrl: String? = null,
     val status: String? = null,
-    val username: String
+    val username: String,
 )
 
 class PostThumbnail(
     val id: String,
-    val mediaUrl: String
+    val mediaUrl: String,
 )

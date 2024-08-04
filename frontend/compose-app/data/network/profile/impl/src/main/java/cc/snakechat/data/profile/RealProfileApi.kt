@@ -13,21 +13,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 internal class RealProfileApi(private val httpClient: HttpClient) : ProfileApi {
-    override suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError> {
-        return withContext(Dispatchers.IO) {
-            apiCall<ProfileResponse>(
-                httpErrorMapper = userNotFoundMapper(),
-            ) {
-                httpClient.post("/v1/user/$userId") {
-                    setBody(NullBody)
-                }
+    override suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError> = withContext(Dispatchers.IO) {
+        apiCall<ProfileResponse>(
+            httpErrorMapper = userNotFoundMapper(),
+        ) {
+            httpClient.post("/v1/user/$userId") {
+                setBody(NullBody)
             }
         }
     }
 
-    private fun userNotFoundMapper(): HttpErrorMapper {
-        return HttpErrorMapper {
-            if (it == NotFound) UserNotFound else null
-        }
+    private fun userNotFoundMapper(): HttpErrorMapper = HttpErrorMapper {
+        if (it == NotFound) UserNotFound else null
     }
 }

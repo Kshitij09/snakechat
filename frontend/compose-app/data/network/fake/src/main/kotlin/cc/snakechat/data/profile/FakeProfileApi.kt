@@ -8,10 +8,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 
 class FakeProfileApi(private val context: Context, private val json: Json) : ProfileApi {
-    override suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError> {
-        return context.assets.open("profile/profile_1.json").use {
-            val response = json.decodeFromStream<ProfileResponse>(it)
-            Ok(response)
-        }
+    override suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError> = context.assets.open("profile/profile_1.json").use {
+        val response = json.decodeFromStream<ProfileResponse>(it)
+        Ok(response)
     }
 }

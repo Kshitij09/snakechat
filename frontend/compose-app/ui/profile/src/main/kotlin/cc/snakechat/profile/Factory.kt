@@ -30,24 +30,20 @@ class ProfilePresenterFactory(private val getUserProfile: GetUserProfile) : Pres
         screen: Screen,
         navigator: Navigator,
         context: CircuitContext,
-    ): Presenter<*>? {
-        return if (screen is ProfileScreen) {
-            ProfilePresenter(screen, navigator, getUserProfile)
-        } else {
-            null
-        }
+    ): Presenter<*>? = if (screen is ProfileScreen) {
+        ProfilePresenter(screen, navigator, getUserProfile)
+    } else {
+        null
     }
 }
 
 @Inject
 class ProfileUiFactory : Ui.Factory {
-    override fun create(screen: Screen, context: CircuitContext): Ui<*>? {
-        return if (screen is ProfileScreen) {
-            ui<ProfileState> { state, modifier ->
-                ProfileContent(state = state, modifier = modifier)
-            }
-        } else {
-            null
+    override fun create(screen: Screen, context: CircuitContext): Ui<*>? = if (screen is ProfileScreen) {
+        ui<ProfileState> { state, modifier ->
+            ProfileContent(state = state, modifier = modifier)
         }
+    } else {
+        null
     }
 }

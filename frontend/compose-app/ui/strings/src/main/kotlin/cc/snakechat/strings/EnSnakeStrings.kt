@@ -14,5 +14,5 @@ val EnSnakeStrings = SnakeStrings(
     following = "following",
     userNotFound = "User not found",
     noInternet = "No internet",
-    somethingWentWrong = "Something went wrong"
+    somethingWentWrong = "Something went wrong",
 )

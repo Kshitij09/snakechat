@@ -172,7 +172,9 @@ fun HomeContent(
                         modifier = paddingModifier,
                     )
                 }
-                Loading -> { FeedSkeleton(modifier = paddingModifier) }
+                Loading -> {
+                    FeedSkeleton(modifier = paddingModifier)
+                }
             }
         },
         modifier = modifier,

@@ -15,18 +15,16 @@ import me.tatarka.inject.annotations.Inject
 
 @Inject
 class GetUserProfile(private val api: ProfileApi) {
-    suspend fun execute(userId: String): Result<Profile, DomainError> {
-        return withContext(Dispatchers.IO) {
-            val result = api.getProfile(userId)
-            if (result.isOk) {
-                val profile = result.value.toDomain()
-                if (profile != null) Ok(profile) else Err(Failure)
-            } else {
-                when (result.error) {
-                    is cc.snakechat.data.profile.UserNotFound -> Err(UserNotFound)
-                    is ConnectionError -> Err(NoInternet)
-                    else -> Err(Failure)
-                }
+    suspend fun execute(userId: String): Result<Profile, DomainError> = withContext(Dispatchers.IO) {
+        val result = api.getProfile(userId)
+        if (result.isOk) {
+            val profile = result.value.toDomain()
+            if (profile != null) Ok(profile) else Err(Failure)
+        } else {
+            when (result.error) {
+                is cc.snakechat.data.profile.UserNotFound -> Err(UserNotFound)
+                is ConnectionError -> Err(NoInternet)
+                else -> Err(Failure)
             }
         }
     }
@@ -51,7 +49,7 @@ class GetUserProfile(private val api: ProfileApi) {
         val url = mediaUrl ?: return null
         return PostThumbnail(
             id = id,
-            mediaUrl = url
+            mediaUrl = url,
         )
     }
 }

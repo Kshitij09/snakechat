@@ -28,8 +28,10 @@ import cc.snakechat.resources.strings
 @Composable
 fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
     val profile = state.profile
-    Column(modifier = modifier
-        .padding(horizontal = 12.dp)) {
+    Column(
+        modifier = modifier
+            .padding(horizontal = 12.dp),
+    ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             SnakeAsyncImage(
                 url = profile.profileUrl,
@@ -71,7 +73,7 @@ fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
         Button(
             onClick = { state.eventSink(OnFollowClick) },
             shape = MaterialTheme.shapes.large,
-            modifier = Modifier.fillMaxWidth(0.33f)
+            modifier = Modifier.fillMaxWidth(0.33f),
         ) {
             SnakeText(text = strings.follow)
         }
@@ -85,7 +87,7 @@ private fun ProfileLoadingView(modifier: Modifier = Modifier) {
             .size(96.dp)
             .background(
                 color = MaterialTheme.colorScheme.surfaceDim,
-                shape = CircleShape
+                shape = CircleShape,
             ),
     )
 }

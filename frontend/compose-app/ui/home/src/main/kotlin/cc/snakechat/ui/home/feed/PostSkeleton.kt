@@ -48,17 +48,19 @@ fun PostSkeleton(modifier: Modifier = Modifier) {
 
     @Composable
     fun TextBlock(width: Dp = smallTextBlockWidth, height: Dp = 20.dp) {
-        Box(modifier = Modifier
-            .size(width = width, height = height)
-            .background(blockBackground, RoundedCornerShape(40))
+        Box(
+            modifier = Modifier
+                .size(width = width, height = height)
+                .background(blockBackground, RoundedCornerShape(40)),
         )
     }
 
     @Composable
     fun SmallCircle() {
-        Box(modifier = Modifier
-            .size(24.dp)
-            .background(blockBackground, CircleShape)
+        Box(
+            modifier = Modifier
+                .size(24.dp)
+                .background(blockBackground, CircleShape),
         )
     }
 
@@ -83,7 +85,7 @@ fun PostSkeleton(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(vertical = 8.dp)
                 .padding(start = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp)
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             SmallCircle()
             TextBlock(width = tinyTextBlockWidth)
@@ -97,7 +99,6 @@ fun PostSkeleton(modifier: Modifier = Modifier) {
         }
     }
 }
-
 
 @Preview
 @Composable

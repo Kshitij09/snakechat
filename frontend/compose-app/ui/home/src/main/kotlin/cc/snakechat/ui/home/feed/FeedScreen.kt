@@ -34,7 +34,7 @@ fun FeedScreen(
                     onLoadComplete = { isFirstPostLoaded = true },
                     onLikeClick = { state.eventSink(OnLikeClicked(it)) },
                     onCommentClick = { state.eventSink(OnCommentClicked(it)) },
-                    onProfileClick = { state.eventSink(OnProfileClicked(it)) }
+                    onProfileClick = { state.eventSink(OnProfileClicked(it)) },
                 )
             }
         }

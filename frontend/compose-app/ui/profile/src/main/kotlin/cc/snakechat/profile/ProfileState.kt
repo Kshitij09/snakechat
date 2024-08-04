@@ -18,7 +18,7 @@ class Loading(
 class Error(
     override val id: String,
     override val onBack: () -> Unit,
-    val message: String
+    val message: String,
 ) : ProfileState
 
 class Data(
@@ -35,7 +35,6 @@ data object OnFollowersClick : ProfileEvent
 data object OnFollowingClick : ProfileEvent
 data object OnFollowClick : ProfileEvent
 
-
 internal val fakeThumbnail = PostThumbnail("123", "https://picsum.photos/200/300")
 
 internal val fakeProfile = Profile(
@@ -48,13 +47,14 @@ internal val fakeProfile = Profile(
     status = """
             |very very very very very
             |very very very very very 
-            |very very very long status""".trimMargin(),
-    username = "Madeline Pope"
+            |very very very long status
+    """.trimMargin(),
+    username = "Madeline Pope",
 )
 
 internal val fakeDataState = Data(
     id = fakeProfile.id,
     profile = fakeProfile,
     onBack = {},
-    eventSink = {}
+    eventSink = {},
 )

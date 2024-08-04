@@ -16,12 +16,12 @@ class ProfileResponse(
     @SerialName("profile_url")
     val profileUrl: String? = null,
     val status: String? = null,
-    val username: String? = null
+    val username: String? = null,
 )
 
 @Serializable
 class PostThumbnail(
     val id: String? = null,
     @SerialName("media_url")
-    val mediaUrl: String? = null
+    val mediaUrl: String? = null,
 )
