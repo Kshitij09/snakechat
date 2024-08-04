@@ -2,7 +2,6 @@ package cc.snakechat.data.profile
 
 import cc.snakechat.data.network.HttpErrorMapper
 import cc.snakechat.data.network.NetworkError
-import cc.snakechat.data.network.UserNotFound
 import cc.snakechat.data.network.apiCall
 import com.github.michaelbull.result.Result
 import io.ktor.client.HttpClient

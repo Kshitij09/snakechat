@@ -2,7 +2,6 @@ package cc.snakechat.data.network
 
 interface NetworkError
 
-object UserNotFound : NetworkError
 object AuthError: NetworkError
 object ConnectionError : NetworkError
 class UnknownHttpError(status: Int) : NetworkError
