@@ -50,6 +50,8 @@ include(":data:network:feed:api")
 include(":data:network:feed:impl")
 include(":data:network:post:api")
 include(":data:network:post:impl")
+include(":data:network:profile:api")
+include(":data:network:profile:impl")
 
 
 include(":data:network:fake")
