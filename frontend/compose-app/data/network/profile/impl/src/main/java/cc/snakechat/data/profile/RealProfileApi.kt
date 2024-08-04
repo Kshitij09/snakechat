@@ -12,7 +12,7 @@ import io.ktor.http.content.NullBody
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RealProfileApi(private val httpClient: HttpClient) : ProfileApi {
+internal class RealProfileApi(private val httpClient: HttpClient) : ProfileApi {
     override suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError> {
         return withContext(Dispatchers.IO) {
             apiCall<ProfileResponse>(
