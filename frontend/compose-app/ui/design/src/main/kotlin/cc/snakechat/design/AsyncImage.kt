@@ -37,10 +37,10 @@ fun SnakeAsyncImage(
         val state by painter.state.collectAsState()
         when {
             state is State.Error && fallbackView != null -> {
-                fallbackView()
+                Box(modifier = modifier) { fallbackView() }
             }
             state is State.Loading && loadingView != null -> {
-                loadingView()
+                Box(modifier = modifier) { loadingView() }
             }
             else -> {
                 Image(
