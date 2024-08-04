@@ -1,5 +1,9 @@
 package cc.snakechat.data.profile
 
+import cc.snakechat.data.network.NetworkError
+import com.github.michaelbull.result.Result
+
 interface ProfileApi {
-    fun getProfile(userId: String): ProfileResponse
+    suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError>
 }
+

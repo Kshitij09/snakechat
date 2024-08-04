@@ -46,6 +46,7 @@ include(":domain:common")
 include(":domain:feed")
 include(":domain:post")
 
+include(":data:network:common")
 include(":data:network:feed:api")
 include(":data:network:feed:impl")
 include(":data:network:post:api")
