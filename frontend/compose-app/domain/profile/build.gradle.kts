@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    implementation(projects.data.network.profile.api)
     implementation(libs.androidx.paging.common)
-    api(libs.result)
+    api(projects.domain.common)
 }

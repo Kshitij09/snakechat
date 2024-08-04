@@ -7,3 +7,4 @@ interface ProfileApi {
     suspend fun getProfile(userId: String): Result<ProfileResponse, NetworkError>
 }
 
+object UserNotFound : NetworkError

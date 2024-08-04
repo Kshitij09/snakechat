@@ -45,6 +45,7 @@ include(":ui:comments")
 include(":domain:common")
 include(":domain:feed")
 include(":domain:post")
+include(":domain:profile")
 
 include(":data:network:common")
 include(":data:network:feed:api")
