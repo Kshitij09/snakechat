@@ -4,6 +4,7 @@ import cc.snakechat.DefaultSnakeContent
 import cc.snakechat.SnakeContent
 import cc.snakechat.likers.CommentsComponent
 import cc.snakechat.likers.LikersComponent
+import cc.snakechat.profile.ProfileComponent
 import cc.snakechat.ui.home.HomeComponent
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
@@ -14,7 +15,8 @@ interface UiComponent :
     HomeComponent,
     RootUiComponent,
     LikersComponent,
-    CommentsComponent {
+    CommentsComponent,
+    ProfileComponent {
 
     val snakeContent: SnakeContent
 

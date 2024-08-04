@@ -41,15 +41,20 @@ include(":ui:strings")
 include(":ui:likers")
 include(":ui:common")
 include(":ui:comments")
+include(":ui:profile")
 
 include(":domain:common")
 include(":domain:feed")
 include(":domain:post")
+include(":domain:profile")
 
+include(":data:network:common")
 include(":data:network:feed:api")
 include(":data:network:feed:impl")
 include(":data:network:post:api")
 include(":data:network:post:impl")
+include(":data:network:profile:api")
+include(":data:network:profile:impl")
 
 
 include(":data:network:fake")

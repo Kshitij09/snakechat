@@ -18,3 +18,12 @@ Coming from the traditional android background, `androidx.viewmodel` is the most
 
 Despite all of this, when we start working on a pure Compose app, it becomes very hard to achieve similar scoping of viewmodels due to its very nature of ephemeral recompositions. By the time `androidx.navigation` reaches its stability with type-safe arguments, many compose-first navigation libraries were born. `circuit` is one of such libraries which has very promising and intuitive APIs for compose. Thus, the project will be using it for building the presentation layer of the app      
 
+* [kotlin-result](https://github.com/michaelbull/kotlin-result)
+
+Project required a simple wrapper class to encapsulate API errors. While this might sound like
+premature optimization, constructing `Exception` object is expensive operation due its construction
+of stacktrace. We can't control external libraries from creating exceptions, but it can be avoided
+in the custom error handling. kotlin-result library is primarily considered for 2 reasons:
+* It's decoupling from native `Exception/Thorwable` classes
+* Reduced runtime [overhead](https://github.com/michaelbull/kotlin-result/wiki/Overhead) with 0 allocations
+on happy path

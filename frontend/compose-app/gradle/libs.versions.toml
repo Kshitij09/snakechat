@@ -28,6 +28,7 @@ littlerobotsVersionCatalogUpdate = "0.8.4"
 lyricist = "1.7.0"
 moduleGraph = "2.5.0"
 paging = "3.3.1"
+result = "2.0.0"
 roborazzi = "1.7.0"
 secrets = "2.0.1"
 slf4jAndroid = "1.7.36"
@@ -87,6 +88,7 @@ lint-checks = { module = "com.android.tools.lint:lint-checks", version.ref = "an
 lint-tests = { module = "com.android.tools.lint:lint-tests", version.ref = "androidTools" }
 lyricist = { module = "cafe.adriel.lyricist:lyricist", version.ref = "lyricist" }
 lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", version.ref = "lyricist" }
+result = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "result" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 
 [plugins]

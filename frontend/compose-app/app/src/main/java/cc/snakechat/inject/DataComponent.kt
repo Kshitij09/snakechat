@@ -3,6 +3,7 @@ package cc.snakechat.inject
 import cc.snakechat.BytemaskConfig
 import cc.snakechat.data.feed.FeedApiComponent
 import cc.snakechat.data.post.PostApiComponent
+import cc.snakechat.data.profile.ProfileApiComponent
 import cc.snakechat.domain.feed.FeedComponent
 import cc.snakechat.domain.post.PostComponent
 import cc.snakechat.ktorclient.ApiKey
@@ -12,7 +13,8 @@ interface DataComponent :
     FeedApiComponent,
     FeedComponent,
     PostApiComponent,
-    PostComponent {
+    PostComponent,
+    ProfileApiComponent {
     @Provides
     @ApplicationScope
     fun provideApiKey(): @ApiKey String = BytemaskConfig.API_KEY

@@ -75,6 +75,7 @@ dependencies {
     implementation(projects.ui.home)
     implementation(projects.ui.likers)
     implementation(projects.ui.comments)
+    implementation(projects.ui.profile)
 
     implementation(projects.libraries.ktorClient)
     implementation(projects.libraries.json)
@@ -83,11 +84,13 @@ dependencies {
 
     implementation(projects.domain.feed)
     implementation(projects.domain.post)
+    implementation(projects.domain.profile)
 
     debugImplementation(libs.slf4j.android)
     demoImplementation(projects.data.network.fake)
     prodImplementation(projects.data.network.feed.impl)
     prodImplementation(projects.data.network.post.impl)
+    prodImplementation(projects.data.network.profile.impl)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

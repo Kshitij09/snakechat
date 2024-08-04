@@ -29,6 +29,7 @@ import cc.snakechat.design.SnakeElevation
 import cc.snakechat.design.SnakeText
 import cc.snakechat.resources.strings
 import cc.snakechat.ui.home.feed.FeedScreen
+import cc.snakechat.ui.home.feed.FeedSkeleton
 import cc.snakechat.ui.home.feed.mockPost
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.screen.Screen
@@ -171,7 +172,9 @@ fun HomeContent(
                         modifier = paddingModifier,
                     )
                 }
-                Loading -> LoadingScreen(modifier = paddingModifier)
+                Loading -> {
+                    FeedSkeleton(modifier = paddingModifier)
+                }
             }
         },
         modifier = modifier,
