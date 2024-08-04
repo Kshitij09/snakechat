@@ -89,6 +89,8 @@ com.benasher44:uuid-jvm:0.8.4
 com.benasher44:uuid:0.8.4
 com.google.accompanist:accompanist-drawablepainter:0.34.0
 com.google.guava:listenablefuture:1.0
+com.michael-bull.kotlin-result:kotlin-result-jvm:2.0.0
+com.michael-bull.kotlin-result:kotlin-result:2.0.0
 com.slack.circuit:circuit-backstack-android:0.22.2
 com.slack.circuit:circuit-backstack:0.22.2
 com.slack.circuit:circuit-foundation-android:0.22.2
