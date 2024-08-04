@@ -14,12 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.automirrored.outlined.InsertComment
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -42,6 +40,7 @@ import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemKey
 import cc.snakechat.design.SnakeAsyncImage
+import cc.snakechat.design.SnakeBackNavigationIcon
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
 import cc.snakechat.domain.post.comment.Comment
@@ -58,12 +57,7 @@ internal fun CommentsContent(state: CommentsState, modifier: Modifier = Modifier
             TopAppBar(
                 title = { SnakeText("Comments") },
                 navigationIcon = {
-                    IconButton(onClick = { state.onBack() }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Default.ArrowBackIos,
-                            contentDescription = "Back Button",
-                        )
-                    }
+                    SnakeBackNavigationIcon(onBack = { state.onBack() })
                 },
             )
         },
