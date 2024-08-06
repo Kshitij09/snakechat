@@ -1,13 +1,15 @@
 package cc.snakechat.comments
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.paging.LoadState
 import cc.snakechat.domain.common.ObservePagingData
+import cc.snakechat.domain.model.liker.CommentId
 import cc.snakechat.domain.post.comment.Comment
+import cc.snakechat.likers.LikersScreen
+import cc.snakechat.profile.ProfileScreen
 import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -38,7 +40,18 @@ internal class CommentsPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { Log.e("comments", "clicked") },
+                        eventSink = { event ->
+                            when(event) {
+                                is OnLikeCountClick -> {
+                                    navigator.goTo(LikersScreen(
+                                        CommentId(event.comment.id))
+                                    )
+                                }
+                                is OnProfileClick ->  {
+                                    navigator.goTo(ProfileScreen(event.comment.commenter.id))
+                                }
+                            }
+                        }
                     )
                 }
             }

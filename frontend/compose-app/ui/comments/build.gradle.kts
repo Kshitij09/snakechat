@@ -6,6 +6,8 @@ android.namespace = "cc.snakechat.comments"
 
 dependencies {
     implementation(projects.ui.common)
+    implementation(projects.ui.likers)
+    implementation(projects.ui.profile)
     implementation(projects.domain.post)
     implementation(projects.ui.strings)
     implementation(libs.androidx.paging.compose)

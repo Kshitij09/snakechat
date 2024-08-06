@@ -10,6 +10,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.comments.CommentsScreen
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.feed.Post
+import cc.snakechat.domain.model.liker.PostId
 import cc.snakechat.likers.LikersScreen
 import cc.snakechat.profile.ProfileScreen
 import cc.snakechat.ui.common.rememberRetainedCoroutineScope
@@ -41,7 +42,7 @@ class HomePresenter(
                 } else {
                     Data(pagingItems) { event ->
                         when (event) {
-                            is OnLikeClicked -> navigator.goTo(LikersScreen(event.post.id))
+                            is OnLikeClicked -> navigator.goTo(LikersScreen(PostId(event.post.id)))
                             is OnCommentClicked -> navigator.goTo(CommentsScreen(event.post.id))
                             is OnProfileClicked -> navigator.goTo(ProfileScreen(event.post.user.id))
                         }

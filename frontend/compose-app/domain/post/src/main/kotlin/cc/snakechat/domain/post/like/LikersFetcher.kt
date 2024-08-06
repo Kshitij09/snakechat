@@ -2,18 +2,24 @@ package cc.snakechat.domain.post.like
 
 import androidx.paging.PagingSource.LoadResult
 import cc.snakechat.data.post.PostApi
+import cc.snakechat.domain.model.liker.ContentId
+import cc.snakechat.domain.model.liker.PostId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-internal class PostLikersFetcher(private val api: PostApi) {
+internal class LikersFetcher(private val api: PostApi) {
     private val visitedItems = mutableSetOf<String>()
 
-    suspend fun fetch(postId: String, offset: String? = null): LoadResult<String, Liker> {
+    suspend fun fetch(contentId: ContentId, offset: String? = null): LoadResult<String, Liker> {
         return withContext(Dispatchers.IO) {
             // TODO: Better error handling
-            val resp = api.getPostLikers(postId, offset)
+            val resp = if (contentId is PostId) {
+                api.getPostLikers(contentId.id, offset)
+            } else {
+                api.getCommentLikers(contentId.id, offset)
+            }
             val upstreamItems = resp.likers
             if (upstreamItems.isNullOrEmpty()) {
                 return@withContext LoadResult.Error(NoSuchElementException("No more items"))

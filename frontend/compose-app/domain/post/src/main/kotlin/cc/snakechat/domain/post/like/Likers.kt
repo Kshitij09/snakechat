@@ -1,7 +1,9 @@
 package cc.snakechat.domain.post.like
 
-class PostLikersRequest(
-    val postId: String,
+import cc.snakechat.domain.model.liker.ContentId
+
+class LikersRequest(
+    val contentId: ContentId,
     val offset: String? = null,
 )
 
