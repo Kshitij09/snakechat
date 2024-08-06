@@ -1,0 +1,126 @@
+{
+  "total": 20,
+  "follows": [
+    {
+      "id": "chandradev99",
+      "name": "Chandradev Iyer",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/falling_soul/128.jpg",
+      "updated_at": 1722640680000
+    },
+    {
+      "id": "aayushmaan4378",
+      "name": "Aayushmaan Varma",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/ramanathan_pdy/128.jpg",
+      "updated_at": 1722143760000
+    },
+    {
+      "id": "udai4820",
+      "name": "Udai Chattopadhyay",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/ivanfilipovbg/128.jpg",
+      "updated_at": 1720776120000
+    },
+    {
+      "id": "uma2971",
+      "name": "Uma Pilla",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/gearpixels/128.jpg",
+      "updated_at": 1720678680000
+    },
+    {
+      "id": "aamod4631",
+      "name": "Aamod Mishra",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/bu7921/128.jpg",
+      "updated_at": 1718861340000
+    },
+    {
+      "id": "avadhesh3877",
+      "name": "Avadhesh Pandey",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/martinansty/128.jpg",
+      "updated_at": 1718707440000
+    },
+    {
+      "id": "gita2303",
+      "name": "Gita Kocchar",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/yalozhkin/128.jpg",
+      "updated_at": 1717587720000
+    },
+    {
+      "id": "bhagvan2449",
+      "name": "Bhagvan Sinha",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/dannol/128.jpg",
+      "updated_at": 1714270680000
+    },
+    {
+      "id": "marut4917",
+      "name": "Marut Gowda",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/jnmnrd/128.jpg",
+      "updated_at": 1713360660000
+    },
+    {
+      "id": "brahmaanand1982",
+      "name": "Brahmaanand Gowda",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/cofla/128.jpg",
+      "updated_at": 1710157860000
+    },
+    {
+      "id": "nikita1229",
+      "name": "Nikita Reddy",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/okseanjay/128.jpg",
+      "updated_at": 1708213200000
+    },
+    {
+      "id": "aanjaneya3197",
+      "name": "Aanjaneya Mehra",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/9lessons/128.jpg",
+      "updated_at": 1706937420000
+    },
+    {
+      "id": "sumitra3958",
+      "name": "Sumitra Dutta",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/danillos/128.jpg",
+      "updated_at": 1706669100000
+    },
+    {
+      "id": "bhooshit637",
+      "name": "Bhooshit Joshi",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/balakayuriy/128.jpg",
+      "updated_at": 1706224380000
+    },
+    {
+      "id": "chitramala2658",
+      "name": "Chitramala Talwar",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/iqonicd/128.jpg",
+      "updated_at": 1706094000000
+    },
+    {
+      "id": "kashyapi2567",
+      "name": "Kashyapi Kaul",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/rdbannon/128.jpg",
+      "updated_at": 1706083740000
+    },
+    {
+      "id": "aagney1319",
+      "name": "Aagney Dubashi",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/aroon_sharma/128.jpg",
+      "updated_at": 1704677340000
+    },
+    {
+      "id": "lakshminath3114",
+      "name": "Lakshminath Talwar",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/_shahedk/128.jpg",
+      "updated_at": 1704534540000
+    },
+    {
+      "id": "mohini1811",
+      "name": "Mohini Gandhi",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/edkf/128.jpg",
+      "updated_at": 1702865160000
+    },
+    {
+      "id": "chitrangada591",
+      "name": "Chitrangada Marar",
+      "profile_url": "https://s3.amazonaws.com/uifaces/faces/twitter/ninjad3m0/128.jpg",
+      "updated_at": 1701205800000
+    }
+  ],
+  "offset": "MTcwMTIwNTgwMDAwMA=="
+}

@@ -23,6 +23,36 @@ internal class RealProfileApi(private val httpClient: HttpClient) : ProfileApi {
         }
     }
 
+    override suspend fun getUserFollowers(
+        userId: String,
+        offset: String?
+    ): Result<FollowsResponse, NetworkError> {
+        return apiCall<FollowsResponse> {
+            httpClient.post("/v1/users/$userId/followers") {
+                if (offset != null) {
+                    setBody(FollowListRequest(offset))
+                } else {
+                    setBody(NullBody)
+                }
+            }
+        }
+    }
+
+    override suspend fun getUserFollowings(
+        userId: String,
+        offset: String?
+    ): Result<FollowsResponse, NetworkError> {
+        return apiCall<FollowsResponse> {
+            httpClient.post("/v1/users/$userId/following") {
+                if (offset != null) {
+                    setBody(FollowListRequest(offset))
+                } else {
+                    setBody(NullBody)
+                }
+            }
+        }
+    }
+
     private fun userNotFoundMapper(): HttpErrorMapper = HttpErrorMapper {
         if (it == NotFound) UserNotFound else null
     }
