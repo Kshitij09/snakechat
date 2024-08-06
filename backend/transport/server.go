@@ -53,6 +53,14 @@ func (s *Server) Run(port int, enableSsl bool) error {
 	userProfile = securedMiddleware(userProfile)
 	router.HandleFunc("POST /v1/user/{id}", handlers.NewHttpHandler(userProfile))
 
+	followers := FollowersHandler(db)
+	followers = securedMiddleware(followers)
+	router.HandleFunc("POST /v1/users/{id}/followers", handlers.NewHttpHandler(followers))
+
+	following := FollowingHandler(db)
+	following = securedMiddleware(following)
+	router.HandleFunc("POST /v1/users/{id}/following", handlers.NewHttpHandler(following))
+
 	postLikers := PostLikersHandler(db)
 	postLikers = securedMiddleware(postLikers)
 	router.HandleFunc("POST /v1/posts/{id}/likers", handlers.NewHttpHandler(postLikers))
