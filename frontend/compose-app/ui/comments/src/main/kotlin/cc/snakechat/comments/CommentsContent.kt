@@ -83,6 +83,8 @@ internal fun CommentsContent(state: CommentsState, modifier: Modifier = Modifier
                             if (comment != null) {
                                 CommentCard(
                                     comment = comment,
+                                    onProfileClick = { state.eventSink(OnProfileClick(comment)) },
+                                    onLikeCountClick = { state.eventSink(OnLikeCountClick(comment)) }
                                 )
                             }
                         }
@@ -113,6 +115,8 @@ private val CommentProfileSize = 48.dp
 private fun CommentCard(
     comment: Comment,
     modifier: Modifier = Modifier,
+    onProfileClick: () -> Unit,
+    onLikeCountClick: () -> Unit,
 ) {
     val commenter = comment.commenter
     Row(
@@ -124,6 +128,7 @@ private fun CommentCard(
         SnakeAsyncImage(
             url = commenter.profileUrl,
             modifier = Modifier
+                .clickable(onClick = onProfileClick)
                 .size(CommentProfileSize)
                 .clip(CircleShape)
                 .align(Alignment.Top),
@@ -133,12 +138,16 @@ private fun CommentCard(
         )
         Spacer(Modifier.width(12.dp))
         Column {
-            SnakeText(text = commentText(name = commenter.name, userId = commenter.id))
+            SnakeText(
+                text = commentText(name = commenter.name, userId = commenter.id),
+                modifier = Modifier.clickable(onClick = onProfileClick)
+            )
             SnakeText(text = comment.text)
             Row {
                 CommentInteraction(
                     icon = Icons.Outlined.FavoriteBorder,
                     text = countString(comment.likes),
+                    onCountClick = onLikeCountClick,
                 )
                 CommentInteraction(icon = Icons.AutoMirrored.Outlined.InsertComment)
             }
@@ -173,7 +182,12 @@ private fun commentText(name: String, userId: String): AnnotatedString {
 private fun LikerCardPreview() {
     SnakeChatTheme {
         Surface {
-            CommentCard(comment = fakeCommentOf("1"))
+            CommentCard(
+                comment = fakeCommentOf("1"),
+                onProfileClick = {},
+                onLikeCountClick = {},
+
+            )
         }
     }
 }
@@ -192,16 +206,14 @@ private fun ProfileLoadingView(modifier: Modifier = Modifier) {
 fun CommentInteraction(
     icon: ImageVector,
     modifier: Modifier = Modifier,
+    onIconClick: (() -> Unit)? = null,
+    onCountClick: (() -> Unit)? = null,
     text: String? = null,
     contentDescription: String? = null,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
-            .clickable(
-                onClick = { },
-                role = Role.Button,
-            )
             .minimumInteractiveComponentSize()
             .semantics {
                 if (contentDescription != null) {
@@ -219,6 +231,11 @@ fun CommentInteraction(
                 text = text,
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier
+                    .clickable(
+                        role = Role.Button,
+                        onClick = { onCountClick?.invoke() }
+                    )
             )
         }
     }

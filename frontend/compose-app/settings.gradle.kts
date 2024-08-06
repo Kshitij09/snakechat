@@ -48,6 +48,8 @@ include(":domain:feed")
 include(":domain:post")
 include(":domain:profile")
 
+include(":domain:model:likers")
+
 include(":data:network:common")
 include(":data:network:feed:api")
 include(":data:network:feed:impl")

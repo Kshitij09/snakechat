@@ -6,27 +6,28 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.common.SimplePagingSource
+import cc.snakechat.domain.model.liker.ContentId
 import kotlinx.coroutines.flow.Flow
 
 internal class ObservePostLikersPageData(
-    private val fetcher: PostLikersFetcher,
-) : ObservePagingData<String, Liker> {
-    override fun observe(request: String): Flow<PagingData<Liker>> = Pager(
+    private val fetcher: LikersFetcher,
+) : ObservePagingData<ContentId, Liker> {
+    override fun observe(request: ContentId): Flow<PagingData<Liker>> = Pager(
         config = PagingConfig(
             pageSize = 10,
             prefetchDistance = 2,
             initialLoadSize = 10,
         ),
-        pagingSourceFactory = postLikersPagingSourceFactory(postId = request, fetcher),
+        pagingSourceFactory = postLikersPagingSourceFactory(contentId = request, fetcher),
     ).flow
 }
 
 internal fun postLikersPagingSourceFactory(
-    postId: String,
-    fetcher: PostLikersFetcher,
+    contentId: ContentId,
+    fetcher: LikersFetcher,
 ): () -> PagingSource<String, Liker> = {
     SimplePagingSource(
-        fetcher = { fetcher.fetch(it.postId, it.offset) },
-        requestBuilder = { PostLikersRequest(postId, it.key) },
+        fetcher = { fetcher.fetch(it.contentId, it.offset) },
+        requestBuilder = { LikersRequest(contentId, it.key) },
     )
 }

@@ -1,6 +1,7 @@
 package cc.snakechat.likers
 
 import cc.snakechat.domain.common.ObservePagingData
+import cc.snakechat.domain.model.liker.ContentId
 import cc.snakechat.domain.post.like.Liker
 import cc.snakechat.inject.ActivityScope
 import com.slack.circuit.runtime.CircuitContext
@@ -27,7 +28,7 @@ interface LikersComponent {
 
 @Inject
 class LikesPresenterFactory(
-    private val observePagingData: () -> ObservePagingData<String, Liker>,
+    private val observePagingData: () -> ObservePagingData<ContentId, Liker>,
 ) : Presenter.Factory {
     override fun create(
         screen: Screen,
