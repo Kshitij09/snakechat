@@ -138,6 +138,7 @@ fun PostCard(
                         text = text,
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.clickable { onProfileClick(post) }
                     )
                 }
                 post.createdAt?.let {
