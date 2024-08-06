@@ -60,7 +60,7 @@ fun ProfileHeader(state: Data, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(8.dp))
         SnakeText(
             text = profile.username,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
         )
         val status = profile.status
         if (status != null) {

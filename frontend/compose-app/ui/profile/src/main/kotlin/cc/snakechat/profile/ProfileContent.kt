@@ -78,7 +78,12 @@ fun ProfileContent(state: ProfileState, modifier: Modifier = Modifier) {
 @Composable
 fun TopBar(userid: String, onBack: () -> Unit, modifier: Modifier = Modifier) {
     TopAppBar(
-        title = { SnakeText(text = userid, style = MaterialTheme.typography.headlineSmall) },
+        title = {
+            SnakeText(
+                text = userid,
+                style = MaterialTheme.typography.headlineSmall,
+            )
+        },
         navigationIcon = {
             SnakeBackNavigationIcon(onBack = { onBack() })
         },
