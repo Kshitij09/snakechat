@@ -81,7 +81,7 @@ fun PostCard(
                 )
                 SnakeText(
                     text = post.user.name,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Light,
                     modifier = Modifier
                         .padding(start = 4.dp)
                         .clickable { onProfileClick(post) },
@@ -132,11 +132,11 @@ fun PostCard(
                             append(post.user.name)
                         }
                         append(" ")
-                        append(it)
+                        withStyle(SpanStyle(fontWeight = FontWeight.Normal)) { append(it) }
                     }
                     SnakeText(
                         text = text,
-                        style = MaterialTheme.typography.bodyLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
@@ -197,8 +197,8 @@ private fun Interaction(
         if (count != null) {
             SnakeText(
                 text = count,
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(start = 4.dp),
             )
         }
