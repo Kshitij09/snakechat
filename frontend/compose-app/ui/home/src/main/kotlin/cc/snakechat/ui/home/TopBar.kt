@@ -9,24 +9,26 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import cc.snakechat.design.SnakeElevation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SnakeTopBar(
     modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     leadingIcon: @Composable (() -> Unit)? = null,
     centerContent: @Composable (() -> Unit)? = null,
     trailingActions: @Composable (RowScope.() -> Unit)? = null,
 ) {
-    Surface(tonalElevation = SnakeElevation.Level1, modifier = modifier) {
+    Surface(color = containerColor, modifier = modifier) {
         if (centerContent != null) {
             Row(
                 modifier = modifier
@@ -60,10 +62,11 @@ internal fun SnakeSearch(
     leadingIcon: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     modifier: Modifier = Modifier,
 ) {
     Surface(
-        tonalElevation = SnakeElevation.Level2,
+        color = containerColor,
         shape = RoundedCornerShape(24.dp),
         modifier = modifier.height(48.dp),
     ) {

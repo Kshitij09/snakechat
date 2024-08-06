@@ -23,6 +23,7 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -46,94 +47,101 @@ import java.time.LocalDateTime
 fun PostCard(
     post: Post,
     modifier: Modifier = Modifier,
+    containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
     onLoadComplete: (() -> Unit)? = null,
     onLikeClick: (Post) -> Unit = {},
     onCommentClick: (Post) -> Unit = {},
     onProfileClick: (Post) -> Unit = {},
 ) {
-    Column(modifier = modifier) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 12.dp),
-        ) {
-            SnakeAsyncImage(
-                url = post.user.profileUrl,
-                loadingView = {
-                    ProfileLoading()
-                },
-                fallbackView = {
-                    ProfileLoading()
-                },
-                contentDescription = "Profile Picture",
-                modifier = Modifier.size(24.dp).clickable { onProfileClick(post) },
-            )
-            SnakeText(
-                text = post.user.name,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 4.dp).clickable { onProfileClick(post) },
-            )
-        }
-
-        val contentModifier = Modifier
-            .fillMaxWidth()
-            .heightIn(max = 300.dp)
-        SnakeAsyncImage(
-            url = post.mediaUrl,
-            contentDescription = "Post Content",
-            contentScale = ContentScale.Crop,
-            loadingView = { PostContentPlaceholder(contentModifier) },
-            fallbackView = { PostContentPlaceholder(contentModifier) },
-            onLoadComplete = { onLoadComplete?.invoke() },
-            modifier = contentModifier,
-        )
-        Box(modifier = Modifier.fillMaxWidth()) {
+    Surface(color = containerColor) {
+        Column(modifier = modifier) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 12.dp),
             ) {
-                Interaction(
-                    count = countString(post.likes),
-                    icon = Icons.Outlined.FavoriteBorder,
-                    onClick = { onLikeClick(post) },
+                SnakeAsyncImage(
+                    url = post.user.profileUrl,
+                    loadingView = {
+                        ProfileLoading()
+                    },
+                    fallbackView = {
+                        ProfileLoading()
+                    },
+                    contentDescription = "Profile Picture",
+                    modifier = Modifier
+                        .size(24.dp)
+                        .clickable { onProfileClick(post) },
                 )
-                Interaction(
-                    count = countString(post.comments),
-                    icon = Icons.AutoMirrored.Default.Message,
-                    onClick = { onCommentClick(post) },
-                )
-                Interaction(
-                    icon = Icons.Outlined.Download,
+                SnakeText(
+                    text = post.user.name,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(start = 4.dp)
+                        .clickable { onProfileClick(post) },
                 )
             }
-            Interaction(
-                icon = Icons.Default.Whatsapp,
-                modifier = Modifier.align(Alignment.CenterEnd),
+
+            val contentModifier = Modifier
+                .fillMaxWidth()
+                .heightIn(max = 300.dp)
+            SnakeAsyncImage(
+                url = post.mediaUrl,
+                contentDescription = "Post Content",
+                contentScale = ContentScale.Crop,
+                loadingView = { PostContentPlaceholder(contentModifier) },
+                fallbackView = { PostContentPlaceholder(contentModifier) },
+                onLoadComplete = { onLoadComplete?.invoke() },
+                modifier = contentModifier,
             )
-        }
-        Column(modifier = Modifier.padding(4.dp)) {
-            post.caption?.let {
-                val text = buildAnnotatedString {
-                    withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append(post.user.name)
-                    }
-                    append(" ")
-                    append(it)
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier,
+                ) {
+                    Interaction(
+                        count = countString(post.likes),
+                        icon = Icons.Outlined.FavoriteBorder,
+                        onClick = { onLikeClick(post) },
+                    )
+                    Interaction(
+                        count = countString(post.comments),
+                        icon = Icons.AutoMirrored.Default.Message,
+                        onClick = { onCommentClick(post) },
+                    )
+                    Interaction(
+                        icon = Icons.Outlined.Download,
+                    )
                 }
-                SnakeText(
-                    text = text,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                Interaction(
+                    icon = Icons.Default.Whatsapp,
+                    modifier = Modifier.align(Alignment.CenterEnd),
                 )
             }
-            post.createdAt?.let {
-                SnakeText(
-                    text = formatDate(it),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer,
-                    modifier = Modifier.padding(top = 4.dp),
-                )
+            Column(modifier = Modifier.padding(4.dp)) {
+                post.caption?.let {
+                    val text = buildAnnotatedString {
+                        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append(post.user.name)
+                        }
+                        append(" ")
+                        append(it)
+                    }
+                    SnakeText(
+                        text = text,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                post.createdAt?.let {
+                    SnakeText(
+                        text = formatDate(it),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        modifier = Modifier.padding(top = 4.dp),
+                    )
+                }
             }
         }
     }
