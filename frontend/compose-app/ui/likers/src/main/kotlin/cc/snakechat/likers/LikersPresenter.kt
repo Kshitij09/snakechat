@@ -1,7 +1,6 @@
 package cc.snakechat.likers
 
 import android.os.Parcel
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -12,6 +11,7 @@ import cc.snakechat.domain.model.liker.CommentId
 import cc.snakechat.domain.model.liker.ContentId
 import cc.snakechat.domain.model.liker.PostId
 import cc.snakechat.domain.post.like.Liker
+import cc.snakechat.profile.ProfileScreen
 import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -47,7 +47,7 @@ internal class LikesPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { Log.e("likers", "clicked") },
+                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) }
                     )
                 }
             }
