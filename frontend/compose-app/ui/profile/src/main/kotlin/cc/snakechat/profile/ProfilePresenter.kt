@@ -1,8 +1,10 @@
 package cc.snakechat.profile
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import cc.snakechat.domain.common.DomainError
 import cc.snakechat.domain.common.NoInternet
 import cc.snakechat.domain.profile.GetUserProfile
@@ -12,6 +14,7 @@ import cc.snakechat.domain.profile.UserNotFound
 import cc.snakechat.profile.follows.FollowListScreen
 import cc.snakechat.resources.strings
 import com.github.michaelbull.result.Result
+import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import com.slack.circuit.runtime.screen.Screen
@@ -30,8 +33,9 @@ internal class ProfilePresenter(
 
     @Composable
     override fun present(): ProfileState {
-        val profileResult by produceState<Result<Profile, DomainError>?>(null) {
-            value = getUserProfile.execute(screen.userId)
+        var profileResult by rememberRetained{ mutableStateOf<Result<Profile, DomainError>?>(null) }
+        LaunchedEffect(Unit) {
+            profileResult = getUserProfile.execute(screen.userId)
         }
         if (profileResult == null) return Loading(screen.userId, onBack = onBack)
         val result = profileResult as Result<Profile, DomainError>
