@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -29,16 +29,22 @@ import cc.snakechat.design.SnakeChatTheme
 
 @Composable
 fun FeedSkeleton(
+    modifier: Modifier = Modifier,
     backgroundColor: Color = MaterialTheme.colorScheme.surfaceContainerLow,
-    modifier: Modifier
+    postCardShape: Shape = MaterialTheme.shapes.medium,
+    mediaShape: Shape = MaterialTheme.shapes.small,
+    postCardPadding: Dp = 3.dp,
 ) {
     Surface(
         modifier = modifier,
         color = backgroundColor,
     ) {
         Column {
-            PostSkeleton()
-            Spacer(modifier = Modifier.height(20.dp))
+            PostSkeleton(
+                shape = postCardShape,
+                padding = postCardPadding,
+                mediaShape = mediaShape,
+            )
             PostSkeleton()
         }
     }
@@ -46,8 +52,11 @@ fun FeedSkeleton(
 
 @Composable
 fun PostSkeleton(
+    modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.surfaceContainer,
-    modifier: Modifier = Modifier
+    shape: Shape = MaterialTheme.shapes.medium,
+    mediaShape: Shape = MaterialTheme.shapes.small,
+    padding: Dp = 3.dp,
 ) {
     val config = LocalConfiguration.current
     val screenWidth = config.screenWidthDp.dp
@@ -76,8 +85,12 @@ fun PostSkeleton(
         )
     }
 
-    Surface(color = containerColor) {
-        Column(modifier = modifier) {
+    Surface(
+        color = containerColor,
+        modifier = Modifier.padding(padding),
+        shape = shape,
+    ) {
+        Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,7 +105,7 @@ fun PostSkeleton(
             val contentModifier = Modifier
                 .fillMaxWidth()
                 .heightIn(max = 300.dp)
-            PostContentPlaceholder(contentModifier)
+            PostContentPlaceholder(contentModifier, shape = mediaShape)
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -119,7 +132,7 @@ fun PostSkeleton(
 private fun PostSkeletonPreview() {
     SnakeChatTheme {
         Surface {
-            PostSkeleton()
+            FeedSkeleton()
         }
     }
 }

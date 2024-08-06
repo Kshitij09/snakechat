@@ -77,7 +77,7 @@ fun HomeContent(
                                 )
                             }
                         },
-                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
                     )
                 },
                 trailingActions = {

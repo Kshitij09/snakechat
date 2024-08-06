@@ -23,7 +23,9 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -53,8 +55,12 @@ fun PostCard(
     onCommentClick: (Post) -> Unit = {},
     onProfileClick: (Post) -> Unit = {},
 ) {
-    Surface(color = containerColor) {
-        Column(modifier = modifier) {
+    Surface(
+        color = containerColor,
+        modifier = Modifier.padding(3.dp),
+        shape = MaterialTheme.shapes.medium,
+    ) {
+        Column(modifier = modifier.padding(horizontal = 8.dp, vertical = 4.dp)) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,7 +98,7 @@ fun PostCard(
                 loadingView = { PostContentPlaceholder(contentModifier) },
                 fallbackView = { PostContentPlaceholder(contentModifier) },
                 onLoadComplete = { onLoadComplete?.invoke() },
-                modifier = contentModifier,
+                modifier = contentModifier.clip(MaterialTheme.shapes.small),
             )
             Box(modifier = Modifier.fillMaxWidth()) {
                 Row(
@@ -158,10 +164,15 @@ fun ProfileLoading(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun PostContentPlaceholder(modifier: Modifier = Modifier) {
+fun PostContentPlaceholder(
+    modifier: Modifier = Modifier,
+    shape: Shape = MaterialTheme.shapes.small,
+    color: Color = MaterialTheme.colorScheme.surfaceDim,
+) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.surfaceDim)
+            .padding(4.dp)
+            .background(color, shape)
             .height(300.dp),
     )
 }
