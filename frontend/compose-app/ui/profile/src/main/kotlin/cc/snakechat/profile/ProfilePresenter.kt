@@ -6,8 +6,10 @@ import androidx.compose.runtime.produceState
 import cc.snakechat.domain.common.DomainError
 import cc.snakechat.domain.common.NoInternet
 import cc.snakechat.domain.profile.GetUserProfile
+import cc.snakechat.domain.profile.ListType
 import cc.snakechat.domain.profile.Profile
 import cc.snakechat.domain.profile.UserNotFound
+import cc.snakechat.profile.follows.FollowListScreen
 import cc.snakechat.resources.strings
 import com.github.michaelbull.result.Result
 import com.slack.circuit.runtime.Navigator
@@ -39,7 +41,24 @@ internal class ProfilePresenter(
                     screen.userId,
                     onBack = onBack,
                     profile = result.value,
-                    eventSink = {},
+                    eventSink = { event ->
+                        when(event) {
+                            OnFollowClick -> {}
+                            OnFollowersClick -> navigator.goTo(
+                                FollowListScreen(
+                                    listType = ListType.Followers,
+                                    userId = screen.userId
+                                )
+                            )
+                            OnFollowingClick -> navigator.goTo(
+                                FollowListScreen(
+                                    listType = ListType.Following,
+                                    userId = screen.userId
+                                )
+                            )
+                            is OnPostClick -> {}
+                        }
+                    },
                 )
             }
             result.isErr -> {

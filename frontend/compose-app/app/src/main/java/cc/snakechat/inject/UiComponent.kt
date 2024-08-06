@@ -5,6 +5,7 @@ import cc.snakechat.SnakeContent
 import cc.snakechat.likers.CommentsComponent
 import cc.snakechat.likers.LikersComponent
 import cc.snakechat.profile.ProfileComponent
+import cc.snakechat.profile.follows.FollowsComponent
 import cc.snakechat.ui.home.HomeComponent
 import com.slack.circuit.foundation.Circuit
 import com.slack.circuit.runtime.presenter.Presenter
@@ -16,7 +17,8 @@ interface UiComponent :
     RootUiComponent,
     LikersComponent,
     CommentsComponent,
-    ProfileComponent {
+    ProfileComponent,
+    FollowsComponent {
 
     val snakeContent: SnakeContent
 
