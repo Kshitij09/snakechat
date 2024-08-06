@@ -83,8 +83,6 @@ internal fun CommentsContent(state: CommentsState, modifier: Modifier = Modifier
                             if (comment != null) {
                                 CommentCard(
                                     comment = comment,
-                                    onClick = { state.onRowClick(comment) },
-                                    onFollow = { },
                                 )
                             }
                         }
@@ -115,13 +113,10 @@ private val CommentProfileSize = 48.dp
 private fun CommentCard(
     comment: Comment,
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
-    onFollow: (() -> Unit)? = null,
 ) {
     val commenter = comment.commenter
     Row(
         modifier = modifier
-            .clickable(onClick = { onClick?.invoke() })
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,

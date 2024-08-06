@@ -1,6 +1,5 @@
 package cc.snakechat.comments
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -38,7 +37,6 @@ internal class CommentsPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { Log.e("comments", "clicked") },
                     )
                 }
             }

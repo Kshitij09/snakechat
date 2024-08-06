@@ -14,6 +14,5 @@ class Loading(
 
 class Data(
     val pagingItems: LazyPagingItems<Comment>,
-    val onRowClick: (Comment) -> Unit = {},
     override val onBack: () -> Unit = {},
 ) : CommentsState
