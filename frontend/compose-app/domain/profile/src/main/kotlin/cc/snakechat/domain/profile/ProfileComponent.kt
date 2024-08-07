@@ -2,19 +2,20 @@ package cc.snakechat.domain.profile
 
 import cc.snakechat.data.profile.ProfileApi
 import cc.snakechat.domain.common.ObservePagingData
+import cc.snakechat.domain.model.common.FollowListType
 import me.tatarka.inject.annotations.Provides
 import me.tatarka.inject.annotations.Qualifier
 
 interface ProfileComponent {
     @Provides
-    fun provideObserveFollowingListPageData(api: ProfileApi): @FollowList(ListType.Following) ObservePagingData<String, Follow> {
+    fun provideObserveFollowingListPageData(api: ProfileApi): @FollowList(FollowListType.Following) ObservePagingData<String, Follow> {
         return ObserveFollowingListPageData(
             followListFetcher(api)
         )
     }
 
     @Provides
-    fun provideObserveFollowersListPageData(api: ProfileApi): @FollowList(ListType.Followers) ObservePagingData<String, Follow> {
+    fun provideObserveFollowersListPageData(api: ProfileApi): @FollowList(FollowListType.Followers) ObservePagingData<String, Follow> {
         return ObserveFollowerListPageData(
             followListFetcher(api)
         )
@@ -30,4 +31,4 @@ interface ProfileComponent {
     AnnotationTarget.VALUE_PARAMETER,
     AnnotationTarget.TYPE,
 )
-annotation class FollowList(val type: ListType)
+annotation class FollowList(val type: FollowListType)

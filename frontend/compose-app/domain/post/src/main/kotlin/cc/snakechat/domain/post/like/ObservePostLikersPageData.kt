@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.common.SimplePagingSource
-import cc.snakechat.domain.model.liker.ContentId
+import cc.snakechat.domain.model.common.ContentId
 import kotlinx.coroutines.flow.Flow
 
 internal class ObservePostLikersPageData(

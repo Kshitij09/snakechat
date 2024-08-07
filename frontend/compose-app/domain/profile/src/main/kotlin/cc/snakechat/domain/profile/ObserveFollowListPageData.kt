@@ -6,6 +6,7 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.common.SimplePagingSource
+import cc.snakechat.domain.model.common.FollowListType
 import kotlinx.coroutines.flow.Flow
 
 internal class ObserveFollowingListPageData(
@@ -17,7 +18,7 @@ internal class ObserveFollowingListPageData(
             prefetchDistance = 2,
             initialLoadSize = 10,
         ),
-        pagingSourceFactory = followListPagingSourceFactory(listType = ListType.Following, postId = request, fetcher),
+        pagingSourceFactory = followListPagingSourceFactory(listType = FollowListType.Following, postId = request, fetcher),
     ).flow
 }
 
@@ -31,12 +32,12 @@ internal class ObserveFollowerListPageData(
             prefetchDistance = 2,
             initialLoadSize = 10,
         ),
-        pagingSourceFactory = followListPagingSourceFactory(listType = ListType.Followers, postId = request, fetcher),
+        pagingSourceFactory = followListPagingSourceFactory(listType = FollowListType.Followers, postId = request, fetcher),
     ).flow
 }
 
 internal fun followListPagingSourceFactory(
-    listType: ListType,
+    listType: FollowListType,
     postId: String,
     fetcher: FollowListFetcher,
 ): () -> PagingSource<String, Follow> = {

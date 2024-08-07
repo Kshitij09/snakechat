@@ -2,7 +2,7 @@ package cc.snakechat.domain.post
 
 import cc.snakechat.data.post.PostApi
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.model.liker.ContentId
+import cc.snakechat.domain.model.common.ContentId
 import cc.snakechat.domain.post.comment.Comment
 import cc.snakechat.domain.post.comment.ObservePostCommentsPageData
 import cc.snakechat.domain.post.comment.PostCommentsFetcher

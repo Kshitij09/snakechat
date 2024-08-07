@@ -1,10 +1,11 @@
 package cc.snakechat.profile.follows
 
 import cc.snakechat.domain.common.ObservePagingData
+import cc.snakechat.domain.model.common.FollowListType
 import cc.snakechat.domain.profile.Follow
 import cc.snakechat.domain.profile.FollowList
-import cc.snakechat.domain.profile.ListType
 import cc.snakechat.inject.ActivityScope
+import cc.snakechat.ui.common.screen.FollowListScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
@@ -29,8 +30,8 @@ interface FollowsComponent {
 
 @Inject
 class FollowListPresenterFactory(
-    @FollowList(ListType.Followers) private val observeFollowersData: () -> ObservePagingData<String, Follow>,
-    @FollowList(ListType.Following) private val observeFollowingData: () -> ObservePagingData<String, Follow>,
+    @FollowList(FollowListType.Followers) private val observeFollowersData: () -> ObservePagingData<String, Follow>,
+    @FollowList(FollowListType.Following) private val observeFollowingData: () -> ObservePagingData<String, Follow>,
 ) : Presenter.Factory {
     override fun create(
         screen: Screen,

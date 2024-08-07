@@ -1,5 +1,6 @@
 package cc.snakechat.domain.profile
 
+import cc.snakechat.domain.model.common.FollowListType
 import java.time.LocalDateTime
 
 class FollowsResponse(
@@ -9,7 +10,7 @@ class FollowsResponse(
 )
 
 class FollowListRequest(
-    val listType: ListType,
+    val listType: FollowListType,
     val userId: String,
     val offset: String?
 )
@@ -21,7 +22,3 @@ class Follow(
     val profileUrl: String? = null,
 )
 
-enum class ListType {
-    Followers,
-    Following
-}

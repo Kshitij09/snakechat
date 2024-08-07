@@ -7,22 +7,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cc.snakechat.domain.common.DomainError
 import cc.snakechat.domain.common.NoInternet
+import cc.snakechat.domain.model.common.FollowListType
 import cc.snakechat.domain.profile.GetUserProfile
-import cc.snakechat.domain.profile.ListType
 import cc.snakechat.domain.profile.Profile
 import cc.snakechat.domain.profile.UserNotFound
-import cc.snakechat.profile.follows.FollowListScreen
 import cc.snakechat.resources.strings
+import cc.snakechat.ui.common.screen.FollowListScreen
+import cc.snakechat.ui.common.screen.ProfileScreen
 import com.github.michaelbull.result.Result
 import com.slack.circuit.retained.rememberRetained
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
 import me.tatarka.inject.annotations.Assisted
-
-@Parcelize
-class ProfileScreen(val userId: String) : Screen
 
 internal class ProfilePresenter(
     @Assisted private val screen: ProfileScreen,
@@ -50,13 +46,13 @@ internal class ProfilePresenter(
                             OnFollowClick -> {}
                             OnFollowersClick -> navigator.goTo(
                                 FollowListScreen(
-                                    listType = ListType.Followers,
+                                    listType = FollowListType.Followers,
                                     userId = screen.userId
                                 )
                             )
                             OnFollowingClick -> navigator.goTo(
                                 FollowListScreen(
-                                    listType = ListType.Following,
+                                    listType = FollowListType.Following,
                                     userId = screen.userId
                                 )
                             )

@@ -34,8 +34,8 @@ import cc.snakechat.design.SnakeAsyncImage
 import cc.snakechat.design.SnakeBackNavigationIcon
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
+import cc.snakechat.domain.model.common.FollowListType
 import cc.snakechat.domain.profile.Follow
-import cc.snakechat.domain.profile.ListType
 import cc.snakechat.resources.strings
 import kotlinx.coroutines.flow.flowOf
 import java.time.LocalDateTime
@@ -47,7 +47,7 @@ internal fun FollowContent(state: FollowListState, modifier: Modifier = Modifier
         topBar = {
             TopAppBar(
                 title = {
-                    SnakeText(if (state.listType == ListType.Following) strings.following else strings.followers)
+                    SnakeText(if (state.listType == FollowListType.Following) strings.following else strings.followers)
                 },
                 navigationIcon = {
                     SnakeBackNavigationIcon(onBack = { state.onBack() })
@@ -97,7 +97,7 @@ private fun LikersContentPreview() {
         ),
     ).collectAsLazyPagingItems()
     val state = Data(
-        listType = ListType.Following,
+        listType = FollowListType.Following,
         pagingItems = pagingItems,
     )
     SnakeChatTheme {

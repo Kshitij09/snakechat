@@ -8,4 +8,5 @@ dependencies {
     implementation(projects.data.network.profile.api)
     implementation(libs.androidx.paging.common)
     api(projects.domain.common)
+    api(projects.domain.commonModel)
 }

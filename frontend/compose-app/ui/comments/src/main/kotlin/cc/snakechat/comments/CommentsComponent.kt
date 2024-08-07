@@ -2,11 +2,11 @@ package cc.snakechat.likers
 
 import cc.snakechat.comments.CommentsContent
 import cc.snakechat.comments.CommentsPresenter
-import cc.snakechat.comments.CommentsScreen
 import cc.snakechat.comments.CommentsState
 import cc.snakechat.domain.common.ObservePagingData
 import cc.snakechat.domain.post.comment.Comment
 import cc.snakechat.inject.ActivityScope
+import cc.snakechat.ui.common.screen.CommentsScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter

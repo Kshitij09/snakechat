@@ -1,9 +1,10 @@
 package cc.snakechat.likers
 
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.model.liker.ContentId
+import cc.snakechat.domain.model.common.ContentId
 import cc.snakechat.domain.post.like.Liker
 import cc.snakechat.inject.ActivityScope
+import cc.snakechat.ui.common.screen.LikersScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter

@@ -8,5 +8,5 @@ dependencies {
     implementation(projects.data.network.post.api)
     implementation(libs.androidx.paging.common)
     api(projects.domain.common)
-    api(projects.domain.model.likers)
+    api(projects.domain.commonModel)
 }

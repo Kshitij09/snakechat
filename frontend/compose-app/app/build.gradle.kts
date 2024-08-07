@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.coil.core)
     implementation(libs.coil.network)
     demoImplementation(libs.coil.test)
+    implementation(projects.ui.common)
     implementation(projects.ui.design)
     implementation(projects.ui.home)
     implementation(projects.ui.likers)

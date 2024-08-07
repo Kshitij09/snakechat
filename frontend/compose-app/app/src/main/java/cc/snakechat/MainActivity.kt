@@ -18,7 +18,7 @@ import cc.snakechat.design.SnakeText
 import cc.snakechat.inject.AndroidActivityComponent
 import cc.snakechat.inject.AndroidApplicationComponent
 import cc.snakechat.inject.create
-import cc.snakechat.ui.home.HomeScreen
+import cc.snakechat.ui.common.screen.HomeScreen
 import com.slack.circuit.backstack.rememberSaveableBackStack
 import com.slack.circuit.foundation.rememberCircuitNavigator
 

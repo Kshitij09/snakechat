@@ -2,6 +2,7 @@ package cc.snakechat.domain.profile
 
 import androidx.paging.PagingSource.LoadResult
 import cc.snakechat.data.profile.ProfileApi
+import cc.snakechat.domain.model.common.FollowListType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.tatarka.inject.annotations.Inject
@@ -15,7 +16,7 @@ internal class FollowListFetcher(private val api: ProfileApi) {
 
     suspend fun fetch(request: FollowListRequest): LoadResult<String, Follow> {
         return withContext(Dispatchers.IO) {
-            val result = if (request.listType == ListType.Followers) {
+            val result = if (request.listType == FollowListType.Followers) {
                 api.getUserFollowers(request.userId, request.offset)
             } else {
                 api.getUserFollowings(request.userId, request.offset)

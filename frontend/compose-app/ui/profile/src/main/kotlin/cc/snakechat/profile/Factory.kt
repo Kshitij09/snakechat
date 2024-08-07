@@ -2,6 +2,7 @@ package cc.snakechat.profile
 
 import cc.snakechat.domain.profile.GetUserProfile
 import cc.snakechat.inject.ActivityScope
+import cc.snakechat.ui.common.screen.ProfileScreen
 import com.slack.circuit.runtime.CircuitContext
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
