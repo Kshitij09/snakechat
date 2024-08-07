@@ -13,13 +13,9 @@ class FakeProfileApi(private val context: Context, private val json: Json) : Pro
         Ok(response)
     }
 
-    override suspend fun getUserFollowings(userId: String, offset: String?): Result<FollowsResponse, NetworkError> {
-        return genericFollowsResponse(offset)
-    }
+    override suspend fun getUserFollowings(userId: String, offset: String?): Result<FollowsResponse, NetworkError> = genericFollowsResponse(offset)
 
-    override suspend fun getUserFollowers(userId: String, offset: String?): Result<FollowsResponse, NetworkError> {
-        return genericFollowsResponse(offset)
-    }
+    override suspend fun getUserFollowers(userId: String, offset: String?): Result<FollowsResponse, NetworkError> = genericFollowsResponse(offset)
 
     private fun genericFollowsResponse(offset: String?): Result<FollowsResponse, NetworkError> {
         val assetName = if (offset == null) "follows/follows_1.json" else "follows/follows_2.json"

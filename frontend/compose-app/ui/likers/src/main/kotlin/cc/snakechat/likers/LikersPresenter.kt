@@ -15,7 +15,7 @@ import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import me.tatarka.inject.annotations.Assisted
 
-internal class LikesPresenter(
+internal class LikersPresenter(
     @Assisted private val screen: LikersScreen,
     @Assisted private val navigator: Navigator,
     private val observePagingData: () -> ObservePagingData<ContentId, Liker>,
@@ -35,7 +35,7 @@ internal class LikesPresenter(
                     Data(
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) }
+                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) },
                     )
                 }
             }
@@ -43,4 +43,3 @@ internal class LikesPresenter(
         return state
     }
 }
-

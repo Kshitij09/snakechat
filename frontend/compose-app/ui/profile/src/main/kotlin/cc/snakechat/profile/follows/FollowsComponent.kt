@@ -42,7 +42,7 @@ class FollowListPresenterFactory(
             screen = screen,
             navigator = navigator,
             observeFollowingData = observeFollowersData,
-            observeFollowersData = observeFollowingData
+            observeFollowersData = observeFollowingData,
         )
     } else {
         null

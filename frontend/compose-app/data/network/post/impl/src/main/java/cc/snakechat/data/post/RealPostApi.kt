@@ -25,16 +25,14 @@ internal class RealPostApi(private val httpClient: HttpClient) : PostApi {
         }.body()
     }
 
-    override suspend fun getCommentLikers(commentId: String, offset: String?): LikersResponse {
-        return withContext(Dispatchers.IO) {
-            httpClient.post("/v1/comments/$commentId/likers") {
-                if (offset != null) {
-                    setBody(LikersRequest(offset))
-                } else {
-                    setBody(NullBody)
-                }
-            }.body()
-        }
+    override suspend fun getCommentLikers(commentId: String, offset: String?): LikersResponse = withContext(Dispatchers.IO) {
+        httpClient.post("/v1/comments/$commentId/likers") {
+            if (offset != null) {
+                setBody(LikersRequest(offset))
+            } else {
+                setBody(NullBody)
+            }
+        }.body()
     }
 
     override suspend fun getPostComments(postId: String, offset: String?): PostCommentsResponse = withContext(Dispatchers.IO) {

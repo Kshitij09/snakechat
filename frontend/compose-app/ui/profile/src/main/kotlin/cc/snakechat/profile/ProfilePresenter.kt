@@ -29,7 +29,7 @@ internal class ProfilePresenter(
 
     @Composable
     override fun present(): ProfileState {
-        var profileResult by rememberRetained{ mutableStateOf<Result<Profile, DomainError>?>(null) }
+        var profileResult by rememberRetained { mutableStateOf<Result<Profile, DomainError>?>(null) }
         LaunchedEffect(Unit) {
             profileResult = getUserProfile.execute(screen.userId)
         }
@@ -42,19 +42,19 @@ internal class ProfilePresenter(
                     onBack = onBack,
                     profile = result.value,
                     eventSink = { event ->
-                        when(event) {
+                        when (event) {
                             OnFollowClick -> {}
                             OnFollowersClick -> navigator.goTo(
                                 FollowListScreen(
                                     listType = FollowListType.Followers,
-                                    userId = screen.userId
-                                )
+                                    userId = screen.userId,
+                                ),
                             )
                             OnFollowingClick -> navigator.goTo(
                                 FollowListScreen(
                                     listType = FollowListType.Following,
-                                    userId = screen.userId
-                                )
+                                    userId = screen.userId,
+                                ),
                             )
                             is OnPostClick -> {}
                         }

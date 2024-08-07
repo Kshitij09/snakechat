@@ -20,11 +20,11 @@ class CommentsScreen(val postId: String) : SnakeScreen
 @Parcelize
 @TypeParceler<ContentId, ContentIdParceler>
 class LikersScreen(
-    val contentId: ContentId
+    val contentId: ContentId,
 ) : SnakeScreen
 
 @Parcelize
 class FollowListScreen(
     val listType: FollowListType,
-    val userId: String
+    val userId: String,
 ) : Screen

@@ -8,18 +8,22 @@ import me.tatarka.inject.annotations.Qualifier
 
 interface ProfileComponent {
     @Provides
-    fun provideObserveFollowingListPageData(api: ProfileApi): @FollowList(FollowListType.Following) ObservePagingData<String, Follow> {
-        return ObserveFollowingListPageData(
-            followListFetcher(api)
-        )
-    }
+    fun provideObserveFollowingListPageData(
+        api: ProfileApi,
+    ):
+        @FollowList(FollowListType.Following)
+        ObservePagingData<String, Follow> = ObserveFollowingListPageData(
+        followListFetcher(api),
+    )
 
     @Provides
-    fun provideObserveFollowersListPageData(api: ProfileApi): @FollowList(FollowListType.Followers) ObservePagingData<String, Follow> {
-        return ObserveFollowerListPageData(
-            followListFetcher(api)
-        )
-    }
+    fun provideObserveFollowersListPageData(
+        api: ProfileApi,
+    ):
+        @FollowList(FollowListType.Followers)
+        ObservePagingData<String, Follow> = ObserveFollowerListPageData(
+        followListFetcher(api),
+    )
 
     private fun followListFetcher(api: ProfileApi) = FollowListFetcher(api)
 }

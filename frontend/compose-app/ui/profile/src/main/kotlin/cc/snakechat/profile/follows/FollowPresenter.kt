@@ -42,7 +42,7 @@ internal class FollowPresenter(
                         listType = screen.listType,
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) }
+                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) },
                     )
                 }
             }

@@ -36,7 +36,7 @@ class LikesPresenterFactory(
         navigator: Navigator,
         context: CircuitContext,
     ): Presenter<*>? = if (screen is LikersScreen) {
-        LikesPresenter(
+        LikersPresenter(
             screen = screen,
             navigator = navigator,
             observePagingData = observePagingData,

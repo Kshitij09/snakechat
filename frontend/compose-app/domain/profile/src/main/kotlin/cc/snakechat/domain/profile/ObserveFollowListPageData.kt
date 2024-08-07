@@ -22,7 +22,6 @@ internal class ObserveFollowingListPageData(
     ).flow
 }
 
-
 internal class ObserveFollowerListPageData(
     private val fetcher: FollowListFetcher,
 ) : ObservePagingData<String, Follow> {

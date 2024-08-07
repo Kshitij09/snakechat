@@ -16,12 +16,10 @@ class ContentIdParceler : Parceler<ContentId> {
         parcel.writeString(id)
     }
 
-    override fun create(parcel: Parcel): ContentId {
-        return when (parcel.readInt()) {
-            TYPE_POST -> PostId(parcel.readString()!!)
-            TYPE_COMMENT -> CommentId(parcel.readString()!!)
-            else -> throw IllegalArgumentException("Unknown content id type")
-        }
+    override fun create(parcel: Parcel): ContentId = when (parcel.readInt()) {
+        TYPE_POST -> PostId(parcel.readString()!!)
+        TYPE_COMMENT -> CommentId(parcel.readString()!!)
+        else -> throw IllegalArgumentException("Unknown content id type")
     }
 
     companion object {

@@ -191,5 +191,5 @@ private fun fakerFollowOf(id: String? = null) = Follow(
     id = id ?: "voluptatibus",
     name = "Bert Gould",
     profileUrl = null,
-    updatedAt = LocalDateTime.now()
+    updatedAt = LocalDateTime.now(),
 )

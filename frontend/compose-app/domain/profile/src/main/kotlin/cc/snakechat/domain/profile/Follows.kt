@@ -12,7 +12,7 @@ class FollowsResponse(
 class FollowListRequest(
     val listType: FollowListType,
     val userId: String,
-    val offset: String?
+    val offset: String?,
 )
 
 class Follow(
@@ -21,4 +21,3 @@ class Follow(
     val updatedAt: LocalDateTime,
     val profileUrl: String? = null,
 )
-

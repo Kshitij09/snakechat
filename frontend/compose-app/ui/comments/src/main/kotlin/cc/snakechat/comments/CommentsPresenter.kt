@@ -37,18 +37,19 @@ internal class CommentsPresenter(
                         pagingItems = pagingItems,
                         onBack = onBack,
                         eventSink = { event ->
-                            when(event) {
+                            when (event) {
                                 is OnLikeCountClick -> {
                                     navigator.goTo(
                                         LikersScreen(
-                                        CommentId(event.comment.id))
+                                            CommentId(event.comment.id),
+                                        ),
                                     )
                                 }
-                                is OnProfileClick ->  {
+                                is OnProfileClick -> {
                                     navigator.goTo(ProfileScreen(event.comment.commenter.id))
                                 }
                             }
-                        }
+                        },
                     )
                 }
             }
