@@ -11,6 +11,7 @@ import cc.snakechat.domain.profile.Follow
 import cc.snakechat.domain.profile.FollowList
 import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
 import cc.snakechat.ui.common.screen.FollowListScreen
+import cc.snakechat.ui.common.screen.ProfileScreen
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
 import me.tatarka.inject.annotations.Assisted
@@ -41,7 +42,7 @@ internal class FollowPresenter(
                         listType = screen.listType,
                         pagingItems = pagingItems,
                         onBack = onBack,
-                        onRowClick = { }
+                        onRowClick = { navigator.goTo(ProfileScreen(it.id)) }
                     )
                 }
             }
