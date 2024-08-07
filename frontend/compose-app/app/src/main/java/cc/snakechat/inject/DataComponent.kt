@@ -6,6 +6,7 @@ import cc.snakechat.data.post.PostApiComponent
 import cc.snakechat.data.profile.ProfileApiComponent
 import cc.snakechat.domain.feed.FeedComponent
 import cc.snakechat.domain.post.PostComponent
+import cc.snakechat.domain.profile.ProfileComponent
 import cc.snakechat.ktorclient.ApiKey
 import me.tatarka.inject.annotations.Provides
 
@@ -14,6 +15,7 @@ interface DataComponent :
     FeedComponent,
     PostApiComponent,
     PostComponent,
+    ProfileComponent,
     ProfileApiComponent {
     @Provides
     @ApplicationScope

@@ -2,8 +2,8 @@ package cc.snakechat.domain.post.like
 
 import androidx.paging.PagingSource.LoadResult
 import cc.snakechat.data.post.PostApi
-import cc.snakechat.domain.model.liker.ContentId
-import cc.snakechat.domain.model.liker.PostId
+import cc.snakechat.domain.model.common.ContentId
+import cc.snakechat.domain.model.common.PostId
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.tatarka.inject.annotations.Inject

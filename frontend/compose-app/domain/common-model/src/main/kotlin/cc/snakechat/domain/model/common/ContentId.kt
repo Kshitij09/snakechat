@@ -1,4 +1,4 @@
-package cc.snakechat.domain.model.liker
+package cc.snakechat.domain.model.common
 
 sealed interface ContentId {
     val id: String

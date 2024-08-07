@@ -6,19 +6,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.paging.LoadState
 import cc.snakechat.domain.common.ObservePagingData
-import cc.snakechat.domain.model.liker.CommentId
+import cc.snakechat.domain.model.common.CommentId
 import cc.snakechat.domain.post.comment.Comment
-import cc.snakechat.likers.LikersScreen
-import cc.snakechat.profile.ProfileScreen
 import cc.snakechat.ui.common.collectLazyRetainedCachedPagingFlow
+import cc.snakechat.ui.common.screen.CommentsScreen
+import cc.snakechat.ui.common.screen.LikersScreen
+import cc.snakechat.ui.common.screen.ProfileScreen
 import com.slack.circuit.runtime.Navigator
 import com.slack.circuit.runtime.presenter.Presenter
-import com.slack.circuit.runtime.screen.Screen
-import kotlinx.parcelize.Parcelize
 import me.tatarka.inject.annotations.Assisted
-
-@Parcelize
-class CommentsScreen(val postId: String) : Screen
 
 internal class CommentsPresenter(
     @Assisted private val screen: CommentsScreen,
@@ -41,17 +37,19 @@ internal class CommentsPresenter(
                         pagingItems = pagingItems,
                         onBack = onBack,
                         eventSink = { event ->
-                            when(event) {
+                            when (event) {
                                 is OnLikeCountClick -> {
-                                    navigator.goTo(LikersScreen(
-                                        CommentId(event.comment.id))
+                                    navigator.goTo(
+                                        LikersScreen(
+                                            CommentId(event.comment.id),
+                                        ),
                                     )
                                 }
-                                is OnProfileClick ->  {
+                                is OnProfileClick -> {
                                     navigator.goTo(ProfileScreen(event.comment.commenter.id))
                                 }
                             }
-                        }
+                        },
                     )
                 }
             }

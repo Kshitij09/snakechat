@@ -1,6 +1,6 @@
 package cc.snakechat.domain.post.like
 
-import cc.snakechat.domain.model.liker.ContentId
+import cc.snakechat.domain.model.common.ContentId
 
 class LikersRequest(
     val contentId: ContentId,

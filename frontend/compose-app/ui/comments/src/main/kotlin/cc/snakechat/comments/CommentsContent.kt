@@ -84,7 +84,7 @@ internal fun CommentsContent(state: CommentsState, modifier: Modifier = Modifier
                                 CommentCard(
                                     comment = comment,
                                     onProfileClick = { state.eventSink(OnProfileClick(comment)) },
-                                    onLikeCountClick = { state.eventSink(OnLikeCountClick(comment)) }
+                                    onLikeCountClick = { state.eventSink(OnLikeCountClick(comment)) },
                                 )
                             }
                         }
@@ -140,7 +140,7 @@ private fun CommentCard(
         Column {
             SnakeText(
                 text = commentText(name = commenter.name, userId = commenter.id),
-                modifier = Modifier.clickable(onClick = onProfileClick)
+                modifier = Modifier.clickable(onClick = onProfileClick),
             )
             SnakeText(text = comment.text)
             Row {
@@ -234,8 +234,8 @@ fun CommentInteraction(
                 modifier = Modifier
                     .clickable(
                         role = Role.Button,
-                        onClick = { onCountClick?.invoke() }
-                    )
+                        onClick = { onCountClick?.invoke() },
+                    ),
             )
         }
     }

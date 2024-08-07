@@ -15,6 +15,6 @@ dependencies {
     implementation(projects.ui.comments)
     implementation(projects.ui.profile)
     implementation(projects.domain.feed)
-    implementation(projects.domain.model.likers)
+    implementation(projects.domain.commonModel)
     implementation(libs.kotlinx.serialization)
 }

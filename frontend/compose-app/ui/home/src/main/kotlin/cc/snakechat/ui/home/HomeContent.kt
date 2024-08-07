@@ -28,6 +28,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import cc.snakechat.design.SnakeChatTheme
 import cc.snakechat.design.SnakeText
 import cc.snakechat.resources.strings
+import cc.snakechat.ui.common.screen.HomeScreen
 import cc.snakechat.ui.home.feed.FeedScreen
 import cc.snakechat.ui.home.feed.FeedSkeleton
 import cc.snakechat.ui.home.feed.mockPost
