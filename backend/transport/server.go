@@ -113,7 +113,7 @@ func (s *Server) Run(port int, enableSsl bool) error {
 			db.Close()
 		})
 		log.Println("snakechat server started listening on :443")
-		go http.ListenAndServe(listenAddr, certManager.HTTPHandler(nil))
+		go http.ListenAndServe(":80", certManager.HTTPHandler(nil))
 		return server.ListenAndServeTLS("", "")
 	} else {
 		server := &http.Server{
