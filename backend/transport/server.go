@@ -1,9 +1,11 @@
 package transport
 
 import (
+	"crypto/tls"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/middlewares"
+	"golang.org/x/crypto/acme"
 	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net/http"
@@ -78,13 +80,34 @@ func (s *Server) Run(port int, enableSsl bool) error {
 	if enableSsl {
 		certManager := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist("apis.sharechat.cc", "apis.staging.snakechat.cc"),
+			HostPolicy: autocert.HostWhitelist("apis.snakechat.cc", "apis.staging.snakechat.cc"),
 			Cache:      autocert.DirCache("certs"),
 		}
 		server := &http.Server{
-			Addr:      ":443",
-			TLSConfig: certManager.TLSConfig(),
-			Handler:   router,
+			Addr: ":443",
+			TLSConfig: &tls.Config{
+				MinVersion: tls.VersionTLS12,
+				CipherSuites: []uint16{
+					tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+					tls.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+					tls.TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,
+					tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
+					tls.TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,
+					tls.TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,
+				},
+				CurvePreferences: []tls.CurveID{
+					tls.CurveP256,
+					tls.CurveP384,
+					tls.CurveP521,
+					tls.X25519,
+				},
+				GetCertificate: certManager.GetCertificate,
+				NextProtos: []string{
+					"h2", "http/1.1",
+					acme.ALPNProto,
+				},
+			},
+			Handler: router,
 		}
 		server.RegisterOnShutdown(func() {
 			db.Close()
