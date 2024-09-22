@@ -77,7 +77,6 @@ func (s *Server) Run(port int, enableSsl bool) error {
 	commentReplies = securedMiddleware(commentReplies)
 	router.HandleFunc("POST /v1/comments/{id}/replies", handlers.NewHttpHandler(commentReplies))
 
-	log.Println("snakechat server started listening on " + listenAddr)
 	if enableSsl {
 		tlsConfig, err := mustReadTlsConfig()
 		if err != nil {
@@ -119,6 +118,7 @@ func (s *Server) Run(port int, enableSsl bool) error {
 		server.RegisterOnShutdown(func() {
 			db.Close()
 		})
+		log.Println("snakechat server started listening on " + listenAddr)
 		return server.ListenAndServe()
 	}
 }
