@@ -1,14 +1,12 @@
 package transport
 
 import (
-	"crypto/tls"
-	"errors"
 	"github.com/Kshitij09/snakechat_server/sqlite"
 	"github.com/Kshitij09/snakechat_server/transport/handlers"
 	"github.com/Kshitij09/snakechat_server/transport/middlewares"
+	"golang.org/x/crypto/acme/autocert"
 	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -78,37 +76,22 @@ func (s *Server) Run(port int, enableSsl bool) error {
 	router.HandleFunc("POST /v1/comments/{id}/replies", handlers.NewHttpHandler(commentReplies))
 
 	if enableSsl {
-		tlsConfig, err := mustReadTlsConfig()
-		if err != nil {
-			return err
-		}
-		_, err = os.Stat(tlsConfig.certFile)
-		if os.IsNotExist(err) {
-			return errors.New("tls cert file not found:" + tlsConfig.certFile)
-		}
-		_, err = os.Stat(tlsConfig.keyFile)
-		if os.IsNotExist(err) {
-			return errors.New("tls key file not found:" + tlsConfig.keyFile)
+		certManager := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist("apis.sharechat.cc", "apis.staging.snakechat.cc"),
+			Cache:      autocert.DirCache("certs"),
 		}
 		server := &http.Server{
-			Addr: ":443",
-			TLSConfig: &tls.Config{
-				MinVersion:       tls.VersionTLS12,
-				CurvePreferences: []tls.CurveID{tls.CurveP521, tls.CurveP384, tls.CurveP256},
-				CipherSuites: []uint16{
-					tls.TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,
-					tls.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
-					tls.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
-					tls.TLS_RSA_WITH_AES_256_GCM_SHA384,
-					tls.TLS_RSA_WITH_AES_256_CBC_SHA,
-				},
-			},
-			Handler: router,
+			Addr:      ":443",
+			TLSConfig: certManager.TLSConfig(),
+			Handler:   router,
 		}
 		server.RegisterOnShutdown(func() {
 			db.Close()
 		})
-		return server.ListenAndServeTLS(tlsConfig.certFile, tlsConfig.keyFile)
+		log.Println("snakechat server started listening on :443")
+		go http.ListenAndServe(listenAddr, certManager.HTTPHandler(nil))
+		return server.ListenAndServeTLS("", "")
 	} else {
 		server := &http.Server{
 			Addr:    listenAddr,
@@ -121,22 +104,6 @@ func (s *Server) Run(port int, enableSsl bool) error {
 		log.Println("snakechat server started listening on " + listenAddr)
 		return server.ListenAndServe()
 	}
-}
-
-type tlsFileConfig struct {
-	certFile, keyFile string
-}
-
-func mustReadTlsConfig() (*tlsFileConfig, error) {
-	certFile := os.Getenv("SSL_CERT_FILE")
-	if certFile == "" {
-		return nil, errors.New("'SSL_CERT_FILE' environment variable not set")
-	}
-	keyFile := os.Getenv("SSL_KEY_FILE")
-	if keyFile == "" {
-		return nil, errors.New("'SSL_KEY_FILE' environment variable not set")
-	}
-	return &tlsFileConfig{certFile: certFile, keyFile: keyFile}, nil
 }
 
 func health(w http.ResponseWriter, _ *http.Request) error {
