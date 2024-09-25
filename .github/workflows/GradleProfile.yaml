@@ -30,7 +30,7 @@ jobs:
       - name: Install Gradle Profiler
         run: |
           wget "https://repo1.maven.org/maven2/org/gradle/profiler/gradle-profiler/$PROFILER_VERSION/gradle-profiler-$PROFILER_VERSION.zip"
-          unzip "gradle-profiler-$PROFILER_VERSION.zip -d gradle-profiler"
+          unzip "gradle-profiler-$PROFILER_VERSION.zip"
           mv "gradle-profiler-$PROFILER_VERSION/bin/gradle-profiler" . 
           rm "-rf gradle-profiler-$PROFILER_VERSION.zip"
           chmod +x gradle-profiler
