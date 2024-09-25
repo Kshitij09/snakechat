@@ -88,7 +88,7 @@ jobs:
       # release build
 
       - name: Build all build type and flavor permutations
-        run: ./gradlew :app:assemble :benchmarks:assemble
+        run: ./gradlew :app:assemble :macrobenchmark:assemble
 
       - name: Upload build outputs (APKs)
         uses: actions/upload-artifact@v4
