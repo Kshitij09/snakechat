@@ -29,13 +29,11 @@ jobs:
 
       - name: Install SDKMAN, Gradle Profiler
         run: |
-          curl -s "https://get.sdkman.io" | bash
-          source "$HOME/.sdkman/bin/sdkman-init.sh"
-          sdk install gradleprofiler 0.12.0
-
+          wget https://repo1.maven.org/maven2/org/gradle/profiler/gradle-profiler/0.20.0/gradle-profiler-0.20.0.zip
+          unzip gradle-profiler-0.20.0.zip
       - name: Run Benchmark Scenarios
         run: |
-          gradleprofiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
+          gradle-profiler-0.20.0/bin/gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
 
       - name: Upload results
         if: always()
