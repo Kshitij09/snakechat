@@ -28,7 +28,7 @@ jobs:
           java-version: 21
 
       - name: Install gradle-profiler
-      - uses: sdkman/sdkman-action@v1
+        uses: sdkman/sdkman-action@v1
         id: sdkman
         with:
           candidate: gradle-profiler
