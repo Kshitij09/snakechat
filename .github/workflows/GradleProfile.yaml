@@ -27,11 +27,11 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      - name: Install gradle-profiler
-        uses: sdkman/sdkman-action@v1
-        id: sdkman
-        with:
-          candidate: gradle-profiler
+      - name: Install SDKMAN, Gradle Profiler
+        run: |
+          curl -s "https://get.sdkman.io" | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install gradleprofiler 0.12.0
 
       - name: Run Benchmark Scenarios
         run: |
