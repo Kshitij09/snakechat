@@ -26,18 +26,17 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 21
-
-      - name: Install Gradle Profiler
+      - name: Install sdkman
         run: |
-          wget "https://repo1.maven.org/maven2/org/gradle/profiler/gradle-profiler/$PROFILER_VERSION/gradle-profiler-$PROFILER_VERSION.zip"
-          unzip "gradle-profiler-$PROFILER_VERSION.zip"
-          mv "gradle-profiler-$PROFILER_VERSION/bin/gradle-profiler" . 
-          rm -rf "gradle-profiler-$PROFILER_VERSION.zip"
-          chmod +x gradle-profiler
+          curl -s "https://get.sdkman.io" | bash
+
+      - name: Install gradle-profiler
+        run: |
+          sdk install gradleprofiler 0.20.0
 
       - name: Run Benchmark Scenarios
         run: |
-          ./gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
+          gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
 
       - name: Upload results
         if: always()
