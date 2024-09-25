@@ -29,3 +29,33 @@ cleanAssembleProdRelease {
     warm-ups = 2
     iterations = 5
 }
+
+assembleDemoDebug {
+    title = "Build demoDebug APK"
+    tasks = ["assembleDemoDebug"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleDemoDebug {
+    title = "Clean Build demoDebug APK"
+    tasks = ["assembleDemoDebug"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}
+
+assembleDemoRelease {
+    title = "Build demoRelease APK"
+    tasks = ["assembleDemoRelease"]
+    warm-ups = 2
+    iterations = 5
+}
+
+cleanAssembleDemoRelease {
+    title = "Clean Build demoRelease APK"
+    tasks = ["assembleDemoRelease"]
+    cleanup-tasks = ["clean"]
+    warm-ups = 2
+    iterations = 5
+}
