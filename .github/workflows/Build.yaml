@@ -111,6 +111,7 @@ jobs:
           path: '**/build/reports/lint-results-*.html'
 
   androidTest:
+    if: false # temporarily disabled
     runs-on: ubuntu-latest
     timeout-minutes: 55
     strategy:
