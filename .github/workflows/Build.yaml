@@ -7,6 +7,8 @@ on:
   pull_request:
     paths:
       - 'frontend/compose-app/**'
+  paths-ignore:
+      - '**/*.md'
 
 concurrency:
   group: build-${{ github.ref }}
