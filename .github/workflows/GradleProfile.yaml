@@ -35,7 +35,7 @@ jobs:
 
       - name: Run Benchmark Scenarios
         run: |
-          gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
+          gradleprofiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
 
       - name: Upload results
         if: always()
