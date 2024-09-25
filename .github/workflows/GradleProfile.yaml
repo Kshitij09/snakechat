@@ -33,7 +33,7 @@ jobs:
           unzip gradle-profiler-0.20.0.zip
       - name: Run Benchmark Scenarios
         run: |
-          gradle-profiler-0.20.0/bin/gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
+          gradle-profiler-0.20.0/bin/gradle-profiler --benchmark --scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
 
       - name: Upload results
         if: always()
