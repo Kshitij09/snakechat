@@ -12,6 +12,10 @@ concurrency:
   group: build-${{ github.ref }}
   cancel-in-progress: true
 
+defaults:
+  run:
+    working-directory: frontend/compose-app
+
 jobs:
   test_and_apk:
     name: "Local tests and APKs"
