@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'frontend/compose-app/**'
+      - '!**/*.md'
   pull_request:
     paths:
       - 'frontend/compose-app/**'
-  paths-ignore:
-      - '**/*.md'
+      - '!**/*.md'
 
 concurrency:
   group: build-${{ github.ref }}

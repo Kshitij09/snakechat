@@ -7,14 +7,13 @@ defaults:
   run:
     working-directory: frontend/compose-app
 
-jobs:
-  test_and_apk:
-    name: "Local tests and APKs"
-    runs-on: ubuntu-latest
+env:
+  PROFILER_VERSION: 0.20.0
 
-    permissions:
-      contents: write
-      pull-requests: write
+jobs:
+  profile:
+    name: "Profile Build Tasks"
+    runs-on: ubuntu-latest
 
     timeout-minutes: 60
 
@@ -28,15 +27,13 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      - name: Install Gradle Profiler
+      - name: Install SDKMAN, Gradle Profiler
         run: |
           wget https://repo1.maven.org/maven2/org/gradle/profiler/gradle-profiler/0.20.0/gradle-profiler-0.20.0.zip
-          unzip gradle-profiler-0.20.0.zip -d gradle-profiler
-          chmod +x gradle-profiler/bin/gradle-profiler
-
+          unzip gradle-profiler-0.20.0.zip
       - name: Run Benchmark Scenarios
         run: |
-          ./gradle-profiler/bin/gradle-profiler --benchmark ---scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
+          gradle-profiler-0.20.0/bin/gradle-profiler --benchmark --scenario-file build_profile.scenarios -project-dir . cleanAssembleDemoDebug assembleDemoDebug cleanAssembleDemoRelease assembleDemoRelease
 
       - name: Upload results
         if: always()
