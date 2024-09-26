@@ -5,9 +5,7 @@
 SnakeChat is a social media sample application built using Kotlin & Jetpack Compose
 for the app and GoLang & SQLite on backend
 
-<video width="300" height="600" controls>
-    <source src="https://snakechat.b-cdn.net/snakechat-v1-preview.mp4" type="video/mp4">
-</video>
+<a href="https://snakechat.b-cdn.net/snakechat-v1-preview.mp4"><img src="art/demo-thumb.png" width=100/></a>
 
 # Goals
 
