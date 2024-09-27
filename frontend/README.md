@@ -11,6 +11,11 @@ The project will be divided into 3 layers
 * **domain** - Responsible for all the business logic around data retrieval, caching, transformation, etc.
 * **presentation** - Responsible for User Interface of the app
 
+Project follows **api-impl modules pattern** for the faster build times and facilitating fake implementations. 
+Every non-app module depends on the `:api` module which only contains public interface and model classes. 
+`:app` module in the end glues all the `:impl` modules to build the demo/prod apks. This way, any changes in the `:impl`
+module invalidates cache of only the updated module and app module, keeping incremental build times in check.
+
 ![](dependency-graph.svg)
 
 # Libraries used
