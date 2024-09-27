@@ -11,6 +11,7 @@ The project will be divided into 3 layers
 * **domain** - Responsible for all the business logic around data retrieval, caching, transformation, etc.
 * **presentation** - Responsible for User Interface of the app
 
+![](dependency-graph.svg)
 
 # Libraries used
 
