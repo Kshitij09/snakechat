@@ -29,5 +29,7 @@ while maintaining backend with the cheapest means possible, be it writing a func
 * Integrate [Google AdMob test ads](https://developers.google.com/admob/android/test-ads)
 
 # Docs
-* [frontend](frontend/README.md)
-* [backend](backend/README.md)
+
+* [Android Project Metrics](https://docs.google.com/spreadsheets/d/1WM6hUFsl_s7O8ZLuwxDjRRbZGOHS3igBpINrXXr_Bb0/edit?usp=sharing)
+* [Frontend](frontend/README.md)
+* [Backend](backend/README.md)
