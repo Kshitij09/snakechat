@@ -10,6 +10,9 @@ This makes SnakeChat an ideal candidate for exploring performance optimizations.
 
 <a href="https://snakechat.b-cdn.net/snakechat-v1-preview.mp4"><img src="art/demo-thumb.png" width=100/></a>
 
+# Download
+<a href="https://github.com/Kshitij09/snakechat/releases/download/release-0.1/snakechat-0.1.apk"><img src="art/android.svg" width="64"></a>
+
 # Goals
 
 Trying out latest in the mobile development world while monitoring performance, app size & build time,
