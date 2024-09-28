@@ -83,19 +83,13 @@ jobs:
       # Run local tests after screenshot tests to avoid wrong UP-TO-DATE
       - name: Run local tests and create report
         if: always()
-        run: ./gradlew testDemoDebug :lint:test
+        run: ./gradlew testProDebug :lint:test
       # Replace task exclusions with `-Pandroidx.baselineprofile.skipgeneration` when
       # https://android-review.googlesource.com/c/platform/frameworks/support/+/2602790 landed in a
       # release build
 
       - name: Build demo apks
-        run: ./gradlew :app:assembleDemo
-
-      - name: Upload build outputs (APKs)
-        uses: actions/upload-artifact@v4
-        with:
-          name: APKs
-          path: '**/build/outputs/apk/**/*.apk'
+        run: ./gradlew :app:assembleProd
 
       - name: Upload JVM local results (XML)
         if: always()
