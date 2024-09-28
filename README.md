@@ -2,8 +2,11 @@
 
 # SnakeChat
 
-SnakeChat is a social media sample application built using Kotlin & Jetpack Compose
-for the app and GoLang & SQLite on backend
+SnakeChat is a sample social media application built using Kotlin and
+Jetpack Compose for the front-end, and GoLang with SQLite for the back-end.
+The UI draws inspiration from [ShareChat](https://play.google.com/store/apps/details?id=in.mohalla.sharechat&hl=en_IN), 
+a popular social media app in India known for its complex user interface. 
+This makes SnakeChat an ideal candidate for exploring performance optimizations.
 
 <a href="https://snakechat.b-cdn.net/snakechat-v1-preview.mp4"><img src="art/demo-thumb.png" width=100/></a>
 
