@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.baselineprofile)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.bytemask)
+    alias(libs.plugins.module.graph)
 }
 
 android {
@@ -116,4 +117,8 @@ bytemaskConfig {
     configure("release") {
         enableEncryption = true
     }
+}
+
+moduleGraphAssert {
+    configurations = setOf("implementation", "prodImplementation")
 }
