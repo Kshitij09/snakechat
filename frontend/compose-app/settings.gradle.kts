@@ -35,8 +35,9 @@ rootProject.name = "SnakeChat"
 include(":app")
 include(":lint")
 
-include(":libraries:inject")
-include(":libraries:ktor-client")
+includeBuild("../common")
+//include(":libraries:inject")
+//include(":libraries:ktor-client")
 
 include(":macrobenchmark")
 

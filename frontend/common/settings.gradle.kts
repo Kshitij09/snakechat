@@ -31,3 +31,10 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "snakechat-common"
+
+include(":library:inject")
+include(":library:ktor-client")
+
+file("library").listFiles()?.forEach {
+    project(":library:${it.name}").name = "library-${it.name}"
+}

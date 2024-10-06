@@ -79,7 +79,7 @@ dependencies {
     implementation(projects.ui.comments)
     implementation(projects.ui.profile)
 
-    implementation(projects.libraries.ktorClient)
+    implementation(libs.snakechat.library.ktorClient)
     implementation(projects.libraries.json)
     prodImplementation(projects.libraries.imageloading)
     demoImplementation(projects.libraries.test)

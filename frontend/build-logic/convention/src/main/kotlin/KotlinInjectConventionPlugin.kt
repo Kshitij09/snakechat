@@ -10,7 +10,11 @@ class KotlinInjectConventionPlugin : Plugin<Project> {
             dependencies {
                 add("ksp", libs.findLibrary("kotlininject.compiler").get())
                 add("implementation", libs.findLibrary("kotlininject.runtime").get())
-                add("implementation", project(":libraries:inject"))
+                if (rootProject.name == "snakechat-common") {
+                    add("implementation", project(":library:library-inject"))
+                } else {
+                    add("implementation", "cc.snakechat:library-inject:1.0.0")
+                }
             }
         }
     }

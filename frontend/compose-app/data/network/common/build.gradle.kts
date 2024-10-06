@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     api(libs.result)
-    api(projects.libraries.ktorClient)
+    api(libs.snakechat.library.ktorClient)
 }
