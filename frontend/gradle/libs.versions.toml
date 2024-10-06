@@ -92,6 +92,7 @@ result = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref 
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 snakechat-library-inject = { module = "cc.snakechat:library-inject", version = "1.0.0" }
 snakechat-library-ktorClient = { module = "cc.snakechat:library-ktor-client", version = "1.0.0" }
+snakechat-library-json = { module = "cc.snakechat:library-json", version = "1.0.0" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

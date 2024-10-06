@@ -34,6 +34,7 @@ rootProject.name = "snakechat-common"
 
 include(":library:inject")
 include(":library:ktor-client")
+include(":library:json")
 
 file("library").listFiles()?.forEach {
     project(":library:${it.name}").name = "library-${it.name}"
