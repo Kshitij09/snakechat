@@ -36,8 +36,6 @@ include(":app")
 include(":lint")
 
 includeBuild("../common")
-//include(":libraries:inject")
-//include(":libraries:ktor-client")
 
 include(":macrobenchmark")
 
@@ -67,6 +65,3 @@ include(":data:network:profile:impl")
 
 
 include(":data:network:fake")
-include(":libraries:json")
-include(":libraries:imageloading")
-include(":libraries:test")
