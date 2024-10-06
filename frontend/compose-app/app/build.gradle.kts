@@ -81,8 +81,8 @@ dependencies {
 
     implementation(libs.snakechat.library.ktorClient)
     implementation(libs.snakechat.library.json)
-    prodImplementation(projects.libraries.imageloading)
-    demoImplementation(projects.libraries.test)
+    prodImplementation(libs.snakechat.library.imageLoading)
+    demoImplementation(libs.snakechat.library.test)
 
     implementation(projects.domain.feed)
     implementation(projects.domain.post)
