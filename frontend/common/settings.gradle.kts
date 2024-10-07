@@ -38,6 +38,9 @@ val projects = arrayOf(
     ":library:json",
     ":library:imageloading",
     ":library:test",
+
+    ":data:network:feed:api",
+    ":data:network:feed:impl",
 )
 
 include(*projects)
