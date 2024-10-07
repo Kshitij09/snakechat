@@ -1,6 +1,7 @@
 plugins {
     `java-library`
     alias(libs.plugins.snakechat.jvm.library)
+    alias(libs.plugins.snakechat.android.lint)
 }
 
 dependencies {

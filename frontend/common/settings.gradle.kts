@@ -16,6 +16,7 @@ pluginManagement {
     }
 }
 
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -29,19 +30,34 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "snakechat-compose"
-include(":app")
-include(":lint")
+rootProject.name = "snakechat-common"
 
-includeBuild("../common")
+val projects = arrayOf(
+    ":library:inject",
+    ":library:ktor-client",
+    ":library:json",
+    ":library:imageloading",
+    ":library:test",
 
-include(":macrobenchmark")
+    ":data:network:common",
+    ":data:network:fake",
+    ":data:network:feed:api",
+    ":data:network:feed:impl",
+    ":data:network:post:api",
+    ":data:network:post:impl",
+    ":data:network:profile:api",
+    ":data:network:profile:impl",
 
-include(":ui:design")
-include(":ui:home")
-include(":ui:strings")
-include(":ui:likers")
-include(":ui:common")
-include(":ui:comments")
-include(":ui:profile")
 
+    ":domain:common",
+    ":domain:common-model",
+    ":domain:feed",
+    ":domain:post",
+    ":domain:profile",
+)
+
+include(*projects)
+
+projects.forEach { path ->
+    project(path).name = path.removePrefix(":").replace(":", "-")
+}
