@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.snakechat.data.network.post.api)
+    implementation(projects.data.network.post.dataNetworkPostApi)
     implementation(libs.androidx.paging.common)
     api(projects.domain.domainCommon)
     api(projects.domain.domainCommonModel)

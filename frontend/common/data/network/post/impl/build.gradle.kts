@@ -7,6 +7,6 @@ plugins {
 dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.snakechat.library.ktorClient)
+    implementation(projects.library.libraryKtorClient)
     api(projects.data.network.post.dataNetworkPostApi)
 }

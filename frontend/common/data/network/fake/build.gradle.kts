@@ -6,9 +6,9 @@ plugins {
 android.namespace = "cc.snakechat.data"
 
 dependencies {
-    api(libs.snakechat.data.network.feed.api)
-    api(libs.snakechat.data.network.post.api)
-    api(libs.snakechat.data.network.profile.api)
+    api(projects.data.network.feed.dataNetworkFeedApi)
+    api(projects.data.network.post.dataNetworkPostApi)
+    api(projects.data.network.profile.dataNetworkProfileApi)
     api(libs.result)
     implementation(libs.kotlinx.serialization)
 }
