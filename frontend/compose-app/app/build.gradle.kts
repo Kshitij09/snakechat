@@ -91,7 +91,7 @@ dependencies {
     debugImplementation(libs.slf4j.android)
     demoImplementation(projects.data.network.fake)
     prodImplementation(libs.snakechat.data.network.feed.impl)
-    prodImplementation(projects.data.network.post.impl)
+    prodImplementation(libs.snakechat.data.network.post.impl)
     prodImplementation(projects.data.network.profile.impl)
 
     testImplementation(libs.junit)

@@ -41,6 +41,8 @@ val projects = arrayOf(
 
     ":data:network:feed:api",
     ":data:network:feed:impl",
+    ":data:network:post:api",
+    ":data:network:post:impl",
 )
 
 include(*projects)
