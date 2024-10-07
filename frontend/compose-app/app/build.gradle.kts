@@ -92,7 +92,7 @@ dependencies {
     demoImplementation(projects.data.network.fake)
     prodImplementation(libs.snakechat.data.network.feed.impl)
     prodImplementation(libs.snakechat.data.network.post.impl)
-    prodImplementation(projects.data.network.profile.impl)
+    prodImplementation(libs.snakechat.data.network.profile.impl)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

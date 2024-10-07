@@ -5,6 +5,6 @@ plugins {
 
 dependencies {
     implementation(libs.kotlinx.serialization)
-    api(projects.data.network.common)
+    api(projects.data.network.dataNetworkCommon)
     api(libs.result)
 }
