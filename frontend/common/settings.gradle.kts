@@ -32,12 +32,16 @@ dependencyResolutionManagement {
 
 rootProject.name = "snakechat-common"
 
-include(":library:inject")
-include(":library:ktor-client")
-include(":library:json")
-include(":library:imageloading")
-include(":library:test")
+val projects = arrayOf(
+    ":library:inject",
+    ":library:ktor-client",
+    ":library:json",
+    ":library:imageloading",
+    ":library:test",
+)
 
-file("library").listFiles()?.forEach {
-    project(":library:${it.name}").name = "library-${it.name}"
+include(*projects)
+
+projects.forEach { path ->
+    project(path).name = path.removePrefix(":").replace(":", "-")
 }
