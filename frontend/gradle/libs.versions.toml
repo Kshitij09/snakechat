@@ -91,6 +91,7 @@ lyricist-processor = { module = "cafe.adriel.lyricist:lyricist-processor", versi
 result = { module = "com.michael-bull.kotlin-result:kotlin-result", version.ref = "result" }
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jAndroid" }
 snakechat-data-network-common = { module = "cc.snakechat:data-network-common", version = "1.0.0" }
+snakechat-data-network-fake = { module = "cc.snakechat:data-network-fake", version = "1.0.0" }
 snakechat-data-network-feed-api = { module = "cc.snakechat:data-network-feed-api", version = "1.0.0" }
 snakechat-data-network-feed-impl = { module = "cc.snakechat:data-network-feed-impl", version = "1.0.0" }
 snakechat-data-network-post-api = { module = "cc.snakechat:data-network-post-api", version = "1.0.0" }

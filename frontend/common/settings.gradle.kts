@@ -40,6 +40,7 @@ val projects = arrayOf(
     ":library:test",
 
     ":data:network:common",
+    ":data:network:fake",
     ":data:network:feed:api",
     ":data:network:feed:impl",
     ":data:network:post:api",
