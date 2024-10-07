@@ -29,7 +29,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SnakeChat"
+rootProject.name = "snakechat-compose"
 include(":app")
 include(":lint")
 
