@@ -14,7 +14,7 @@ dependencies {
     implementation(projects.ui.likers)
     implementation(projects.ui.comments)
     implementation(projects.ui.profile)
-    implementation(projects.domain.feed)
-    implementation(projects.domain.commonModel)
+    implementation(libs.snakechat.domain.feed)
+    implementation(libs.snakechat.domain.common.model)
     implementation(libs.kotlinx.serialization)
 }

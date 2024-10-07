@@ -84,9 +84,9 @@ dependencies {
     prodImplementation(libs.snakechat.library.imageLoading)
     demoImplementation(libs.snakechat.library.test)
 
-    implementation(projects.domain.feed)
-    implementation(projects.domain.post)
-    implementation(projects.domain.profile)
+    implementation(libs.snakechat.domain.feed)
+    implementation(libs.snakechat.domain.post)
+    implementation(libs.snakechat.domain.profile)
 
     debugImplementation(libs.slf4j.android)
     demoImplementation(libs.snakechat.data.network.fake)

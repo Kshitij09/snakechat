@@ -99,6 +99,13 @@ snakechat-data-network-post-impl = { module = "cc.snakechat:data-network-post-im
 snakechat-data-network-profile-api = { module = "cc.snakechat:data-network-profile-api", version = "1.0.0" }
 snakechat-data-network-profile-impl = { module = "cc.snakechat:data-network-profile-impl", version = "1.0.0" }
 
+snakechat-domain-common = { module = "cc.snakechat:domain-common", version = "1.0.0" }
+snakechat-domain-common-model = { module = "cc.snakechat:domain-common-model", version = "1.0.0" }
+snakechat-domain-feed = { module = "cc.snakechat:domain-feed", version = "1.0.0" }
+snakechat-domain-model-likers = { module = "cc.snakechat:domain-model-likers", version = "1.0.0" }
+snakechat-domain-post = { module = "cc.snakechat:domain-post", version = "1.0.0" }
+snakechat-domain-profile = { module = "cc.snakechat:domain-profile", version = "1.0.0" }
+
 snakechat-library-imageLoading = { module = "cc.snakechat:library-imageloading", version = "1.0.0" }
 snakechat-library-inject = { module = "cc.snakechat:library-inject", version = "1.0.0" }
 snakechat-library-json = { module = "cc.snakechat:library-json", version = "1.0.0" }

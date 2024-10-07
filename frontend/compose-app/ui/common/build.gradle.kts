@@ -7,5 +7,5 @@ android.namespace = "cc.snakechat.ui.common"
 dependencies {
     api(libs.androidx.paging.compose)
     api(libs.result)
-    api(projects.domain.commonModel)
+    api(libs.snakechat.domain.common.model)
 }

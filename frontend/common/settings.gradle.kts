@@ -47,6 +47,13 @@ val projects = arrayOf(
     ":data:network:post:impl",
     ":data:network:profile:api",
     ":data:network:profile:impl",
+
+
+    ":domain:common",
+    ":domain:common-model",
+    ":domain:feed",
+    ":domain:post",
+    ":domain:profile",
 )
 
 include(*projects)
