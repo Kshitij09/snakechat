@@ -71,5 +71,9 @@ gradlePlugin {
             id = "snakechat.lyricist"
             implementationClass = "LyricistConventionPlugin"
         }
+        register("multiplatform") {
+            id = "snakechat.multiplatform"
+            implementationClass = "MultiplatformConventionPlugin"
+        }
     }
 }
