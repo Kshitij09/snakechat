@@ -1,7 +1,15 @@
 plugins {
-    alias(libs.plugins.snakechat.jvm.library)
+    alias(libs.plugins.snakechat.multiplatform)
 }
 
-dependencies {
-    implementation(libs.kotlininject.runtime)
+snakeKmp {
+    jvm()
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlininject.runtime)
+        }
+    }
 }
