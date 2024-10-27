@@ -8,35 +8,13 @@ import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
-
-internal fun Project.configureAndroid(
-    commonExtension: CommonExtension<*, *, *, *, *, *>,
-) {
-    commonExtension.apply {
-        compileSdk = 34
-
-        defaultConfig {
-            minSdk = 21
-        }
-
-        compileOptions {
-            // Up to Java 11 APIs are available through desugaring
-            // https://developer.android.com/studio/write/java11-minimal-support-table
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-            isCoreLibraryDesugaringEnabled = true
-        }
-    }
-
-    dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
-    }
-}
 
 /**
  * Configure base Kotlin with Android options
@@ -75,7 +53,6 @@ inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = con
     when (this) {
         is KotlinAndroidProjectExtension -> compilerOptions
         is KotlinJvmProjectExtension -> compilerOptions
-        is KotlinMultiplatformExtension -> jvm().compilerOptions
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
         jvmTarget = JvmTarget.JVM_11
@@ -85,4 +62,9 @@ inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = con
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         )
     }
+}
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+fun HasConfigurableKotlinCompilerOptions<KotlinJvmCompilerOptions>.configureKotlinJvmTarget() {
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
 }
