@@ -1,9 +1,19 @@
 plugins {
-    alias(libs.plugins.snakechat.android.library)
+    alias(libs.plugins.snakechat.multiplatform)
     alias(libs.plugins.snakechat.kotlininject)
 }
-android.namespace = "cc.snakechat"
 
-dependencies {
-    api(libs.coil.test)
+snakeKmp {
+    targets {
+        jvm()
+        android("cc.snakechat.testutil")
+    }
+}
+
+kotlin {
+    sourceSets {
+        androidMain.dependencies {
+            api(libs.coil.test)
+        }
+    }
 }
