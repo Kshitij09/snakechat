@@ -3,7 +3,9 @@ plugins {
 }
 
 snakeKmp {
-    jvm()
+    targets {
+        jvm()
+    }
 }
 
 kotlin {

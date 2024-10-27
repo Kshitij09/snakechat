@@ -28,7 +28,29 @@ open class SnakeMultiplatformExtension @Inject constructor(
             project,
             targets
         )
+    private val targetsHandler =
+        objectFactory.newInstance<TargetsHandler>(
+            project,
+            targets
+        )
 
+    fun targets(action: TargetsHandler.() -> Unit) {
+        action(targetsHandler)
+    }
+
+    fun ksp(dependencyNotation: Any) {
+        dependencyHandler.ksp(dependencyNotation)
+    }
+}
+
+class KmpTargets(
+    var jvm: Boolean = false,
+)
+
+abstract class TargetsHandler @Inject constructor(
+    private val project: Project,
+    private val targets: KmpTargets,
+) {
     fun jvm() {
         targets.jvm = true
         with(project) {
@@ -40,15 +62,7 @@ open class SnakeMultiplatformExtension @Inject constructor(
             }
         }
     }
-
-    fun ksp(dependencyNotation: Any) {
-        dependencyHandler.ksp(dependencyNotation)
-    }
 }
-
-class KmpTargets(
-    var jvm: Boolean = false,
-)
 
 abstract class KmpDependencyHandler @Inject constructor(
     private val project: Project,
