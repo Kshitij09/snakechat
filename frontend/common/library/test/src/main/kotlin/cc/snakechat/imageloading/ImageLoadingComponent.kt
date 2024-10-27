@@ -1,10 +1,10 @@
 package cc.snakechat.imageloading
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import cc.snakechat.inject.ApplicationScope
 import coil3.ImageLoader
+import coil3.PlatformContext
 import coil3.test.FakeImageLoaderEngine
 import coil3.test.default
 import me.tatarka.inject.annotations.Provides
@@ -14,7 +14,7 @@ interface ImageLoadingComponent {
 
     @Provides
     @ApplicationScope
-    fun provideImageLoader(context: Context): ImageLoader {
+    fun provideImageLoader(context: PlatformContext): ImageLoader {
         val engine = FakeImageLoaderEngine.Builder()
             .default(ColorDrawable(Color.BLUE))
             .build()

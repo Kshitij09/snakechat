@@ -1,10 +1,19 @@
 plugins {
-    alias(libs.plugins.snakechat.android.library)
+    alias(libs.plugins.snakechat.multiplatform)
     alias(libs.plugins.snakechat.kotlininject)
 }
 
-android.namespace = "cc.snakechat.imageloading"
+snakeKmp {
+    targets {
+        jvm()
+        android("cc.snakechat.imageloading")
+    }
+}
 
-dependencies {
-    api(libs.coil.network)
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.coil.network)
+        }
+    }
 }

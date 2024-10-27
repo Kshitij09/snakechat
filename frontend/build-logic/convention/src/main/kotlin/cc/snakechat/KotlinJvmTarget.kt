@@ -8,8 +8,11 @@ import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.HasConfigurableKotlinCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompilerOptions
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
@@ -19,26 +22,16 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
-    commonExtension.apply {
-        compileSdk = 34
-
-        defaultConfig {
-            minSdk = 21
-        }
-
-        compileOptions {
-            // Up to Java 11 APIs are available through desugaring
-            // https://developer.android.com/studio/write/java11-minimal-support-table
-            sourceCompatibility = JavaVersion.VERSION_11
-            targetCompatibility = JavaVersion.VERSION_11
-            isCoreLibraryDesugaringEnabled = true
-        }
-    }
-
+    configureAndroid(commonExtension)
     configureKotlin<KotlinAndroidProjectExtension>()
+}
 
-    dependencies {
-        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
+internal fun Project.configureJava() {
+    extensions.configure<JavaPluginExtension> {
+        // Up to Java 11 APIs are available through desugaring
+        // https://developer.android.com/studio/write/java11-minimal-support-table
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
@@ -46,20 +39,14 @@ internal fun Project.configureKotlinAndroid(
  * Configure base Kotlin options for JVM (non-Android)
  */
 internal fun Project.configureKotlinJvm() {
-    extensions.configure<JavaPluginExtension> {
-        // Up to Java 11 APIs are available through desugaring
-        // https://developer.android.com/studio/write/java11-minimal-support-table
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
+    configureJava()
     configureKotlin<KotlinJvmProjectExtension>()
 }
 
 /**
  * Configure base Kotlin options
  */
-private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = configure<T> {
+inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() = configure<T> {
     // Treat all Kotlin warnings as errors (disabled by default)
     // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
     val warningsAsErrors: String? by project
@@ -75,4 +62,9 @@ private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         )
     }
+}
+
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
+fun HasConfigurableKotlinCompilerOptions<KotlinJvmCompilerOptions>.configureKotlinJvmTarget() {
+    compilerOptions.jvmTarget.set(JvmTarget.JVM_11)
 }

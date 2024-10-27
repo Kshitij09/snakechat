@@ -1,12 +1,22 @@
 plugins {
-    alias(libs.plugins.snakechat.jvm.library)
+    alias(libs.plugins.snakechat.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.snakechat.kotlininject)
 }
 
-dependencies {
-    implementation(libs.kotlinx.serialization)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(projects.library.libraryKtorClient)
-    api(projects.data.network.post.dataNetworkPostApi)
+snakeKmp {
+    targets {
+        jvm()
+    }
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.serialization)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(projects.library.libraryKtorClient)
+            api(projects.data.network.post.dataNetworkPostApi)
+        }
+    }
 }
