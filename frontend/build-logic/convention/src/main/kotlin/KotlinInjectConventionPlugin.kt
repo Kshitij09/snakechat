@@ -1,40 +1,41 @@
+import cc.snakechat.SnakeChatVersions
 import cc.snakechat.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class KotlinInjectConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
+        val snakeLibs = SnakeChatVersions(target.libs, target)
         with(target) {
-            pluginManager.apply("com.google.devtools.ksp")
-            val isKmpProject = pluginManager.hasPlugin("org.jetbrains.kotlin.multiplatform")
+            pluginManager.apply(snakeLibs.plugins.ksp)
+            val isKmpProject = pluginManager.hasPlugin(snakeLibs.plugins.kmp)
             if (isKmpProject) {
                 configure<KotlinMultiplatformExtension> {
                     with(sourceSets) {
                         commonMain.dependencies {
-                            implementation(libs.findLibrary("kotlininject.runtime").get())
+                            implementation(snakeLibs.kotlininjectRuntime)
                             if (rootProject.name == "snakechat-common") {
-                                implementation(project(":library:library-inject"))
+                                implementation(snakeLibs.projects.libraryInject)
                             } else {
-                                implementation("cc.snakechat:library-inject:1.0.0")
+                                implementation(snakeLibs.libraryInject)
                             }
                         }
                     }
                 }
                 configure<SnakeMultiplatformExtension> {
-                    ksp(libs.findLibrary("kotlininject.compiler").get())
+                    ksp(snakeLibs.kotlininjectCompiler)
                 }
             } else {
                 dependencies {
-                    add("ksp", libs.findLibrary("kotlininject.compiler").get())
-                    add("implementation", libs.findLibrary("kotlininject.runtime").get())
+                    add("ksp", snakeLibs.kotlininjectCompiler)
+                    add("implementation", snakeLibs.kotlininjectRuntime)
                     if (rootProject.name == "snakechat-common") {
-                        add("implementation", project(":library:library-inject"))
+                        add("implementation", snakeLibs.projects.libraryInject)
                     } else {
-                        add("implementation", "cc.snakechat:library-inject:1.0.0")
+                        add("implementation", snakeLibs.libraryInject)
                     }
                 }
             }
