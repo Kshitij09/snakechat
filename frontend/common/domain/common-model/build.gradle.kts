@@ -1,3 +1,9 @@
 plugins {
-    alias(libs.plugins.snakechat.jvm.library)
+    alias(libs.plugins.snakechat.multiplatform)
+}
+
+snakeKmp {
+    targets {
+        jvm()
+    }
 }
