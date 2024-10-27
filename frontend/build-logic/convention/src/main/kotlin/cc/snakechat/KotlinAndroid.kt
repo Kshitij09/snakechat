@@ -14,10 +14,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
 
-/**
- * Configure base Kotlin with Android options
- */
-internal fun Project.configureKotlinAndroid(
+internal fun Project.configureAndroid(
     commonExtension: CommonExtension<*, *, *, *, *, *>,
 ) {
     commonExtension.apply {
@@ -36,11 +33,19 @@ internal fun Project.configureKotlinAndroid(
         }
     }
 
-    configureKotlin<KotlinAndroidProjectExtension>()
-
     dependencies {
         add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
     }
+}
+
+/**
+ * Configure base Kotlin with Android options
+ */
+internal fun Project.configureKotlinAndroid(
+    commonExtension: CommonExtension<*, *, *, *, *, *>,
+) {
+    configureAndroid(commonExtension)
+    configureKotlin<KotlinAndroidProjectExtension>()
 }
 
 internal fun Project.configureJava() {
