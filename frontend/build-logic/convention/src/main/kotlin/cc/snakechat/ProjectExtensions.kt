@@ -13,6 +13,18 @@ fun DependencyHandlerScope.implementation(dependencyNotation: Any) {
     add("implementation", dependencyNotation)
 }
 
+fun DependencyHandlerScope.debugImplementation(dependencyNotation: Any) {
+    add("debugImplementation", dependencyNotation)
+}
+
+fun DependencyHandlerScope.testImplementation(dependencyNotation: Any) {
+    add("testImplementation", dependencyNotation)
+}
+
+fun DependencyHandlerScope.androidTestImplementation(dependencyNotation: Any) {
+    add("androidTestImplementation", dependencyNotation)
+}
+
 fun DependencyHandlerScope.api(dependencyNotation: Any) {
     add("api", dependencyNotation)
 }

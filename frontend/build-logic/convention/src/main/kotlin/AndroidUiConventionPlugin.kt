@@ -1,4 +1,6 @@
+import cc.snakechat.SnakeChatVersions
 import cc.snakechat.configureGradleManagedDevices
+import cc.snakechat.implementation
 import cc.snakechat.libs
 import com.android.build.gradle.LibraryExtension
 import org.gradle.api.Plugin
@@ -9,10 +11,11 @@ import org.gradle.kotlin.dsl.dependencies
 class AndroidUiConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            val snakeLibs = SnakeChatVersions(libs, target)
             pluginManager.apply {
-                apply("snakechat.android.library.compose")
-                apply("snakechat.kotlininject")
-                apply("kotlin-parcelize")
+                apply(snakeLibs.plugins.snakechatAndroidLibraryCompose)
+                apply(snakeLibs.plugins.snakechatKotlinInject)
+                apply(snakeLibs.plugins.kotlinParcelize)
             }
             extensions.configure<LibraryExtension> {
                 testOptions.animationsDisabled = true
@@ -20,9 +23,9 @@ class AndroidUiConventionPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", project(":ui:design"))
-                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
-                add("implementation", libs.findLibrary("circuit.foundation").get())
+                implementation(snakeLibs.projects.uiDesign)
+                implementation(snakeLibs.androidxTracingKtx)
+                implementation(snakeLibs.circuitFoundation)
             }
         }
     }
