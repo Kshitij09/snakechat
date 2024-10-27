@@ -1,3 +1,5 @@
+import cc.snakechat.SnakeChatVersions
+import cc.snakechat.libs
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.LibraryExtension
 import com.android.build.api.dsl.Lint
@@ -10,11 +12,12 @@ import org.gradle.kotlin.dsl.project
 class AndroidLintConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            val snakeLibs = SnakeChatVersions(libs, target)
             when {
-                pluginManager.hasPlugin("com.android.application") ->
+                pluginManager.hasPlugin(snakeLibs.plugins.androidApplication) ->
                     configure<ApplicationExtension> { lint(Lint::configure) }
 
-                pluginManager.hasPlugin("com.android.library") ->
+                pluginManager.hasPlugin(snakeLibs.plugins.androidLibrary) ->
                     configure<LibraryExtension> { lint(Lint::configure) }
 
                 else -> {

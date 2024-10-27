@@ -1,3 +1,5 @@
+import cc.snakechat.SnakeChatVersions
+import cc.snakechat.androidTestImplementation
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import cc.snakechat.configureFlavors
@@ -5,7 +7,9 @@ import cc.snakechat.configureGradleManagedDevices
 import cc.snakechat.configureKotlinAndroid
 import cc.snakechat.configurePrintApksTask
 import cc.snakechat.disableUnnecessaryAndroidTests
+import cc.snakechat.implementation
 import cc.snakechat.libs
+import cc.snakechat.testImplementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -15,9 +19,10 @@ import org.gradle.kotlin.dsl.kotlin
 class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            val snakeLibs = SnakeChatVersions(libs, target)
             with(pluginManager) {
-                apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
+                apply(snakeLibs.plugins.androidLibrary)
+                apply(snakeLibs.plugins.kotlinAndroid)
             }
 
             extensions.configure<LibraryExtension> {
@@ -36,10 +41,9 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 disableUnnecessaryAndroidTests(target)
             }
             dependencies {
-                add("androidTestImplementation", kotlin("test"))
-                add("testImplementation", kotlin("test"))
-
-                add("implementation", libs.findLibrary("androidx.tracing.ktx").get())
+                androidTestImplementation(kotlin("test"))
+                testImplementation(kotlin("test"))
+                implementation(snakeLibs.androidxTracingKtx)
             }
         }
     }

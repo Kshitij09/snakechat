@@ -1,6 +1,8 @@
+import cc.snakechat.SnakeChatVersions
 import cc.snakechat.configureGradleManagedDevices
 import cc.snakechat.configureKotlinAndroid
 import cc.snakechat.configurePrintApksTask
+import cc.snakechat.libs
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import org.gradle.api.Plugin
@@ -10,12 +12,13 @@ import org.gradle.kotlin.dsl.configure
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
+            val snakeLibs = SnakeChatVersions(libs, target)
             with(pluginManager) {
-                apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
-                apply("snakechat.android.lint")
-                apply("snakechat.kotlininject")
-                apply("com.dropbox.dependency-guard")
+                apply(snakeLibs.plugins.androidApplication)
+                apply(snakeLibs.plugins.kotlinAndroid)
+                apply(snakeLibs.plugins.snakechatAndroidLint)
+                apply(snakeLibs.plugins.snakechatKotlinInject)
+                apply(snakeLibs.plugins.dropboxDependencyGuard)
             }
 
             extensions.configure<ApplicationExtension> {
