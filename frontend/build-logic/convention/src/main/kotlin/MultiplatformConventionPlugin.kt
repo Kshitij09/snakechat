@@ -72,13 +72,14 @@ abstract class TargetsHandler @Inject constructor(
         }
     }
 
-    fun android() {
+    fun android(namespace: String) {
         with(project) {
             pluginManager.apply("com.android.library")
             configure<KotlinMultiplatformExtension> {
                 androidTarget { configureKotlinJvmTarget() }
             }
             extensions.configure<LibraryExtension> {
+                this.namespace = namespace
                 configureAndroid(this)
                 defaultConfig.targetSdk = 34
                 defaultConfig.testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
