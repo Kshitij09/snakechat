@@ -20,3 +20,5 @@ fun DependencyHandlerScope.api(dependencyNotation: Any) {
 fun DependencyHandlerScope.ksp(dependencyNotation: Any) {
     add("ksp", dependencyNotation)
 }
+
+fun Project.isCommonProject(): Boolean = rootProject.name == "snakechat-common"

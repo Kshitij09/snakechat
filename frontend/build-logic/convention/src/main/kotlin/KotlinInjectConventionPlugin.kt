@@ -1,5 +1,6 @@
 import cc.snakechat.SnakeChatVersions
 import cc.snakechat.implementation
+import cc.snakechat.isCommonProject
 import cc.snakechat.ksp
 import cc.snakechat.libs
 import org.gradle.api.Plugin
@@ -19,7 +20,7 @@ class KotlinInjectConventionPlugin : Plugin<Project> {
                     with(sourceSets) {
                         commonMain.dependencies {
                             implementation(snakeLibs.kotlininjectRuntime)
-                            if (rootProject.name == "snakechat-common") {
+                            if (isCommonProject()) {
                                 implementation(snakeLibs.projects.libraryInject)
                             } else {
                                 implementation(snakeLibs.libraryInject)
@@ -34,7 +35,7 @@ class KotlinInjectConventionPlugin : Plugin<Project> {
                 dependencies {
                     ksp(snakeLibs.kotlininjectCompiler)
                     implementation(snakeLibs.kotlininjectRuntime)
-                    if (rootProject.name == "snakechat-common") {
+                    if (isCommonProject()) {
                         implementation(snakeLibs.projects.libraryInject)
                     } else {
                         implementation(snakeLibs.libraryInject)
