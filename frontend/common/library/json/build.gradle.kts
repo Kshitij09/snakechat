@@ -1,8 +1,18 @@
 plugins {
-    alias(libs.plugins.snakechat.jvm.library)
+    alias(libs.plugins.snakechat.multiplatform)
     alias(libs.plugins.snakechat.kotlininject)
 }
 
-dependencies {
-    api(libs.kotlinx.serialization)
+snakeKmp {
+    targets {
+        jvm()
+    }
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            api(libs.kotlinx.serialization)
+        }
+    }
 }
